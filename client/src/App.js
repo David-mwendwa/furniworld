@@ -1,8 +1,13 @@
+import { Homepage } from './components/Homepage';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 function App() {
   return (
-    <div>
-      Furniworld
-    </div>
+    <Router>
+      <Routes>
+        <Route path='/' element={<Homepage />} exact />
+      </Routes>
+    </Router>
   );
 }
 
