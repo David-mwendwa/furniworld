@@ -23,10 +23,7 @@ const Testmonials = () => {
                 </span>
               </div>
 
-              <div
-                className='testimonial-slider'
-                data-aos='zoom-in-down'
-                data-aos-duration='1500'>
+              <div className='testimonial-slider'>
                 <div className='item'>
                   <div className='row justify-content-center'>
                     <div className='col-lg-8 mx-auto'>

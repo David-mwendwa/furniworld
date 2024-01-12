@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Hero = ({ children }) => {
+const Hero = ({ children, title, description, isShop = false }) => {
   return (
     <div className='hero'>
       <div className='container'>{children}</div>
