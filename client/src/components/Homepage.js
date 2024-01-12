@@ -14,7 +14,7 @@ export const Homepage = () => {
   return (
     <>
       <Metadata title={`Get Best Furnitures Online`} />
-      {/* Header/Navigation -- */}
+      {/* Header/Navigation -- */} 
       <Header />
 
       {/* Hero Section */}

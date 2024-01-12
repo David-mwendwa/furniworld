@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom';
 
 const WeHelp = () => {
 	return (
-    <div className='we-help-section'>
+    <div
+      className='we-help-section'
+      data-aos='zoom-in-down'
+      data-aos-duration='1500'>
       <div className='container'>
         <div className='row justify-content-between'>
           <div className='col-lg-7 mb-5 mb-lg-0'>
@@ -37,7 +40,7 @@ const WeHelp = () => {
               <li>Donec vitae odio quis nisl dapibus malesuada</li>
             </ul>
             <p>
-              <Link href='/' className='btn'>
+              <Link href='/shop' className='btn'>
                 Explore
               </Link>
             </p>

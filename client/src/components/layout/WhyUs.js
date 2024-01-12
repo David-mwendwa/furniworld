@@ -5,7 +5,10 @@ const WhyUs = () => {
     <div className='why-choose-section'>
       <div className='container'>
         <div className='row justify-content-between'>
-          <div className='col-lg-6'>
+          <div
+            className='col-lg-6'
+            data-aos='fade-down-right'
+            data-aos-duration='2000'>
             <h2 className='section-title'>Why Choose Us</h2>
             <p>
               Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet
@@ -59,11 +62,7 @@ const WhyUs = () => {
               <div className='col-6 col-md-6'>
                 <div className='feature'>
                   <div className='icon'>
-                    <img
-                      src='images/return.svg'
-                      alt=''
-                      className='imf-fluid'
-                    />
+                    <img src='images/return.svg' alt='' className='imf-fluid' />
                   </div>
                   <h3>Hassle Free Returns</h3>
                   <p>
@@ -75,7 +74,10 @@ const WhyUs = () => {
             </div>
           </div>
 
-          <div className='col-lg-5'>
+          <div
+            className='col-lg-5'
+            data-aos='fade-down-left'
+            data-aos-duration='2000'>
             <div className='img-wrap'>
               <img
                 src='images/why-choose-us-img.jpg'

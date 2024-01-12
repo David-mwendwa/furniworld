@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom';
 
 const Featured = () => {
   return (
-    <div className='popular-product'>
+    <div
+      className='popular-product'
+      data-aos='zoom-in-down'
+      data-aos-duration='1500'>
       <div className='container'>
         <div className='row'>
           <div className='col-12 col-md-6 col-lg-4 mb-4 mb-lg-0'>

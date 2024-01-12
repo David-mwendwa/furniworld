@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom';
 
 const Blog = () => {
   return (
-    <div className='blog-section'>
+    <div
+      className='blog-section'
+      data-aos='zoom-in-down'
+      data-aos-duration='1500'>
       <div className='container'>
         <div className='row mb-5'>
           <div className='col-md-6'>
@@ -20,11 +23,7 @@ const Blog = () => {
           <div className='col-12 col-sm-6 col-md-4 mb-4 mb-md-0'>
             <div className='post-entry'>
               <Link to='/' className='post-thumbnail'>
-                <img
-                  src='images/post-1.jpg'
-                  alt=''
-                  className='img-fluid'
-                />
+                <img src='images/post-1.jpg' alt='' className='img-fluid' />
               </Link>
               <div className='post-content-entry'>
                 <h3>
@@ -45,11 +44,7 @@ const Blog = () => {
           <div className='col-12 col-sm-6 col-md-4 mb-4 mb-md-0'>
             <div className='post-entry'>
               <Link to='/' className='post-thumbnail'>
-                <img
-                  src='images/post-2.jpg'
-                  alt=''
-                  className='img-fluid'
-                />
+                <img src='images/post-2.jpg' alt='' className='img-fluid' />
               </Link>
               <div className='post-content-entry'>
                 <h3>

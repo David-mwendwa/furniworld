@@ -3,12 +3,17 @@ import { Link } from 'react-router-dom';
 
 const Product = () => {
   return (
-    <div className='product-section'>
+    <div
+      className='product-section'
+      data-aos='zoom-in-down'
+      data-aos-duration='1500'>
       <div className='container'>
         <div className='row'>
           {/* Start Column 1 */}
           <div className='col-md-12 col-lg-3 mb-5 mb-lg-0'>
-            <h2 className='mb-4 section-title'>Crafted with excellent material.</h2>
+            <h2 className='mb-4 section-title'>
+              Crafted with excellent material.
+            </h2>
             <p className='mb-4'>
               Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet
               velit. Aliquam vulputate velit imperdiet dolor tempor tristique.{' '}
@@ -43,7 +48,8 @@ const Product = () => {
           <div className='col-12 col-md-4 col-lg-3 mb-5 mb-md-0'>
             <Link className='product-item' to='/'>
               <img
-                src='images/product-2.png' alt=''
+                src='images/product-2.png'
+                alt=''
                 className='img-fluid product-thumbnail'
               />
               <h3 className='product-title'>Kruzo Aero Chair</h3>
@@ -60,7 +66,8 @@ const Product = () => {
           <div className='col-12 col-md-4 col-lg-3 mb-5 mb-md-0'>
             <Link className='product-item' to='/'>
               <img
-                src='images/product-3.png' alt=''
+                src='images/product-3.png'
+                alt=''
                 className='img-fluid product-thumbnail'
               />
               <h3 className='product-title'>Ergonomic Chair</h3>

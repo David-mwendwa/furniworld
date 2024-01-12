@@ -5,7 +5,11 @@ const Footer = () => {
   return (
     <footer className='footer-section'>
       <div className='container relative'>
-        <div className='sofa-img'>
+        <div
+          className='sofa-img'
+          data-aos='fade-down'
+          data-aos-easing='linear'
+          data-aos-duration='3000'>
           <img src='images/sofa.png' alt='' className='img-fluid' />
         </div>
 
