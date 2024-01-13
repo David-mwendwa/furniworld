@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Footer from './layout/Footer';
 import Testmonials from './layout/Testmonials';
-import Blog from './layout/Blog';
 import Featured from './layout/Featured';
 import Hero from './layout/Hero';
 import Header from './layout/Header';
@@ -69,9 +68,6 @@ export const Homepage = () => {
 
       {/* Testimonial Slider */}
       <Testmonials />
-
-      {/* Blog Section */}
-      {/* <Blog /> */}
 
       {/* Footer Section */}
       <Footer />
