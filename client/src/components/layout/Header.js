@@ -25,7 +25,7 @@ const Header = () => {
         <div className='collapse navbar-collapse' id='navbarsFurni'>
           <ul className='custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0'>
             <li className='nav-item active'>
-              <Link className='nav-link' tp='/'>
+              <Link className='nav-link' to='/'>
                 Home
               </Link>
             </li>
