@@ -71,7 +71,7 @@ export const Homepage = () => {
       <Testmonials />
 
       {/* Blog Section */}
-      <Blog />
+      {/* <Blog /> */}
 
       {/* Footer Section */}
       <Footer />

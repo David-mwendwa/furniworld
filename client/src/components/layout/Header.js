@@ -45,13 +45,13 @@ const Header = () => {
               </Link>
             </li>
             <li>
-              <Link className='nav-link' to='/blog'>
-                Blog
+              <Link className='nav-link' to='/contact'>
+                Contact us
               </Link>
             </li>
             <li>
-              <Link className='nav-link' to='/contact'>
-                Contact us
+              <Link className='nav-link' to='/login'>
+                Login
               </Link>
             </li>
           </ul>

@@ -8,16 +8,20 @@ import Contact from './components/contact/Contact';
 import Cart from './components/cart/Cart';
 import Checkout from './components/checkout/Checkout';
 import ThankYou from './components/thankyou/ThankYou';
+import Login from './components/user/Login';
+import Register from './components/user/Register';
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path='/' element={<Homepage />} exact />
+        <Route path='/login' element={<Login />} exact />
+        <Route path='/register' element={<Register />} exact />
         <Route path='/shop' element={<Product />} exact />
         <Route path='/about' element={<About />} exact />
         <Route path='/services' element={<Services />} exact />
-        <Route path='/blog' element={<Blog />} exact />
+        {/* <Route path='/blog' element={<Blog />} exact /> */}
         <Route path='/contact' element={<Contact />} exact />
         <Route path='/cart' element={<Cart />} exact />
         <Route path='/checkout' element={<Checkout />} exact />
