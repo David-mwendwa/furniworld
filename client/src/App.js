@@ -6,6 +6,7 @@ import Services from './components/services/Services';
 import Blog from './components/blog/Blog';
 import Contact from './components/contact/Contact';
 import Cart from './components/cart/Cart';
+import Checkout from './components/checkout/Checkout';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path='/blog' element={<Blog />} exact />
         <Route path='/contact' element={<Contact />} exact />
         <Route path='/cart' element={<Cart />} exact />
+        <Route path='/checkout' element={<Checkout />} exact />
       </Routes>
     </Router>
   );
