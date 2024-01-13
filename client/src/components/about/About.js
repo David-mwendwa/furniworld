@@ -2,7 +2,6 @@ import React from 'react';
 import Header from '../layout/Header';
 import Hero from '../layout/Hero';
 import Footer from '../layout/Footer';
-import Testmonials from '../layout/Testmonials';
 import { Link } from 'react-router-dom';
 
 const About = () => {
@@ -145,7 +144,7 @@ const About = () => {
                 className='img-fluid mb-5'
               />
               <h3 className=''>
-                <Link to='#'>
+                <Link to='/'>
                   <span className=''>Lawson</span> Arnold
                 </Link>
               </h3>
@@ -155,7 +154,7 @@ const About = () => {
                 right at the coast of the Semantics, Link large language ocean.
               </p>
               <p className='mb-0'>
-                <Link to='#' className='more dark'>
+                <Link to='/' className='more dark'>
                   Learn More <span className='icon-arrow_forward'></span>
                 </Link>
               </p>
@@ -169,7 +168,7 @@ const About = () => {
               />
 
               <h3 clas>
-                <Link to='#'>
+                <Link to='/'>
                   <span className=''>Jeremy</span> Walker
                 </Link>
               </h3>
@@ -179,7 +178,7 @@ const About = () => {
                 right at the coast of the Semantics, Link large language ocean.
               </p>
               <p className='mb-0'>
-                <Link to='#' className='more dark'>
+                <Link to='/' className='more dark'>
                   Learn More <span className='icon-arrow_forward'></span>
                 </Link>
               </p>
@@ -192,7 +191,7 @@ const About = () => {
                 className='img-fluid mb-5'
               />
               <h3 clas>
-                <Link to='#'>
+                <Link to='/'>
                   <span className=''>Patrik</span> White
                 </Link>
               </h3>
@@ -202,7 +201,7 @@ const About = () => {
                 right at the coast of the Semantics, Link large language ocean.
               </p>
               <p className='mb-0'>
-                <Link to='#' className='more dark'>
+                <Link to='/' className='more dark'>
                   Learn More <span className='icon-arrow_forward'></span>
                 </Link>
               </p>
@@ -216,7 +215,7 @@ const About = () => {
               />
 
               <h3 clas>
-                <Link to='#'>
+                <Link to='/'>
                   <span className=''>Kathryn</span> Ryan
                 </Link>
               </h3>
@@ -226,7 +225,7 @@ const About = () => {
                 right at the coast of the Semantics, Link large language ocean.
               </p>
               <p className='mb-0'>
-                <Link to='#' className='more dark'>
+                <Link to='/' className='more dark'>
                   Learn More <span className='icon-arrow_forward'></span>
                 </Link>
               </p>

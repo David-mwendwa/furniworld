@@ -3,7 +3,10 @@ import React from 'react';
 // Should be a slider
 const Testmonials = () => {
   return (
-    <div className='testimonial-section'>
+    <div
+      className='testimonial-section'
+      data-aos='zoom-in-down'
+      data-aos-duration='1500'>
       <div className='container'>
         <div className='row'>
           <div className='col-lg-7 mx-auto text-center'>

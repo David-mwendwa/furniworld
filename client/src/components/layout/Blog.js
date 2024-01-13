@@ -13,7 +13,7 @@ const Blog = () => {
             <h2 className='section-title'>Recent Blog</h2>
           </div>
           <div className='col-md-6 text-start text-md-end'>
-            <Link to='/' className='more'>
+            <Link to='/blog' className='more'>
               View All Posts
             </Link>
           </div>
