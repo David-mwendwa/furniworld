@@ -7,6 +7,7 @@ import Blog from './components/blog/Blog';
 import Contact from './components/contact/Contact';
 import Cart from './components/cart/Cart';
 import Checkout from './components/checkout/Checkout';
+import ThankYou from './components/thankyou/ThankYou';
 
 function App() {
   return (
@@ -20,6 +21,8 @@ function App() {
         <Route path='/contact' element={<Contact />} exact />
         <Route path='/cart' element={<Cart />} exact />
         <Route path='/checkout' element={<Checkout />} exact />
+        {/* after a successfull payment */}
+        <Route path='/thankyou' element={<ThankYou />} exact />
       </Routes>
     </Router>
   );

@@ -461,11 +461,13 @@ const Checkout = () => {
                     </div>
 
                     <div className='form-group'>
-                      <button
-                        className='btn btn-black btn-lg py-3 btn-block'
-                        onclick="window.location='thankyou.html'">
-                        Place Order
-                      </button>
+                      <Link to='/thankyou'>
+                        <button
+                          className='btn btn-black btn-lg py-3 btn-block'
+                          onclick="window.location='thankyou.html'">
+                          Place Order
+                        </button>
+                      </Link>
                     </div>
                   </div>
                 </div>
