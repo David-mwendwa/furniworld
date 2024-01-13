@@ -5,14 +5,10 @@ const Footer = () => {
   return (
     <footer className='footer-section'>
       <div className='container relative'>
-        <div
-          className='sofa-img'
-          data-aos='fade-down'
-          data-aos-easing='linear'
-          data-aos-duration='3000'>
+        {/* data-aos='fade-down' data-aos-easing='linear' data-aos-duration='3000' */}
+        <div className='sofa-img'>
           <img src='images/sofa.png' alt='' className='img-fluid' />
         </div>
-
         <div className='row'>
           <div className='col-lg-8'>
             <div className='subscription-form'>
@@ -51,8 +47,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-
-        <div className='row g-5 mb-5'>
+        {/* <div className='row g-5 mb-5'>
           <div className='col-lg-4'>
             <div className='mb-4 footer-logo-wrap'>
               <Link to='/' className='footer-logo'>
@@ -146,8 +141,7 @@ const Footer = () => {
               </div>
             </div>
           </div>
-        </div>
-
+        </div> */}
         <div className='border-top copyright'>
           <div className='row pt-4'>
             <div className='col-lg-6'>

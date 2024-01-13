@@ -128,7 +128,7 @@ const About = () => {
       </div>
 
       {/* Team Section */}
-      <div className='untree_co-section'>
+      {/* <div className='untree_co-section'>
         <div className='container'>
           <div className='row mb-5'>
             <div className='col-lg-5 mx-auto text-center'>
@@ -232,7 +232,7 @@ const About = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Footer */}
       <Footer />
