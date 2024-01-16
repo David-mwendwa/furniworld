@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const Header = () => {
   return (
@@ -7,9 +7,9 @@ const Header = () => {
       className='custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark'
       arial-label='Furni navigation bar'>
       <div className='container'>
-        <Link className='navbar-brand' to='/'>
+        <NavLink className='navbar-brand' to='.'>
           Furni<span>world</span>
-        </Link>
+        </NavLink>
 
         <button
           className='navbar-toggler'
@@ -25,47 +25,47 @@ const Header = () => {
         <div className='collapse navbar-collapse' id='navbarsFurni'>
           <ul className='custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0'>
             <li className='nav-item active'>
-              <Link className='nav-link' to='/'>
+              <NavLink className='nav-link' to='/' key='home' end>
                 Home
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link className='nav-link' to='/shop'>
+              <NavLink className='nav-link' to='/shop' key='shop' end>
                 Shop
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link className='nav-link' to='/about'>
+              <NavLink className='nav-link' to='/about' key='about' end>
                 About us
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link className='nav-link' to='/services'>
+              <NavLink className='nav-link' to='/services' key='services' end>
                 Services
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link className='nav-link' to='/contact'>
+              <NavLink className='nav-link' to='/contact' key='contact' end>
                 Contact us
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link className='nav-link' to='/login'>
+              <NavLink className='nav-link' to='/login' key='login' end>
                 Login
-              </Link>
+              </NavLink>
             </li>
           </ul>
 
           <ul className='custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5'>
             <li>
-              <Link className='nav-link' to='/profile'>
+              <NavLink className='nav-link' to='/profile'>
                 <img src='images/user.svg' alt='' />
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link className='nav-link' to='/cart'>
+              <NavLink className='nav-link' to='/cart'>
                 <img src='images/cart.svg' alt='' />
-              </Link>
+              </NavLink>
             </li>
           </ul>
         </div>

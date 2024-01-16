@@ -1,5 +1,5 @@
 import { Homepage } from './components/Homepage';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Product from './components/product/Product';
 import About from './components/about/About';
 import Services from './components/services/Services';
@@ -10,24 +10,36 @@ import ThankYou from './components/thankyou/ThankYou';
 import Login from './components/user/Login';
 import Register from './components/user/Register';
 
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Homepage />,
+    children: [
+      // { index: true, element: <Homepage /> },
+      // { path: 'login', element: <Login /> },
+      // { path: 'register', element: <Register /> },
+      // { path: 'shop', element: <Product /> },
+      // { path: 'about', element: <About /> },
+      // { path: 'services', element: <Services /> },
+      // { path: 'contact', element: <Contact /> },
+      // { path: 'cart', element: <Cart /> },
+      // { path: 'checkout', element: <Checkout /> },
+      // { path: 'thankyou', element: <ThankYou /> },
+    ],
+  },
+  { path: '/login', element: <Login /> },
+  { path: '/register', element: <Register /> },
+  { path: '/shop', element: <Product /> },
+  { path: '/about', element: <About /> },
+  { path: '/services', element: <Services /> },
+  { path: '/contact', element: <Contact /> },
+  { path: '/cart', element: <Cart /> },
+  { path: '/checkout', element: <Checkout /> },
+  { path: '/thankyou', element: <ThankYou /> },
+]);
+
 function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path='/' element={<Homepage />} exact />
-        <Route path='/login' element={<Login />} exact />
-        <Route path='/register' element={<Register />} exact />
-        <Route path='/shop' element={<Product />} exact />
-        <Route path='/about' element={<About />} exact />
-        <Route path='/services' element={<Services />} exact />
-        <Route path='/contact' element={<Contact />} exact />
-        <Route path='/cart' element={<Cart />} exact />
-        <Route path='/checkout' element={<Checkout />} exact />
-        {/* after a successfull payment */}
-        <Route path='/thankyou' element={<ThankYou />} exact />
-      </Routes>
-    </Router>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
