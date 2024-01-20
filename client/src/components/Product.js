@@ -1,9 +1,9 @@
 import React from 'react';
-import Header from '../layout/Header';
-import Footer from '../layout/Footer';
-import ProductDetails from './ProductDetails';
-import Hero from '../layout/Hero';
-import products from '../../PRODUCTS.js';
+import Header from './layout/Header.js';
+import Footer from './layout/Footer.js';
+import ProductDetails from './ProductDetails.js';
+import Hero from './layout/Hero.js';
+import products from '../PRODUCTS.js';
 
 const Product = () => {
   return (

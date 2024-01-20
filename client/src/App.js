@@ -1,12 +1,12 @@
 import { Homepage } from './components/Homepage';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import Product from './components/product/Product';
-import About from './components/about/About';
-import Services from './components/services/Services';
-import Contact from './components/contact/Contact';
-import Cart from './components/cart/Cart';
-import Checkout from './components/checkout/Checkout';
-import ThankYou from './components/thankyou/ThankYou';
+import Product from './components/Product';
+import About from './components/About';
+import Services from './components/Services';
+import Contact from './components/Contact';
+import Cart from './components/Cart';
+import Checkout from './components/Checkout';
+import ThankYou from './components/ThankYou';
 import Login from './components/user/Login';
 import Register from './components/user/Register';
 
