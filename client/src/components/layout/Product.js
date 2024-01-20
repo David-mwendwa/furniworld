@@ -39,7 +39,7 @@ const Product = () => {
                     />
                     <h3 className='product-title'>{product.name}</h3>
                     <strong className='product-price'>
-                      Ksh. {product.price}
+                      Ksh. {product.price.toLocaleString()}
                     </strong>
 
                     <span className='icon-cross'>

@@ -1,4 +1,4 @@
-let furniture = [
+let products = [
   {
     name: 'Altona Link Chair',
     price: 29995,
@@ -532,4 +532,4 @@ let furniture = [
   },
 ];
 
-export default furniture;
+export default products;
