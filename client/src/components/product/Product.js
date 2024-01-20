@@ -3,7 +3,7 @@ import Header from '../layout/Header';
 import Footer from '../layout/Footer';
 import ProductDetails from './ProductDetails';
 import Hero from '../layout/Hero';
-import products from './products';
+import products from '../../PRODUCTS.js';
 
 const Product = () => {
   return (
@@ -27,7 +27,7 @@ const Product = () => {
           <div className='row'>
             {products.map((product) => (
               <div className='col-12 col-md-4 col-lg-3 mb-5'>
-                <ProductDetails key={product.id} product={product} />
+                <ProductDetails key={product.name} product={product} />
               </div>
             ))}
           </div>

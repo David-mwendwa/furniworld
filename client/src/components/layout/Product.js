@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import products from '../product/products';
+import products from '../../PRODUCTS.js';
 
 const Product = () => {
   return (
@@ -33,7 +33,7 @@ const Product = () => {
                 <div className='col-12 col-md-4 col-lg-3 mb-5 mb-md-0'>
                   <Link className='product-item' to='/'>
                     <img
-                      src={product.src}
+                      src={`images/${product.filename}`}
                       alt={product.name}
                       className='img-fluid product-thumbnail'
                     />

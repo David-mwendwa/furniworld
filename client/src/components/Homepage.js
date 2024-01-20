@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Footer from './layout/Footer';
-import Testmonials from './layout/Testmonials';
-import Featured from './layout/Featured';
 import Hero from './layout/Hero';
 import Header from './layout/Header';
 import Product from './layout/Product';
@@ -62,12 +60,6 @@ export const Homepage = () => {
 
       {/* We Help Section */}
       <WeHelp />
-
-      {/* Popular/Featured Products */}
-      <Featured />
-
-      {/* Testimonial Slider */}
-      <Testmonials />
 
       {/* Footer Section */}
       <Footer />

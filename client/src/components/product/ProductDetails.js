@@ -5,7 +5,7 @@ const ProductDetails = ({ product }) => {
   return (
     <Link className='product-item' to='/'>
       <img
-        src={product.src}
+        src={`images/${product.filename}`}
         alt={product.name}
         className='img-fluid product-thumbnail'
       />
