@@ -2,7 +2,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 import mongoose from 'mongoose';
 import Product from '../models/Product.js';
-import products from '../PRODUCTS.js';
 
 /**
  * Add data to the mongoDB
