@@ -32,3 +32,23 @@ export const register = async (req, res, next) => {
   });
   sendToken(user, 200, res);
 };
+
+// Logout user
+export const login = async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    throw new BadRequestError('Please provide email and password');
+  }
+  const user = await User.findOne({ email }).select('+password');
+  if (!user) {
+    throw new UnauthenticatedError('Incorrect email or password');
+  }
+
+  const isPasswordCorrect = await user.comparePassword(password, user.password);
+  if (!isPasswordCorrect) {
+    throw new UnauthenticatedError('Incorrect email or password');
+  }
+
+  user.password = undefined;
+  sendToken(user, 200, res);
+};
