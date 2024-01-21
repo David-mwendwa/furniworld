@@ -5,11 +5,15 @@ dotenv.config();
 
 // import routes
 import productRouter from './routes/product.js';
+import userRouter from './routes/user.js';
 
 const app = express();
 
+app.use(express.json());
+
 // use routes
 app.use('/api/v1/products', productRouter);
+app.use('/api/v1', userRouter);
 
 // connection
 const PORT = process.env.PORT || 5000;
