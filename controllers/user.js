@@ -3,7 +3,7 @@ import { BadRequestError, UnauthenticatedError } from '../errors/index.js';
 import { sendToken } from '../utils/jwt.js';
 import { uploadToCloudinary } from '../utils/cloudinary.js';
 
-// Register user
+// Register User
 export const register = async (req, res, next) => {
   const { name, email, password, passwordConfirm } = req.body;
   const userExists = await User.findOne({ email });
@@ -33,7 +33,7 @@ export const register = async (req, res, next) => {
   sendToken(user, 200, res);
 };
 
-// Logout user
+// Logout User
 export const login = async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -51,4 +51,10 @@ export const login = async (req, res) => {
 
   user.password = undefined;
   sendToken(user, 200, res);
+};
+
+// Login User
+export const logout = async (req, res, next) => {
+  res.cookie('token', null, { expires: new Date(Date.now()), httpOnly: true });
+  res.status(204).json({ success: true, data: null });
 };
