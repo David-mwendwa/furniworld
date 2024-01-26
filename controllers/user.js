@@ -94,3 +94,19 @@ export const updateProfile = async (req, res) => {
   await user.save();
   res.status(201).json({ success: true, data: user });
 };
+
+export const updatePassword = async (req, res, next) => {
+  const user = await User.findById(req.user.id).select('+password');
+  const { passwordCurrent, newPassword, newPasswordConfirm } = req.body;
+
+  const isCurrentPasswordCorrect = await user.comparePassword(passwordCurrent);
+  if (!isCurrentPasswordCorrect) {
+    throw new BadRequestError('Your current password is incorrect');
+  }
+
+  user.password = newPassword;
+  user.passwordConfirm = newPasswordConfirm;
+  await user.save();
+
+  res.status(201).json({ success: true, data: user });
+};
