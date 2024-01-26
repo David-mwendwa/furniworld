@@ -5,6 +5,8 @@ import {
   login,
   logout,
   register,
+  requestPasswordReset,
+  resetPassword,
   updatePassword,
   updateProfile,
 } from '../controllers/user.js';
@@ -17,8 +19,11 @@ router.route('/user/login').post(login);
 router.route('/user/logout').get(logout);
 
 router.route('/user/my-profile').get(protect, getProfile);
-router.route('/user/update-profile').patch(protect, updateProfile);
-router.route('/user/update-password').patch(protect, updatePassword);
-router.route('/user/delete-profile').patch(protect, deleteProfile);
+router.route('/user/profile-update').patch(protect, updateProfile);
+router.route('/user/profile-delete').patch(protect, deleteProfile);
+router.route('/user/password-update').patch(protect, updatePassword);
+
+router.route('/user/password-forgot').post(requestPasswordReset);
+router.route('/user/password-reset/:token').patch(resetPassword);
 
 export default router;
