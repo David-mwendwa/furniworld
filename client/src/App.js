@@ -9,8 +9,9 @@ import Checkout from './components/Checkout';
 import ThankYou from './components/ThankYou';
 import Login from './components/user/Login';
 import Register from './components/user/Register';
-import PasswordReset from './components/user/PasswordReset';
 import PasswordForgot from './components/user/PasswordForgot';
+import PasswordReset from './components/user/PasswordReset';
+import Profile from './components/user/Profile';
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
   { path: '/cart', element: <Cart /> },
   { path: '/checkout', element: <Checkout /> },
   { path: '/thankyou', element: <ThankYou /> },
+  { path: '/profile', element: <Profile /> },
   { path: '/password-forgot', element: <PasswordForgot /> },
   { path: '/password-reset/:token', element: <PasswordReset /> },
 ]);

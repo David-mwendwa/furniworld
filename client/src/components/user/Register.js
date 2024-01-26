@@ -10,13 +10,8 @@ const Register = () => {
       <Header />
       {/* Hero Section */}
       <Hero>
-        <div className='row justify-content-between'>
-          <div className='col-lg-5'>
-            <div className='intro-excerpt'>
-              <h1>Register</h1>
-            </div>
-          </div>
-          <div className='col-lg-7'></div>
+        <div className='justify-content-between  text-center'>
+          <h1>Register</h1>
         </div>
       </Hero>
 

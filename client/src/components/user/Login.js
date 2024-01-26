@@ -10,13 +10,8 @@ const Login = () => {
       <Header />
       {/* Hero Section */}
       <Hero>
-        <div className='row justify-content-between'>
-          <div className='col-lg-5'>
-            <div className='intro-excerpt'>
-              <h1>Login</h1>
-            </div>
-          </div>
-          <div className='col-lg-7'></div>
+        <div className='justify-content-between  text-center'>
+          <h1>Login</h1>
         </div>
       </Hero>
 
@@ -27,7 +22,7 @@ const Login = () => {
             <div className='row justify-content-center'>
               <div className='col-md-8 col-lg-8 pb-4'>
                 <div className='py-4 rounded' role='alert'>
-                  First time customer? <Link to='/register'>Click here</Link> to
+                  New customer? <Link to='/register'>Click here</Link> to
                   register
                 </div>
                 <form>
