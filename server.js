@@ -11,9 +11,11 @@ import errorHandlerMiddleware from './middleware/errorHandler.js';
 // import routes
 import productRouter from './routes/product.js';
 import userRouter from './routes/user.js';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
+app.use(cookieParser());
 app.use(express.json());
 
 // use routes

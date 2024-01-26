@@ -10,7 +10,7 @@
     "install-dependencies": " npm run install-client && npm run install-server ",
     "client": "npm start --prefix client",
     "server": "nodemon server --ignore client",
-    "start": "concurrently --kill-others-on-fail \" npm run server\" \" npm run client\"",
+    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
     "seeder": "node utils/seeder"
   },
   "keywords": [],
