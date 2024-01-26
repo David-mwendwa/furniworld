@@ -126,7 +126,7 @@ userSchema.methods.passwordChangedAfter = function (JWTTimestamp) {
  * @param {*} null
  * @returns authetication token
  */
-userSchema.methods.signToken = function () {
+userSchema.methods.signJWT = function () {
   return jwt.sign({ id: this._id, role: this.role }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_LIFETIME,
   });

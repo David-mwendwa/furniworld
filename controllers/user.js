@@ -3,8 +3,8 @@ import User from '../models/User.js';
 import {
   BadRequestError,
   NotFoundError,
-  UnauthenticatedError,
-} from '../errors/index.js';
+  UnauthorizedError,
+} from '../errors/customErrors.js';
 import { sendToken } from '../utils/jwt.js';
 import {
   removeFromCloudinary,
@@ -47,11 +47,11 @@ export const login = async (req, res) => {
     throw new BadRequestError('Please provide email and password');
 
   const user = await User.findOne({ email }).select('+password');
-  if (!user) throw new UnauthenticatedError('Incorrect email or password');
+  if (!user) throw new UnauthorizedError('Incorrect email or password');
 
   const isPasswordCorrect = await user.comparePassword(password, user.password);
   if (!isPasswordCorrect)
-    throw new UnauthenticatedError('Incorrect email or password');
+    throw new UnauthorizedError('Incorrect email or password');
 
   user.password = undefined;
   sendToken(user, 200, res);

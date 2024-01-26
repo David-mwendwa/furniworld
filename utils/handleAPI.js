@@ -1,4 +1,4 @@
-import { NotFoundError } from '../errors/index.js';
+import { NotFoundError } from '../errors/customErrors.js';
 
 /**
  * A class handler function for API features

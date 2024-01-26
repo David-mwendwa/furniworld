@@ -1,5 +1,8 @@
 import jwt from 'jsonwebtoken';
-import { ForbiddenError, UnauthenticatedError } from '../errors/index.js';
+import {
+  ForbiddenError,
+  UnauthorizedError,
+} from '../errors/customErrors.js';
 
 // Middleware to check user authentication to allow access to a certain resource
 export const protect = async (req, res, next) => {
@@ -13,7 +16,7 @@ export const protect = async (req, res, next) => {
     token = authHeader.split(' ')[1];
   }
   if (!token) {
-    throw new UnauthenticatedError('Authentication Invalid. Please log in.');
+    throw new UnauthorizedError('Authentication Invalid. Please log in.');
   }
   req.user = jwt.verify(token, process.env.JWT_SECRET); // user: { id, role, iat, exp}, alt: verifyToken({ token })
   next();
