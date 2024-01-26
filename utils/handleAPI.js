@@ -150,7 +150,7 @@ const updateOne = (Model) => async (req, res, next) => {
  * @returns null
  */
 const deleteOne = (Model) => async (req, res, next) => {
-  const doc = await Model.findByIdAndRemove(req.params.id);
+  const doc = await Model.findByIdAndDelete(req.params.id);
   if (!doc) {
     throw new NotFoundError('No document found with that ID');
   }

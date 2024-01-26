@@ -1,7 +1,10 @@
 import { Router } from 'express';
 import {
   deleteProfile,
+  deleteUser,
   getProfile,
+  getUser,
+  getUsers,
   login,
   logout,
   register,
@@ -15,6 +18,7 @@ import { authorizeRoles, protect } from '../middleware/auth.js';
 
 const router = Router();
 
+// user routes
 router.route('/user/register').post(register);
 router.route('/user/login').post(login);
 router.route('/user/logout').get(logout);
@@ -28,8 +32,11 @@ router.route('/user/password-forgot').post(requestPasswordReset);
 router.route('/user/password-reset/:token').patch(resetPassword);
 
 // admin routes
+router.route('/admin/users').get(protect, authorizeRoles('admin'), getUsers);
 router
   .route('/admin/users/:id')
-  .patch(protect, authorizeRoles('admin'), updateUser);
+  .get(protect, authorizeRoles('admin'), getUser)
+  .patch(protect, authorizeRoles('admin'), updateUser)
+  .delete(protect, authorizeRoles('admin'), deleteUser);
 
 export default router;

@@ -11,6 +11,7 @@ import {
   uploadToCloudinary,
 } from '../utils/cloudinary.js';
 import { sendEmail } from '../utils/sendEmail.js';
+import { deleteOne, getMany, getOne } from '../utils/handleAPI.js';
 
 // ======================== AUTH CONTROLLERS ========================= //
 export const register = async (req, res, next) => {
@@ -195,3 +196,9 @@ export const updateUser = async (req, res) => {
   });
   res.status(201).json({ success: true, data: user });
 };
+
+export const getUsers = getMany(User);
+
+export const getUser = getOne(User);
+
+export const deleteUser = deleteOne(User);
