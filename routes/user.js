@@ -9,8 +9,9 @@ import {
   resetPassword,
   updatePassword,
   updateProfile,
+  updateUser,
 } from '../controllers/user.js';
-import { protect } from '../middleware/auth.js';
+import { authorizeRoles, protect } from '../middleware/auth.js';
 
 const router = Router();
 
@@ -25,5 +26,10 @@ router.route('/user/password-update').patch(protect, updatePassword);
 
 router.route('/user/password-forgot').post(requestPasswordReset);
 router.route('/user/password-reset/:token').patch(resetPassword);
+
+// admin routes
+router
+  .route('/admin/users/:id')
+  .patch(protect, authorizeRoles('admin'), updateUser);
 
 export default router;

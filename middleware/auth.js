@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
-import { UnauthenticatedError } from '../errors/index.js';
+import { ForbiddenError, UnauthenticatedError } from '../errors/index.js';
 
+// Middleware to check user authentication to allow access to a certain resource
 export const protect = async (req, res, next) => {
   let token = null;
   const authHeader = req.headers.authorization;
@@ -16,4 +17,16 @@ export const protect = async (req, res, next) => {
   }
   req.user = jwt.verify(token, process.env.JWT_SECRET); // user: { id, role, iat, exp}, alt: verifyToken({ token })
   next();
+};
+
+// Middleware to check if a user is authorized to access certain resources based on their role
+export const authorizeRoles = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      throw new ForbiddenError(
+        `${req.user.role} is not allowed to perfom this action`
+      );
+    }
+    next();
+  };
 };

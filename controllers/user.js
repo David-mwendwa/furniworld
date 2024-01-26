@@ -180,3 +180,18 @@ export const resetPassword = async (req, res, next) => {
   await user.save();
   res.status(200).json({ success: true, data: user });
 };
+
+export const updateUser = async (req, res) => {
+  if (req.body.password || req.body.passwordConfirm)
+    throw new BadRequestError('You cannot update user password');
+
+  const updateInfo = {
+    role: req.body.role,
+  };
+  const user = await User.findByIdAndUpdate(req.params.id, updateInfo, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
+  res.status(201).json({ success: true, data: user });
+};
