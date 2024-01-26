@@ -81,7 +81,7 @@ export const updateProfile = async (req, res) => {
     await removeFromCloudinary(user.avatar.public_id);
 
     const result = await uploadToCloudinary(req.body.avatar, {
-      folder: '',
+      folder: 'furniworld/users',
       width: '150',
       crop: 'scale',
     });
@@ -109,4 +109,11 @@ export const updatePassword = async (req, res, next) => {
   await user.save();
 
   res.status(201).json({ success: true, data: user });
+};
+
+export const deleteProfile = async (req, res, next) => {
+  await User.findByIdAndUpdate(req.user.id, { active: false });
+  res.cookie('token', null, { expires: new Date(Date.now()), httpOnly: true });
+  delete req.headers.authorization;
+  res.status(204).json({ success: true, data: null });
 };

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import {
+  deleteProfile,
   getProfile,
   login,
   logout,
@@ -18,5 +19,6 @@ router.route('/user/logout').get(logout);
 router.route('/user/my-profile').get(protect, getProfile);
 router.route('/user/update-profile').patch(protect, updateProfile);
 router.route('/user/update-password').patch(protect, updatePassword);
+router.route('/user/delete-profile').patch(protect, deleteProfile);
 
 export default router;
