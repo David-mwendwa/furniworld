@@ -73,6 +73,16 @@ const Register = () => {
                       id='password'
                     />
                   </div>
+                  <div className='form-group'>
+                    <label className='text-black' htmlFor='passwordConfirm'>
+                      Confirm Password
+                    </label>
+                    <input
+                      type='password'
+                      className='form-control'
+                      id='passwordConfirm'
+                    />
+                  </div>
 
                   <button
                     type='submit'

@@ -13,7 +13,7 @@ import {
 import { sendEmail } from '../utils/sendEmail.js';
 import { deleteOne, getMany, getOne } from '../utils/handleAPI.js';
 
-// ======================== AUTH CONTROLLERS ========================= //
+// ============ AUTH CONTROLLERS ============ //
 export const register = async (req, res, next) => {
   const { name, email, password, passwordConfirm } = req.body;
   const userExists = await User.findOne({ email });
@@ -58,11 +58,12 @@ export const login = async (req, res) => {
 };
 
 export const logout = async (req, res, next) => {
-  res.cookie('token', null, { expires: new Date(Date.now()), httpOnly: true });
+  res.cookie('token', '', { expires: new Date(Date.now()), httpOnly: true });
+  delete req.headers.authorization;
   res.status(204).json({ success: true, data: null });
 };
 
-// ======================== USER CONTROLLERS ========================= //
+// ============ USER CONTROLLERS ============ //
 export const getProfile = async (req, res) => {
   const user = await User.findById(req.user.id);
   res.status(200).json({ success: true, data: user });
@@ -113,16 +114,16 @@ export const updatePassword = async (req, res, next) => {
 
 export const deleteProfile = async (req, res, next) => {
   await User.findByIdAndUpdate(req.user.id, { active: false });
-  res.cookie('token', null, { expires: new Date(Date.now()), httpOnly: true });
+  res.cookie('token', '', { expires: new Date(Date.now()), httpOnly: true });
   delete req.headers.authorization;
   res.status(204).json({ success: true, data: null });
 };
 
-export const requestPasswordReset = async (req, res, next) => {
+export const forgotPassword = async (req, res, next) => {
   if (!req.body.email) throw new BadRequestError('please provide your email');
 
   const user = await User.findOne({ email: req.body.email });
-  if (!user) throw new NotFoundError('User not found');
+  if (!user) throw new NotFoundError('No account found with that email');
 
   const resetToken = user.generatePasswordResetToken();
   await user.save({ validateBeforeSave: false }); // validateBeforeSave option is very crucial here!
@@ -134,10 +135,10 @@ export const requestPasswordReset = async (req, res, next) => {
     resetUrl = `${protocol}://${host}/password-reset/${resetToken}`;
   }
 
-  const html = `<p>Hi ${user.name}, we're excited to have you on board and will be happy to help you set up everything.</p>
-    <p>Forgot your password? Please <a href="${resetUrl}">click here</a> to reset it.</p>
-    <hr/><br/><p>All the best,</p><h3>Customer Care</h3><br/><hr/>
-    <p>If you haven't requested for password recovery, Please ignore this email.</p>`;
+  const html = `<p>Hi ${user.name}, we're excited to have you on board and will be glad to assist you.</p>
+    <p>Forgot your password? Kindly <a href="${resetUrl}">click here</a> to reset it.</p>
+    <hr/><br/><p>All the best,</p><h4>Customer Care</h4><br/><hr/>
+    <p>If you haven't requested for this email, kindly ignore it.</p>`;
 
   try {
     let mailOptions = {

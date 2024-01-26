@@ -8,7 +8,7 @@ import {
   login,
   logout,
   register,
-  requestPasswordReset,
+  forgotPassword,
   resetPassword,
   updatePassword,
   updateProfile,
@@ -28,7 +28,7 @@ router.route('/user/profile-update').patch(protect, updateProfile);
 router.route('/user/profile-delete').patch(protect, deleteProfile);
 router.route('/user/password-update').patch(protect, updatePassword);
 
-router.route('/user/password-forgot').post(requestPasswordReset);
+router.route('/user/password-forgot').post(forgotPassword);
 router.route('/user/password-reset/:token').patch(resetPassword);
 
 // admin routes

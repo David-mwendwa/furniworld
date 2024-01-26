@@ -35,7 +35,12 @@ const Login = () => {
                     <label className='text-black' htmlFor='email'>
                       Email address
                     </label>
-                    <input type='email' className='form-control' id='email' />
+                    <input
+                      type='email'
+                      className='form-control'
+                      id='email'
+                      required
+                    />
                   </div>
                   <div className='form-group'>
                     <label className='text-black' htmlFor='password'>
@@ -45,7 +50,11 @@ const Login = () => {
                       type='password'
                       className='form-control'
                       id='password'
+                      required
                     />
+                  </div>
+                  <div className='py-2 rounded'>
+                    <Link to='/password-forgot'>Forgot your password?</Link>
                   </div>
 
                   <button
