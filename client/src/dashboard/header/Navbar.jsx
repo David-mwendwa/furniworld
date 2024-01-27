@@ -1,8 +1,7 @@
 import { FaAlignLeft } from 'react-icons/fa';
 import Wrapper from './Navbar.styles';
-import Logo from './Logo';
-import ThemeToggle from './ThemeToggle';
-import { useDashboardContext } from '../layout/Layout';
+import Logo from '../../components/layout/Logo';
+import { useDashboardContext } from '../DashboardLayout';
 import { IoLogOutOutline } from 'react-icons/io5';
 
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -21,7 +20,6 @@ const Navbar = () => {
           <h4 className='logo-text'>dashboard</h4>
         </div>
         <div className='btn-container'>
-          <ThemeToggle />
           <DropdownButton id='dropdown-item-button' title={`David Mwendwa`}>
             <Dropdown.Item as='button'>
               <IoLogOutOutline />

@@ -12,6 +12,14 @@ import Register from './components/user/Register';
 import PasswordForgot from './components/user/PasswordForgot';
 import PasswordReset from './components/user/PasswordReset';
 import Profile from './components/user/Profile';
+import DashboardLayout from './dashboard/DashboardLayout';
+
+const checkDefaultTheme = () => {
+  const isDarkTheme = localStorage.getItem('darkTheme') === 'true';
+  document.body.classList.toggle('dark-theme', isDarkTheme);
+  return isDarkTheme;
+};
+const isDarkThemeEnabled = checkDefaultTheme();
 
 const router = createBrowserRouter([
   {
@@ -42,6 +50,16 @@ const router = createBrowserRouter([
   { path: '/profile', element: <Profile /> },
   { path: '/password-forgot', element: <PasswordForgot /> },
   { path: '/password-reset/:token', element: <PasswordReset /> },
+  {
+    path: '/dashboard',
+    element: <DashboardLayout isDarkThemeEnabled={isDarkThemeEnabled} />,
+    children: [
+      {
+        index: true,
+        element: <h1>Dashboard</h1>,
+      },
+    ],
+  },
 ]);
 
 function App() {
