@@ -1,8 +1,5 @@
 import jwt from 'jsonwebtoken';
-import {
-  ForbiddenError,
-  UnauthorizedError,
-} from '../errors/customErrors.js';
+import { ForbiddenError, UnauthorizedError } from '../errors/customErrors.js';
 
 // Middleware to check user authentication to allow access to a certain resource
 export const protect = async (req, res, next) => {
