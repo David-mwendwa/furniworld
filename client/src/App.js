@@ -22,22 +22,7 @@ const checkDefaultTheme = () => {
 const isDarkThemeEnabled = checkDefaultTheme();
 
 const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Homepage />,
-    children: [
-      // { index: true, element: <Homepage /> },
-      // { path: 'login', element: <Login /> },
-      // { path: 'register', element: <Register /> },
-      // { path: 'shop', element: <Product /> },
-      // { path: 'about', element: <About /> },
-      // { path: 'services', element: <Services /> },
-      // { path: 'contact', element: <Contact /> },
-      // { path: 'cart', element: <Cart /> },
-      // { path: 'checkout', element: <Checkout /> },
-      // { path: 'thankyou', element: <ThankYou /> },
-    ],
-  },
+  { path: '/', element: <Homepage /> },
   { path: '/login', element: <Login /> },
   { path: '/register', element: <Register /> },
   { path: '/shop', element: <Product /> },
@@ -51,14 +36,8 @@ const router = createBrowserRouter([
   { path: '/password-forgot', element: <PasswordForgot /> },
   { path: '/password-reset/:token', element: <PasswordReset /> },
   {
-    path: '/dashboard',
+    path: 'dashboard',
     element: <DashboardLayout isDarkThemeEnabled={isDarkThemeEnabled} />,
-    children: [
-      {
-        index: true,
-        element: <h1>Dashboard</h1>,
-      },
-    ],
   },
 ]);
 
