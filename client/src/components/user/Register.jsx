@@ -1,7 +1,7 @@
 import Header from '../layout/Header';
 import Footer from '../layout/Footer';
 import Hero from '../layout/Hero';
-import { Form, Link, redirect } from 'react-router-dom';
+import { Form, Link, redirect, useNavigation } from 'react-router-dom';
 import customFetch from '../../utils/customFetch';
 
 export const action = async ({ request }) => {
@@ -17,6 +17,9 @@ export const action = async ({ request }) => {
 };
 
 const Register = () => {
+  const navigate = useNavigation();
+  const isSubmitting = /submitting/.test(navigate.state);
+
   return (
     <>
       <Header />
@@ -87,8 +90,9 @@ const Register = () => {
 
                   <button
                     type='submit'
-                    className='btn btn-primary-hover-outline mt-5'>
-                    Register
+                    className='btn btn-primary-hover-outline mt-5'
+                    disabled={isSubmitting}>
+                    {isSubmitting ? 'submitting' : 'Register'}
                   </button>
                 </Form>
               </div>
