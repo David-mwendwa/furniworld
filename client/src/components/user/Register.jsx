@@ -3,14 +3,17 @@ import Footer from '../layout/Footer';
 import Hero from '../layout/Hero';
 import { Form, Link, redirect, useNavigation } from 'react-router-dom';
 import customFetch from '../../utils/customFetch';
+import { toast } from 'react-toastify';
 
 export const action = async ({ request }) => {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
   try {
     await customFetch.post('/user/register', data);
+    toast.success('Registered successfully');
     return redirect('/dashboard');
   } catch (error) {
+    toast.error(error?.response?.data?.message || error?.message);
     console.log(error);
     return error;
   }
