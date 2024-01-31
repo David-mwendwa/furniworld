@@ -8,7 +8,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
 const Navbar = () => {
-  const { toggleSidebar, user } = useDashboardContext();
+  const { toggleSidebar, user, logoutUser } = useDashboardContext();
   console.log(user);
   return (
     <Wrapper>
@@ -24,7 +24,7 @@ const Navbar = () => {
           <DropdownButton
             id='dropdown-item-button'
             title={user?.name || 'User'}>
-            <Dropdown.Item as='button'>
+            <Dropdown.Item as='button' onClick={logoutUser}>
               <IoLogOutOutline />
               <span className='ml-2'>Logout</span>
             </Dropdown.Item>
