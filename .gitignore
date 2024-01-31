@@ -1,5 +1,6 @@
 /node_modules
 
+/_client
 /template
 
 **/.env*

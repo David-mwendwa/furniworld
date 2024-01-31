@@ -1,7 +1,7 @@
 import { FaAlignLeft } from 'react-icons/fa';
 import Wrapper from './Navbar.styles';
-import Logo from '../../components/layout/Logo';
-import { useDashboardContext } from '../DashboardLayout';
+import Logo from './Logo';
+import { useDashboardContext } from '../layout/DashboardLayout';
 import { IoLogOutOutline } from 'react-icons/io5';
 
 import Dropdown from 'react-bootstrap/Dropdown';

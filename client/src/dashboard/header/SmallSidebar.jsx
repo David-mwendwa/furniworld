@@ -1,12 +1,13 @@
 import { FaTimes } from 'react-icons/fa';
 import Wrapper from './SmallSidebar.styles';
-import Logo from '../../components/layout/Logo';
+import Logo from './Logo';
 import NavLinks from './NavLinks';
 
-import { useDashboardContext } from '../DashboardLayout';
+import { useDashboardContext } from '../layout/DashboardLayout';
 
 const SmallSidebar = () => {
   const { showSidebar, toggleSidebar } = useDashboardContext();
+  console.log();
   return (
     <Wrapper>
       <div

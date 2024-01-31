@@ -1,4 +1,4 @@
-import React from 'react';
+/* eslint-disable react/no-unknown-property */
 import { NavLink } from 'react-router-dom';
 
 const Header = () => {

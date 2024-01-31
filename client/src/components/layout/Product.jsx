@@ -1,6 +1,5 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
-import products from '../../PRODUCTS.js';
+import products from '../../PRODUCTS';
 
 const Product = () => {
   return (

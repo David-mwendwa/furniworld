@@ -1,8 +1,7 @@
-import React from 'react'
 import { Link } from 'react-router-dom';
 
 const WeHelp = () => {
-	return (
+  return (
     <div
       className='we-help-section'
       data-aos='zoom-in-down'
@@ -49,6 +48,6 @@ const WeHelp = () => {
       </div>
     </div>
   );
-}
+};
 
-export default WeHelp
+export default WeHelp;

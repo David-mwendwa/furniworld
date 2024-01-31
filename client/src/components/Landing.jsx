@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import Footer from './layout/Footer';
 import Hero from './layout/Hero';
@@ -8,7 +7,7 @@ import WhyUs from './layout/WhyUs';
 import WeHelp from './layout/WeHelp';
 import Metadata from './layout/Metadata';
 
-export const Homepage = () => {
+const Landing = () => {
   return (
     <>
       <Metadata title={`Get Best Furnitures Online`} />
@@ -21,7 +20,7 @@ export const Homepage = () => {
           <div className='col-lg-5'>
             <div className='intro-excerpt'>
               <h1 data-aos='fade-down' data-aos-duration='3000'>
-                Modern Interior <span clsas='d-block'>Design Studio</span>
+                Modern Interior <span className='d-block'>Design Studio</span>
               </h1>
               <p
                 className='mb-4'
@@ -66,3 +65,5 @@ export const Homepage = () => {
     </>
   );
 };
+
+export default Landing;

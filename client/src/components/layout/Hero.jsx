@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Hero = ({ children, title, description, isShop = false }) => {
   return (
     <div className='hero'>

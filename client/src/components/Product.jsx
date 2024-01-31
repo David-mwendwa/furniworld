@@ -1,9 +1,8 @@
-import React from 'react';
-import Header from './layout/Header.js';
-import Footer from './layout/Footer.js';
-import ProductDetails from './ProductDetails.js';
-import Hero from './layout/Hero.js';
-import products from '../PRODUCTS.js';
+import Header from './layout/Header';
+import Footer from './layout/Footer';
+import ProductDetails from './ProductDetails';
+import Hero from './layout/Hero';
+import products from '../PRODUCTS';
 
 const Product = () => {
   return (
@@ -21,7 +20,7 @@ const Product = () => {
         <div className='container'>
           <div className='row'>
             {products.map((product) => (
-              <div className='col-12 col-md-4 col-lg-3 mb-5'>
+              <div key={product.name} className='col-12 col-md-4 col-lg-3 mb-5'>
                 <ProductDetails key={product.name} product={product} />
               </div>
             ))}

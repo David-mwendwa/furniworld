@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { useDashboardContext } from '../DashboardLayout';
+import { useDashboardContext } from '../layout/DashboardLayout';
 
 // import react icons
 import { FaClipboardList } from 'react-icons/fa';
