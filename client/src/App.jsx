@@ -26,6 +26,7 @@ import OrderDetails from './dashboard/admin/OrderDetails';
 import EditUser from './dashboard/admin/EditUser';
 
 import { action as registerAction } from './components/user/Register';
+import { action as loginAction } from './components/user/Login';
 import { loader as dashboardLoader } from './dashboard/layout/DashboardLayout';
 
 const checkDefaultTheme = () => {
@@ -43,7 +44,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Landing /> },
       { path: 'register', element: <Register />, action: registerAction },
-      { path: 'login', element: <Login /> },
+      { path: 'login', element: <Login />, action: loginAction },
       { path: 'shop', element: <Product /> },
       { path: 'about', element: <About /> },
       { path: 'services', element: <Services /> },
