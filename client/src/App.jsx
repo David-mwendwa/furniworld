@@ -25,6 +25,9 @@ import UsersList from './dashboard/admin/UsersList';
 import OrderDetails from './dashboard/admin/OrderDetails';
 import EditUser from './dashboard/admin/EditUser';
 
+import { action as registerAction } from './components/user/Register';
+import { loader as dashboardLoader } from './dashboard/layout/DashboardLayout';
+
 const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem('darkTheme') === 'true';
   document.body.classList.toggle('dark-theme', isDarkTheme);
@@ -39,7 +42,7 @@ const router = createBrowserRouter([
     errorElement: <h1>ERROR</h1>,
     children: [
       { index: true, element: <Landing /> },
-      { path: 'register', element: <Register /> },
+      { path: 'register', element: <Register />, action: registerAction },
       { path: 'login', element: <Login /> },
       { path: 'shop', element: <Product /> },
       { path: 'about', element: <About /> },
@@ -54,6 +57,7 @@ const router = createBrowserRouter([
       {
         path: 'dashboard',
         element: <DashboardLayout isDarkThemeEnabled={isDarkThemeEnabled} />,
+        loader: dashboardLoader,
         children: [
           {
             index: true,

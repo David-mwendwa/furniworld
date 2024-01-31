@@ -1,7 +1,20 @@
 import Header from '../layout/Header';
 import Footer from '../layout/Footer';
 import Hero from '../layout/Hero';
-import { Link } from 'react-router-dom';
+import { Form, Link, redirect } from 'react-router-dom';
+import customFetch from '../../utils/customFetch';
+
+export const action = async ({ request }) => {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+  try {
+    await customFetch.post('/user/register', data);
+    return redirect('/dashboard');
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
 
 const Register = () => {
   return (
@@ -24,38 +37,30 @@ const Register = () => {
                   Returning customer? <Link to='/login'>Click here</Link> to
                   login
                 </div>
-                <form>
+                <Form method='post'>
                   <div className='row'>
-                    <div className='col-6'>
-                      <div className='form-group'>
-                        <label className='text-black' htmlFor='fname'>
-                          First name
-                        </label>
-                        <input
-                          type='text'
-                          className='form-control'
-                          id='fname'
-                        />
-                      </div>
-                    </div>
-                    <div className='col-6'>
-                      <div className='form-group'>
-                        <label className='text-black' htmlFor='lname'>
-                          Last name
-                        </label>
-                        <input
-                          type='text'
-                          className='form-control'
-                          id='lname'
-                        />
-                      </div>
+                    <div className='form-group'>
+                      <label className='text-black' htmlFor='name'>
+                        Full name
+                      </label>
+                      <input
+                        type='text'
+                        className='form-control'
+                        name='name'
+                        id='name'
+                      />
                     </div>
                   </div>
                   <div className='form-group'>
                     <label className='text-black' htmlFor='email'>
                       Email address
                     </label>
-                    <input type='email' className='form-control' id='email' />
+                    <input
+                      type='email'
+                      className='form-control'
+                      name='email'
+                      id='email'
+                    />
                   </div>
                   <div className='form-group'>
                     <label className='text-black' htmlFor='password'>
@@ -64,6 +69,7 @@ const Register = () => {
                     <input
                       type='password'
                       className='form-control'
+                      name='password'
                       id='password'
                     />
                   </div>
@@ -74,6 +80,7 @@ const Register = () => {
                     <input
                       type='password'
                       className='form-control'
+                      name='passwordConfirm'
                       id='passwordConfirm'
                     />
                   </div>
@@ -83,7 +90,7 @@ const Register = () => {
                     className='btn btn-primary-hover-outline mt-5'>
                     Register
                   </button>
-                </form>
+                </Form>
               </div>
             </div>
           </div>
