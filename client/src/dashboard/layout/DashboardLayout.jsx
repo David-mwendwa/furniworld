@@ -1,22 +1,28 @@
 import { createContext, useContext, useState } from 'react';
-import { Outlet, useLoaderData } from 'react-router-dom';
+import { Outlet, redirect, useLoaderData } from 'react-router-dom';
 
 import Navbar from '../header/Navbar';
 import BigSidebar from '../header/BigSidebar';
 import SmallSidebar from '../header/SmallSidebar';
 
 import Wrapper from './DashboardLayout.styles';
+import customFetch from '../../utils/customFetch';
 
-export const loader = () => {
-  return 'hello world';
+export const loader = async () => {
+  try {
+    const { data } = await customFetch.get('/user/my-profile');
+    return data;
+  } catch (error) {
+    return redirect('/');
+  }
 };
 
 const DashboardContext = createContext();
 
 const DashboardLayout = () => {
-  const data = useLoaderData();
+  const { data: user } = useLoaderData();
 
-  const user = { name: 'David' };
+  // const user = { name: 'David' };
   const [showSidebar, setShowSidebar] = useState(false);
   const [isDarkTheme, setIsDarkTheme] = useState(false);
 
@@ -52,7 +58,7 @@ const DashboardLayout = () => {
           <div>
             <Navbar />
             <div className='dashboard-page'>
-              <Outlet />
+              <Outlet context={{ user }} />
             </div>
           </div>
         </main>
