@@ -1,6 +1,25 @@
-import React from 'react';
+import { Form, redirect, useNavigation } from 'react-router-dom';
+import customFetch from '../../utils/customFetch';
+import { toast } from 'react-toastify';
+
+export const action = async ({ request }) => {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+  console.log({ data });
+  try {
+    await customFetch.post('/user/password-forgot', data);
+    toast.success('Check your email for password reset link');
+    return redirect('/');
+  } catch (error) {
+    toast.error(error?.response?.data?.message || error?.message);
+    return error;
+  }
+};
 
 const PasswordForgot = () => {
+  const navigation = useNavigation();
+  const isSubmitting = /submitting/.test(navigation.state);
+
   return (
     <>
       <div className='untree_co-section'>
@@ -14,7 +33,7 @@ const PasswordForgot = () => {
                 <div className='pb-4 rounded' role='alert'>
                   We will send you an email to reset your password
                 </div>
-                <form>
+                <Form method='post'>
                   <div className='form-group'>
                     <label className='text-black' htmlFor='email'>
                       Email address
@@ -22,6 +41,7 @@ const PasswordForgot = () => {
                     <input
                       type='email'
                       className='form-control'
+                      name='email'
                       id='email'
                       required
                     />
@@ -29,10 +49,11 @@ const PasswordForgot = () => {
 
                   <button
                     type='submit'
-                    className='btn btn-primary-hover-outline mt-4'>
-                    Submit
+                    className='btn btn-primary-hover-outline mt-4'
+                    disabled={isSubmitting}>
+                    {isSubmitting ? 'Submitting...' : 'Submit'}
                   </button>
-                </form>
+                </Form>
               </div>
             </div>
           </div>

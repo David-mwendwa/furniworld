@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import { promises as fs } from 'fs';
 import User from '../models/User.js';
 import {
   BadRequestError,
@@ -20,12 +21,13 @@ export const register = async (req, res, next) => {
   if (userExists) throw new BadRequestError('Email already in use');
 
   let result;
-  if (req.body.avatar) {
-    result = await uploadToCloudinary(req.body.avatar, {
+  if (req.body.avatar || req.file) {
+    result = await uploadToCloudinary(req.body.avatar || req.file.path, {
       folder: 'furniworld/users',
       width: '150',
       crop: 'scale',
     });
+    req.file.path && (await fs.unlink(req.file.path));
   }
 
   const user = await User.create({
@@ -79,14 +81,15 @@ export const updateProfile = async (req, res) => {
     user.name = req.body.name;
     user.email = req.body.email;
   }
-  if (req.body.avatar) {
+  if (req.body.avatar || req.file) {
     await removeFromCloudinary(user.avatar.public_id);
 
-    const result = await uploadToCloudinary(req.body.avatar, {
+    const result = await uploadToCloudinary(req.body.avatar || req.file.path, {
       folder: 'furniworld/users',
       width: '150',
       crop: 'scale',
     });
+    req.file.path && (await fs.unlink(req.file.path));
 
     user.avatar = {
       public_id: result.public_id,
@@ -128,7 +131,7 @@ export const forgotPassword = async (req, res, next) => {
   const resetToken = user.generatePasswordResetToken();
   await user.save({ validateBeforeSave: false }); // validateBeforeSave option is very crucial here!
 
-  let resetUrl = `http://localhost:3000/password-reset/${resetToken}`;
+  let resetUrl = `http://localhost:5173/password-reset/${resetToken}`;
   if (/production/i.test(process.env.NODE_ENV)) {
     const protocol = req.protocol;
     const host = req.get('host');

@@ -27,6 +27,7 @@ import EditUser from './dashboard/admin/EditUser';
 
 import { action as registerAction } from './components/user/Register';
 import { action as loginAction } from './components/user/Login';
+import { action as forgotPasswordAction } from './components/user/PasswordForgot';
 import { loader as dashboardLoader } from './dashboard/layout/DashboardLayout';
 
 const checkDefaultTheme = () => {
@@ -53,7 +54,11 @@ const router = createBrowserRouter([
       { path: 'checkout', element: <Checkout /> },
       { path: 'thankyou', element: <ThankYou /> },
       { path: 'profile', element: <Profile /> },
-      { path: 'password-forgot', element: <PasswordForgot /> },
+      {
+        path: 'password-forgot',
+        element: <PasswordForgot />,
+        action: forgotPasswordAction,
+      },
       { path: 'password-reset/:token', element: <PasswordReset /> },
       {
         path: 'dashboard',
