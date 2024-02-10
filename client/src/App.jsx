@@ -28,6 +28,7 @@ import EditUser from './dashboard/admin/EditUser';
 import { action as registerAction } from './components/user/Register';
 import { action as loginAction } from './components/user/Login';
 import { action as forgotPasswordAction } from './components/user/PasswordForgot';
+import { action as passwordResetAction } from './components/user/PasswordReset';
 import { loader as dashboardLoader } from './dashboard/layout/DashboardLayout';
 
 const checkDefaultTheme = () => {
@@ -59,7 +60,11 @@ const router = createBrowserRouter([
         element: <PasswordForgot />,
         action: forgotPasswordAction,
       },
-      { path: 'password-reset/:token', element: <PasswordReset /> },
+      {
+        path: 'password-reset/:token',
+        element: <PasswordReset />,
+        action: passwordResetAction,
+      },
       {
         path: 'dashboard',
         element: <DashboardLayout isDarkThemeEnabled={isDarkThemeEnabled} />,
