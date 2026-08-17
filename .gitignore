@@ -1,0 +1,21 @@
+node_modules/
+
+# Env files — every variant, at any depth
+**/.env
+**/.env.*
+!**/.env.example
+
+# Build output
+dist/
+build/
+
+# Admin image uploads are runtime data, not source. The seeded catalogue photos
+# under backend/public/images ARE committed.
+backend/public/uploads/
+
+# Logs and OS noise
+*.log
+npm-debug.log*
+.DS_Store
+.vscode/
+.idea/

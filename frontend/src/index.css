@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-sans: 'Jost', system-ui, -apple-system, sans-serif;
+    --font-heading: 'Cormorant Garamond', Georgia, serif;
+    --header-h: 4.5rem;
+  }
+
+  html {
+    /* Reserves the scrollbar gutter so navigating between a short and a tall
+       page does not shift the layout sideways. */
+    scrollbar-gutter: stable;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-cream font-sans font-light text-dark-800 antialiased;
+  }
+
+  /* Cormorant is a high-contrast display serif and gets fragile below ~24px, so
+     only the two largest headings use it. Everything else stays in Jost. */
+  h1,
+  h2 {
+    @apply font-heading font-semibold text-primary-950;
+  }
+
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-sans font-medium text-primary-950;
+  }
+
+  ::selection {
+    @apply bg-primary-200 text-primary-950;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-secondary-600 ring-offset-2 ring-offset-cream;
+  }
+}
+
+@layer components {
+  .eyebrow {
+    @apply text-xs font-medium uppercase tracking-[0.18em] text-dark-500;
+  }
+
+  .hairline {
+    @apply border-dark-200;
+  }
+
+  .skeleton {
+    @apply relative overflow-hidden bg-dark-200/60;
+  }
+
+  .skeleton::after {
+    @apply absolute inset-0 animate-shimmer bg-gradient-to-r from-transparent via-white/50 to-transparent;
+    content: '';
+    transform: translateX(-100%);
+  }
+}
+
+@layer utilities {
+  .hide-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.app-dialog::backdrop {
+  background: rgba(42, 27, 19, 0.45);
+  backdrop-filter: blur(2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

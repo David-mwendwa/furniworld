@@ -1,0 +1,62 @@
+# Render blueprint for the Furniworld API. The React frontend deploys
+# separately on Netlify (see netlify.toml).
+#
+# Every `sync: false` var must be filled in from the Render dashboard on first
+# deploy — they are secrets or environment-specific URLs and are deliberately
+# not stored in the repo. backend/.env.example documents each one.
+#
+# Note on images: the 50 seeded product photos are committed under
+# backend/public/images/products and ship with the service. Admin uploads land in
+# backend/public/uploads, which is ephemeral on Render — they survive until the
+# next deploy. Moving uploads to object storage is the fix if that matters.
+services:
+  - type: web
+    name: furniworld-api
+    runtime: node
+    plan: free
+    # Closest Render region to Kenya.
+    region: frankfurt
+    rootDir: backend
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Render injects PORT itself; server.js reads it.
+
+      # --- Database ---
+      # A MongoDB Atlas connection string.
+      - key: DATABASE_URL
+        sync: false
+
+      # --- Auth ---
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: JWT_COOKIE_EXPIRES_IN
+        value: "7"
+
+      # --- URLs (CORS allowlist) ---
+      # The Netlify site URL, no trailing slash. CORS rejects anything else, so
+      # the frontend cannot talk to the API until this is set.
+      - key: PROD_FRONTEND_URL
+        sync: false
+
+      # --- Mail (password reset) ---
+      # Left unset, reset emails are logged instead of sent; nothing else
+      # depends on it.
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        sync: false
+      - key: SMTP_USERNAME
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: SMTP_FROM_NAME
+        value: Furniworld
+      - key: SMTP_FROM_EMAIL
+        sync: false

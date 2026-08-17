@@ -1,0 +1,21 @@
+{
+  "name": "furniworld",
+  "version": "1.0.0",
+  "description": "Furniworld — a Kenyan furniture marketplace built with the MERN stack",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently --kill-others-on-fail -n api,web -c magenta,cyan \"npm run server\" \"npm run client\"",
+    "server": "npm run dev --prefix backend",
+    "client": "npm run dev --prefix frontend",
+    "build": "npm run build --prefix frontend",
+    "start": "npm start --prefix backend",
+    "seed": "npm run seed --prefix backend",
+    "seed:demo": "npm run seed:demo --prefix backend",
+    "install:all": "npm install && npm install --prefix backend && npm install --prefix frontend"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
