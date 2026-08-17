@@ -3,7 +3,9 @@
 A furniture marketplace for Kenyan homes and offices, built with the MERN stack —
 storefront, cart, checkout, order tracking and a full staff dashboard.
 
-Live demo: frontend on Netlify, API on Render. Payments are simulated.
+Live demo: frontend on Netlify, API on Render. Card and M-Pesa run against real
+test/sandbox gateways; every payment is also checked by a person before an order
+ships — see [Payments](#payments) below.
 
 ## Stack
 
@@ -74,17 +76,45 @@ resolved server-side, so a cart left open for a week cannot be used to buy at a
 stale price. A guest cart merges into the account on sign-in.
 
 **Checkout** — Kenyan county-based delivery bands, 16% VAT, free delivery over
-KES 150,000, three simulated payment methods. Totals are always recomputed on the
-server from database prices. Stock is decremented conditionally, so two shoppers
-racing for the last unit cannot both succeed.
+KES 150,000, four payment methods (see below). Totals are always recomputed on
+the server from database prices. Stock is decremented conditionally, so two
+shoppers racing for the last unit cannot both succeed.
 
 **Account** — order history with status timeline, self-service cancellation while
-an order is still cancellable, profile and password management, and your reviews.
+an order is still cancellable, a payment-claim box for confirming a bank transfer
+or a payment the app couldn't verify itself, profile and password management, and
+your reviews.
 
 **Admin** (`/admin`, role-guarded) — revenue and order stats, 30-day revenue
 chart, best sellers, low-stock list, product CRUD with multi-image upload, order
-management with enforced status transitions, user role management and review
-moderation.
+management with enforced status transitions, a payments review queue, user role
+management and review moderation.
+
+## Payments
+
+An order is created unpaid; money is taken in a second step against it, and
+`payment.status` (what the gateway reports) is deliberately a different field
+from `payment.verification.state` (what a person has checked) — a gateway saying
+"paid" is a claim, not proof, since every path here can technically report
+success with nothing having moved:
+
+- **Card** — real Stripe test-mode PaymentIntents, including a 3D-Secure
+  challenge when the test card asks for one.
+- **M-Pesa** — a real Safaricom Daraja STK push. The sandbox app has no test
+  MSISDN that can approve one, so the demo also settles the order locally a
+  moment after the push goes out (`MPESA_SIMULATE_CALLBACK=true`); the real
+  (always-failing) sandbox callback is safely ignored once that has happened.
+- **Cash on delivery / bank transfer** — the order stays unpaid until a person
+  confirms it. The customer can submit a transaction reference from their order
+  page, and `/admin/payments` is the queue where staff confirm or reject it —
+  rejecting requires a reason the customer sees, and does not cancel the order,
+  since a wrong reference is usually a typo, not fraud.
+
+`GET /payments/config` reports which methods actually have credentials set, and
+the checkout disables anything unconfigured rather than offering a method whose
+gateway call is guaranteed to fail. Card and M-Pesa share Stripe/Daraja
+test-sandbox credentials with BazaarKE (another project in this workspace); real
+production credentials would replace them, not the flow.
 
 ## Catalogue
 

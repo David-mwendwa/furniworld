@@ -1,25 +1,58 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { ShoppingBag, Lock } from 'lucide-react';
-import { Container, EmptyState, Price } from '../components/ui/Feedback.jsx';
+import { loadStripe } from '@stripe/stripe-js';
+import {
+  Elements,
+  CardElement,
+  useStripe,
+  useElements,
+} from '@stripe/react-stripe-js';
+import { Container, EmptyState, Price, Skeleton } from '../components/ui/Feedback.jsx';
 import Button from '../components/ui/Button.jsx';
 import { Stepper } from '../components/ui/Controls.jsx';
 import { Input, Select, Textarea } from '../components/ui/Field.jsx';
-import { ordersApi } from '../api/index.js';
+import { ordersApi, paymentsApi } from '../api/index.js';
 import { errorMessage } from '../api/apiClient.js';
 import { useCart } from '../context/CartProvider.jsx';
 import { useAuth } from '../context/AuthProvider.jsx';
 import { useToast } from '../context/ToastProvider.jsx';
 import { assetUrl } from '../lib/images.js';
 import { formatPrice } from '../lib/format.js';
-import { PAYMENT_METHODS, DELIVERY_NOTE } from '../constants/catalog.js';
+import { DELIVERY_NOTE } from '../constants/catalog.js';
 import { COUNTIES, deliveryBandFor } from '../constants/counties.js';
 
-const Checkout = () => {
+const cardElementStyle = {
+  style: {
+    base: {
+      fontFamily: 'Jost, sans-serif',
+      fontSize: '14px',
+      color: '#2b2622',
+      '::placeholder': { color: '#9c9187' },
+    },
+    invalid: { color: '#b3452e' },
+  },
+};
+
+/**
+ * Card details are collected here rather than in the parent component because
+ * `CardElement` and the Stripe hooks only work inside an `<Elements>` tree.
+ * Card confirmation (including any 3D-Secure challenge) happens on submit,
+ * against the order the parent has already created.
+ */
+const CardPaymentFields = ({ onCardChange }) => (
+  <div className="border border-dark-300 bg-white/70 px-4 py-3.5">
+    <CardElement options={cardElementStyle} onChange={onCardChange} />
+  </div>
+);
+
+const Checkout = ({ config }) => {
   const { items, itemsTotal, clear } = useCart();
   const { user } = useAuth();
   const toast = useToast();
   const navigate = useNavigate();
+  const stripe = useStripe();
+  const elements = useElements();
 
   const [address, setAddress] = useState({
     fullName: user?.name ?? '',
@@ -32,7 +65,11 @@ const Checkout = () => {
     postalCode: '',
     deliveryNotes: '',
   });
-  const [paymentMethod, setPaymentMethod] = useState('mpesa-simulated');
+  const [paymentMethod, setPaymentMethod] = useState(
+    () => config.methods.find((m) => m.enabled)?.id ?? ''
+  );
+  const [mpesaPhone, setMpesaPhone] = useState(user?.phone ?? '');
+  const [cardComplete, setCardComplete] = useState(false);
   const [quote, setQuote] = useState(null);
   const [placing, setPlacing] = useState(false);
 
@@ -61,11 +98,22 @@ const Checkout = () => {
     fetchQuote();
   }, [fetchQuote]);
 
+  /**
+   * Two phases: the order is created first, unpaid, and only then is money
+   * actually moved against it. Cash on delivery and bank transfer stop there —
+   * they stay `payment.status: pending` until a person confirms them.
+   */
   const submit = async (event) => {
     event.preventDefault();
+    if (!paymentMethod) return;
+    if (paymentMethod === 'card' && (!stripe || !elements || !cardComplete)) {
+      toast.error('Enter your card details');
+      return;
+    }
+
     setPlacing(true);
     try {
-      const { data } = await ordersApi.create({
+      const { data: created } = await ordersApi.create({
         shippingAddress: address,
         paymentMethod,
         items: items.map((line) => ({
@@ -73,14 +121,49 @@ const Checkout = () => {
           quantity: line.quantity,
         })),
       });
+      const order = created.order;
+
+      if (paymentMethod === 'card') {
+        const { paymentMethod: pm, error: pmError } = await stripe.createPaymentMethod({
+          type: 'card',
+          card: elements.getElement(CardElement),
+          billing_details: { name: address.fullName, email: address.email },
+        });
+        if (pmError) throw new Error(pmError.message);
+
+        const { data: result } = await paymentsApi.card({
+          orderId: order._id,
+          paymentMethodId: pm.id,
+        });
+
+        if (result.requiresAction) {
+          const { error: actionError } = await stripe.confirmCardPayment(
+            result.clientSecret
+          );
+          if (actionError) throw new Error(actionError.message);
+        }
+      } else if (paymentMethod === 'mpesa') {
+        const { data: result } = await paymentsApi.mpesa({
+          orderId: order._id,
+          phone: mpesaPhone,
+        });
+        toast.success(result.message);
+      }
+
       await clear();
-      navigate(`/checkout/success/${data.order.orderNumber}`, { replace: true });
+      navigate(`/checkout/success/${order.orderNumber}`, { replace: true });
     } catch (error) {
       toast.error(errorMessage(error));
     } finally {
       setPlacing(false);
     }
   };
+
+  const submitLabel = useMemo(() => {
+    if (paymentMethod === 'card') return 'Pay and place order';
+    if (paymentMethod === 'mpesa') return 'Pay with M-Pesa';
+    return 'Place order';
+  }, [paymentMethod]);
 
   if (!items.length)
     return (
@@ -184,20 +267,24 @@ const Checkout = () => {
             <h2 className="font-sans text-sm font-medium uppercase tracking-[0.16em]">
               Payment
             </h2>
+
             <div className="space-y-3">
-              {PAYMENT_METHODS.map((method) => (
+              {config.methods.map((method) => (
                 <label
-                  key={method.value}
-                  className={`flex cursor-pointer items-start gap-4 border px-5 py-4 transition-colors ${
-                    paymentMethod === method.value
-                      ? 'border-primary-700 bg-primary-50'
-                      : 'border-dark-200 hover:border-dark-300'
+                  key={method.id}
+                  className={`flex items-start gap-4 border px-5 py-4 transition-colors ${
+                    !method.enabled
+                      ? 'cursor-not-allowed border-dark-200 opacity-50'
+                      : paymentMethod === method.id
+                        ? 'cursor-pointer border-primary-700 bg-primary-50'
+                        : 'cursor-pointer border-dark-200 hover:border-dark-300'
                   }`}>
                   <input
                     type="radio"
                     name="paymentMethod"
-                    value={method.value}
-                    checked={paymentMethod === method.value}
+                    value={method.id}
+                    checked={paymentMethod === method.id}
+                    disabled={!method.enabled}
                     onChange={(event) => setPaymentMethod(event.target.value)}
                     className="mt-0.5 text-primary-700 focus:ring-secondary-600"
                   />
@@ -210,10 +297,31 @@ const Checkout = () => {
                 </label>
               ))}
             </div>
+
+            {paymentMethod === 'card' && (
+              <CardPaymentFields
+                onCardChange={(event) => setCardComplete(event.complete)}
+              />
+            )}
+
+            {paymentMethod === 'mpesa' && (
+              <Input
+                label="M-Pesa phone number"
+                required
+                value={mpesaPhone}
+                onChange={(event) => setMpesaPhone(event.target.value)}
+                placeholder="0712345678"
+                hint={
+                  config.config.mpesaSimulated
+                    ? "The Daraja sandbox can't approve a real push, so this demo settles it locally moments after sending."
+                    : "We'll send a prompt to this number."
+                }
+              />
+            )}
+
             <p className="flex items-center gap-2 text-xs text-dark-500">
               <Lock className="h-3.5 w-3.5" />
-              This is a portfolio project — no real payment is taken and no order
-              is fulfilled.
+              Card payments run in Stripe test mode; nothing is really charged.
             </p>
           </section>
         </div>
@@ -280,8 +388,8 @@ const Checkout = () => {
               size="lg"
               className="w-full"
               loading={placing}
-              disabled={!quote}>
-              Place order
+              disabled={!quote || !paymentMethod}>
+              {submitLabel}
             </Button>
             <Link
               to="/cart"
@@ -295,4 +403,45 @@ const Checkout = () => {
   );
 };
 
-export default Checkout;
+let stripePromise;
+const getStripe = (key) => {
+  if (!stripePromise) stripePromise = key ? loadStripe(key) : Promise.resolve(null);
+  return stripePromise;
+};
+
+/**
+ * `CardElement`/`useStripe`/`useElements` only work inside an `<Elements>`
+ * ancestor, and the key it loads Stripe.js with comes from the server — not a
+ * separate frontend env var — so the deployed key can never drift from the one
+ * `/payments/config` used to decide whether card is even offered. That means
+ * fetching config here, before anything renders, rather than inside
+ * `Checkout` itself.
+ */
+const CheckoutWithStripe = () => {
+  const toast = useToast();
+  const [config, setConfig] = useState(null);
+
+  useEffect(() => {
+    paymentsApi
+      .config()
+      .then(({ data }) => setConfig(data))
+      .catch(() => toast.error('Could not load payment options'));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (!config)
+    return (
+      <Container className="py-14">
+        <Skeleton className="h-10 w-1/3" />
+        <Skeleton className="mt-8 h-96 w-full" />
+      </Container>
+    );
+
+  return (
+    <Elements stripe={getStripe(config.config.stripePublishableKey)}>
+      <Checkout config={config} />
+    </Elements>
+  );
+};
+
+export default CheckoutWithStripe;

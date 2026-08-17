@@ -37,6 +37,17 @@ export const ordersApi = {
   mineByNumber: (orderNumber) => apiClient.get(`/orders/my/${orderNumber}`),
   cancelMine: (orderNumber, reason) =>
     apiClient.patch(`/orders/my/${orderNumber}/cancel`, { reason }),
+  submitPaymentReference: (orderNumber, payload) =>
+    apiClient.post(`/orders/my/${orderNumber}/payment/reference`, payload),
+};
+
+export const paymentsApi = {
+  config: () => apiClient.get('/payments/config'),
+  card: (payload) => apiClient.post('/payments/card', payload),
+  mpesa: (payload) => apiClient.post('/payments/mpesa', payload),
+  status: (orderNumber) => apiClient.get(`/payments/status/${orderNumber}`),
+  reviewQueue: (params) => apiClient.get('/payments/review', { params }),
+  review: (id, payload) => apiClient.patch(`/payments/review/${id}`, payload),
 };
 
 export const usersApi = {
@@ -74,4 +85,8 @@ export const adminApi = {
   reviews: (params) => apiClient.get('/reviews', { params }),
   setReviewStatus: (id, status) =>
     apiClient.patch(`/reviews/${id}/status`, { status }),
+};
+
+export const subscribersApi = {
+  subscribe: (email) => apiClient.post('/subscribers', { email, source: 'newsletter' }),
 };

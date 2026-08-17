@@ -1,9 +1,13 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Truck, ShieldCheck, Wrench, Sparkles, ArrowRight } from 'lucide-react';
+import { Truck, ShieldCheck, Wrench, Sparkles, ArrowRight, Check } from 'lucide-react';
 import { Container, SectionHeading } from '../ui/Feedback.jsx';
 import Button from '../ui/Button.jsx';
 import { CATEGORIES } from '../../constants/catalog.js';
 import { assetUrl } from '../../lib/images.js';
+import { subscribersApi } from '../../api/index.js';
+import { errorMessage } from '../../api/apiClient.js';
+import { useAuth } from '../../context/AuthProvider.jsx';
 
 const VALUES = [
   {
@@ -120,30 +124,83 @@ export const EditorialSplit = ({ product }) => (
   </section>
 );
 
-export const Newsletter = () => (
-  <Container className="py-20">
-    <div className="border border-dark-200 bg-white/50 px-8 py-14 text-center lg:px-16">
-      <p className="eyebrow">Stay in touch</p>
-      <h2 className="mx-auto mt-3 max-w-xl text-display-sm lg:text-4xl">
-        New arrivals, and the sales worth knowing about
-      </h2>
-      <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-dark-600">
-        One email a month. Nothing else, and no sharing your address with anyone.
-      </p>
-      <form
-        onSubmit={(event) => event.preventDefault()}
-        className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row">
-        <input
-          type="email"
-          required
-          placeholder="you@example.com"
-          aria-label="Email address"
-          className="h-12 flex-1 border-dark-300 bg-white text-sm focus:border-primary-600 focus:ring-0"
-        />
-        <Button type="submit" size="lg">
-          Subscribe
-        </Button>
-      </form>
-    </div>
-  </Container>
-);
+export const Newsletter = () => {
+  const { user, setUser } = useAuth();
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState('idle'); // idle | loading | done
+  const [error, setError] = useState('');
+
+  // Signed in, this writes the same `newsletterOptIn` flag the account page's
+  // toggle does, and mails the account's own address — never a typed-in one a
+  // signed-in visitor didn't mean to use.
+  const submit = async (event) => {
+    event.preventDefault();
+    setStatus('loading');
+    setError('');
+    try {
+      const { data } = await subscribersApi.subscribe(email);
+      if (user) setUser({ ...user, newsletterOptIn: data.newsletterOptIn });
+      setStatus('done');
+    } catch (err) {
+      setError(errorMessage(err));
+      setStatus('idle');
+    }
+  };
+
+  const alreadySubscribed = user?.newsletterOptIn;
+
+  return (
+    <Container className="py-20">
+      <div className="border border-dark-200 bg-white/50 px-8 py-14 text-center lg:px-16">
+        <p className="eyebrow">Stay in touch</p>
+        <h2 className="mx-auto mt-3 max-w-xl text-display-sm lg:text-4xl">
+          New arrivals, and the sales worth knowing about
+        </h2>
+        <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-dark-600">
+          One email a month. Nothing else, and no sharing your address with anyone.
+        </p>
+
+        {alreadySubscribed || status === 'done' ? (
+          <p className="mx-auto mt-8 flex max-w-md items-center justify-center gap-2 text-sm text-primary-800">
+            <Check className="h-4 w-4" />
+            {alreadySubscribed
+              ? "You're already on the list."
+              : "You're on the list — thanks for signing up."}
+            {user && (
+              <Link to="/account/profile" className="underline">
+                Manage
+              </Link>
+            )}
+          </p>
+        ) : user ? (
+          <form onSubmit={submit} className="mx-auto mt-8 max-w-md">
+            <p className="mb-3 text-xs text-dark-500">
+              We'll use the email on your account, {user.email}.
+            </p>
+            <Button type="submit" size="lg" loading={status === 'loading'}>
+              Subscribe
+            </Button>
+          </form>
+        ) : (
+          <form
+            onSubmit={submit}
+            className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row">
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              placeholder="you@example.com"
+              aria-label="Email address"
+              className="h-12 flex-1 border-dark-300 bg-white text-sm focus:border-primary-600 focus:ring-0"
+            />
+            <Button type="submit" size="lg" loading={status === 'loading'}>
+              Subscribe
+            </Button>
+          </form>
+        )}
+        {error && <p className="mt-3 text-xs text-danger-600">{error}</p>}
+      </div>
+    </Container>
+  );
+};

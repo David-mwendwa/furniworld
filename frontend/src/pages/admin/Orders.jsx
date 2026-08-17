@@ -13,6 +13,7 @@ import { adminApi } from '../../api/index.js';
 import { useFetch } from '../../hooks/useFetch.js';
 import { useDebounce } from '../../hooks/useDebounce.js';
 import { formatDate } from '../../lib/format.js';
+import { paymentLabel } from '../../lib/payment.js';
 import { ORDER_STATUS_LABELS } from '../../constants/catalog.js';
 
 const AdminOrders = () => {
@@ -116,7 +117,10 @@ const AdminOrders = () => {
                     {formatDate(order.createdAt)}
                   </td>
                   <td className="py-3.5">
-                    <StatusPill status={order.paymentStatus} />
+                    <StatusPill
+                      status={order.payment?.status}
+                      label={paymentLabel(order.payment?.status)}
+                    />
                   </td>
                   <td className="py-3.5">
                     <StatusPill status={order.status} />

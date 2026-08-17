@@ -1,18 +1,21 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, Search, ShoppingBag, User, X, LayoutDashboard } from 'lucide-react';
+import { Menu, Search, ShoppingBag, User, X, LayoutDashboard, LogOut } from 'lucide-react';
 import Logo from './Logo.jsx';
+import AccountMenu from './AccountMenu.jsx';
 import { Container } from '../ui/Feedback.jsx';
 import { CATEGORIES } from '../../constants/catalog.js';
 import { useCart } from '../../context/CartProvider.jsx';
 import { useAuth } from '../../context/AuthProvider.jsx';
+import { useToast } from '../../context/ToastProvider.jsx';
 import { useScrolled } from '../../hooks/useScrolled.js';
 import { cn } from '../../lib/cn.js';
 
 const Header = () => {
   const scrolled = useScrolled();
   const { itemCount, openCart } = useCart();
-  const { isAuthenticated, isAdmin, user } = useAuth();
+  const { isAuthenticated, isAdmin, user, logout } = useAuth();
+  const toast = useToast();
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [term, setTerm] = useState('');
@@ -103,21 +106,13 @@ const Header = () => {
             {isAdmin && (
               <Link
                 to="/admin"
-                aria-label="Admin dashboard"
+                aria-label="Dashboard"
                 className="hidden h-10 w-10 items-center justify-center text-dark-600 transition-colors hover:text-primary-800 lg:flex">
                 <LayoutDashboard className="h-[18px] w-[18px]" />
               </Link>
             )}
 
-            <Link
-              to={isAuthenticated ? '/account' : '/login'}
-              aria-label={isAuthenticated ? 'Your account' : 'Sign in'}
-              className="flex h-10 items-center gap-2 px-2 text-dark-600 transition-colors hover:text-primary-800">
-              <User className="h-[18px] w-[18px]" />
-              <span className="hidden text-xs font-medium uppercase tracking-[0.14em] xl:inline">
-                {isAuthenticated ? user.name.split(' ')[0] : 'Sign in'}
-              </span>
-            </Link>
+            <AccountMenu />
 
             <button
               onClick={openCart}
@@ -145,6 +140,46 @@ const Header = () => {
       {menuOpen && (
         <div className="animate-fade-in border-t border-dark-200 bg-cream lg:hidden">
           <Container className="space-y-1 py-5">
+            {isAuthenticated ? (
+              <div className="mb-4 flex items-center justify-between gap-3 border border-dark-200 bg-white/60 px-4 py-3">
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-medium text-dark-900">
+                    Hello, {user.name.split(' ')[0]}
+                  </p>
+                  <Link
+                    to="/account/orders"
+                    className="text-xs text-primary-800 underline underline-offset-2">
+                    View your orders
+                  </Link>
+                </div>
+                <button
+                  type="button"
+                  onClick={async () => {
+                    await logout();
+                    toast.success('Signed out');
+                    navigate('/');
+                  }}
+                  className="flex shrink-0 items-center gap-1.5 text-xs font-medium uppercase tracking-[0.1em] text-dark-500 hover:text-danger-600">
+                  <LogOut className="h-3.5 w-3.5" />
+                  Sign out
+                </button>
+              </div>
+            ) : (
+              <div className="mb-4 flex gap-2">
+                <Link
+                  to="/login"
+                  className="flex flex-1 items-center justify-center gap-2 border border-primary-800 bg-primary-800 py-3 text-xs font-medium uppercase tracking-[0.12em] text-cream">
+                  <User className="h-4 w-4" />
+                  Sign in
+                </Link>
+                <Link
+                  to="/register"
+                  className="flex flex-1 items-center justify-center py-3 text-xs font-medium uppercase tracking-[0.12em] text-primary-900 border border-primary-800">
+                  Create account
+                </Link>
+              </div>
+            )}
+
             <form onSubmit={submitSearch} className="mb-4 flex items-center gap-2">
               <input
                 value={term}
@@ -184,7 +219,7 @@ const Header = () => {
               ))}
               {isAdmin && (
                 <Link to="/admin" className="block py-3 text-sm text-dark-500">
-                  Admin dashboard
+                  Dashboard
                 </Link>
               )}
             </div>

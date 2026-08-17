@@ -60,3 +60,32 @@ services:
         value: Furniworld
       - key: SMTP_FROM_EMAIL
         sync: false
+
+      # --- Payments ---
+      # Left unset, /payments/config reports card/M-Pesa as unavailable and
+      # checkout only offers cash on delivery and bank transfer.
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_PUBLISHABLE_KEY
+        sync: false
+      - key: MPESA_ENV
+        value: sandbox
+      - key: MPESA_CONSUMER_KEY
+        sync: false
+      - key: MPESA_CONSUMER_SECRET
+        sync: false
+      - key: MPESA_SHORTCODE
+        value: "174379"
+      - key: MPESA_PASSKEY
+        sync: false
+      # Must be a syntactically valid https URL or Daraja rejects the STK push
+      # outright — see backend/.env.example for why a bare Render URL still
+      # works here even though the sandbox can never actually reach it.
+      - key: MPESA_CALLBACK_URL
+        sync: false
+      - key: MPESA_SIMULATE_CALLBACK
+        value: "true"
+      # The API's own public URL, used to build the M-Pesa callback URL when
+      # MPESA_CALLBACK_URL is left blank, and as this service's self-reference.
+      - key: API_URL
+        sync: false

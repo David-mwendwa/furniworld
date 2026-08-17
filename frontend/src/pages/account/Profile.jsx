@@ -14,6 +14,7 @@ export const Profile = () => {
     phone: user?.phone ?? '',
   });
   const [saving, setSaving] = useState(false);
+  const [togglingNewsletter, setTogglingNewsletter] = useState(false);
 
   const set = (field) => (event) =>
     setForm((current) => ({ ...current, [field]: event.target.value }));
@@ -29,6 +30,25 @@ export const Profile = () => {
       toast.error(errorMessage(err));
     } finally {
       setSaving(false);
+    }
+  };
+
+  const toggleNewsletter = async () => {
+    setTogglingNewsletter(true);
+    try {
+      const { data } = await usersApi.updateMe({
+        newsletterOptIn: !user.newsletterOptIn,
+      });
+      setUser(data.user);
+      toast.success(
+        data.user.newsletterOptIn
+          ? "You're subscribed — one email a month, nothing else."
+          : "You've been unsubscribed."
+      );
+    } catch (err) {
+      toast.error(errorMessage(err));
+    } finally {
+      setTogglingNewsletter(false);
     }
   };
 
@@ -55,6 +75,36 @@ export const Profile = () => {
           Save changes
         </Button>
       </form>
+
+      <div className="border-t border-dark-200 pt-8">
+        <h3 className="text-xs font-medium uppercase tracking-[0.12em] text-dark-600">
+          Email preferences
+        </h3>
+        <div className="mt-4 flex items-start justify-between gap-6">
+          <div>
+            <p className="text-sm text-dark-800">New arrivals and sales</p>
+            <p className="mt-0.5 text-xs text-dark-500">
+              One email a month. Nothing else.
+            </p>
+          </div>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={Boolean(user?.newsletterOptIn)}
+            aria-label="New arrivals and sales emails"
+            onClick={toggleNewsletter}
+            disabled={togglingNewsletter}
+            className={`relative h-6 w-11 shrink-0 rounded-full transition-colors duration-200 disabled:opacity-50 ${
+              user?.newsletterOptIn ? 'bg-primary-800' : 'bg-dark-300'
+            }`}>
+            <span
+              className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform duration-200 ${
+                user?.newsletterOptIn ? 'translate-x-[22px]' : 'translate-x-0.5'
+              }`}
+            />
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

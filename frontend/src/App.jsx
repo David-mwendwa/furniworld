@@ -30,6 +30,7 @@ import AdminProducts from './pages/admin/Products.jsx';
 import AdminProductForm from './pages/admin/ProductForm.jsx';
 import AdminOrders from './pages/admin/Orders.jsx';
 import AdminOrderDetail from './pages/admin/OrderDetail.jsx';
+import AdminPayments from './pages/admin/Payments.jsx';
 import AdminUsers from './pages/admin/Users.jsx';
 import AdminReviews from './pages/admin/Reviews.jsx';
 
@@ -75,6 +76,7 @@ const App = () => (
           <Route path="products/:id/edit" element={<AdminProductForm />} />
           <Route path="orders" element={<AdminOrders />} />
           <Route path="orders/:id" element={<AdminOrderDetail />} />
+          <Route path="payments" element={<AdminPayments />} />
           <Route path="users" element={<AdminUsers />} />
           <Route path="reviews" element={<AdminReviews />} />
         </Route>

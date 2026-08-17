@@ -1,8 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
-import Order, {
-  ORDER_TRANSITIONS,
-  PAYMENT_METHODS,
-} from '../models/orderModel.js';
+import Order, { ORDER_TRANSITIONS } from '../models/orderModel.js';
+import { PAYMENT_METHODS } from '../constants/payment.js';
 import Product from '../models/productModel.js';
 import Cart from '../models/cartModel.js';
 import { resolveLines } from './cartController.js';
@@ -98,8 +96,9 @@ export const createOrder = async (req, res) => {
     claimed.push(line);
   }
 
-  const isPaid = paymentMethod !== 'cash-on-delivery';
-
+  // The order is created unpaid. Money is taken in a second step against this
+  // order (see paymentController), so nothing here can claim a payment that has
+  // not been attempted yet.
   const order = await Order.create({
     orderNumber: await Order.generateOrderNumber(),
     user: req.user.id,
@@ -114,12 +113,7 @@ export const createOrder = async (req, res) => {
     })),
     shippingAddress,
     ...totals,
-    paymentMethod,
-    paymentStatus: isPaid ? 'paid' : 'pending',
-    paymentReference: isPaid
-      ? `SIM-${Date.now().toString(36).toUpperCase()}`
-      : undefined,
-    paidAt: isPaid ? new Date() : undefined,
+    payment: { method: paymentMethod, status: 'pending' },
     statusHistory: [{ status: 'pending', note: 'Order placed' }],
   });
 
@@ -197,7 +191,7 @@ export const cancelMyOrder = async (req, res) => {
 
 export const listOrders = async (req, res) => {
   const filter = buildFilter(req.query, {
-    allowedFilters: ['status', 'paymentStatus'],
+    allowedFilters: ['status', 'payment.status'],
     searchFields: ['orderNumber', 'shippingAddress.fullName'],
   });
 
@@ -259,10 +253,9 @@ export const updateOrderStatus = async (req, res) => {
 
   if (status === 'delivered') {
     order.deliveredAt = new Date();
-    if (order.paymentMethod === 'cash-on-delivery') {
-      order.paymentStatus = 'paid';
-      order.paidAt = new Date();
-    }
+    // Cash collected on delivery is NOT settled here. A driver saying they took
+    // the money is a claim; an admin confirms it from the payment queue, which
+    // is the only place `paid` is set by hand.
   }
 
   order.status = status;

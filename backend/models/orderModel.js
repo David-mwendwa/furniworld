@@ -1,5 +1,12 @@
 import mongoose from 'mongoose';
 import { COUNTIES } from '../constants/counties.js';
+import {
+  PAYMENT_METHODS,
+  PAYMENT_STATUSES,
+  PAYMENT_PROVIDERS,
+  PAYMENT_CHANNELS,
+  VERIFICATION_STATES,
+} from '../constants/payment.js';
 
 export const ORDER_STATUSES = [
   'pending',
@@ -18,12 +25,6 @@ export const ORDER_TRANSITIONS = {
   delivered: [],
   cancelled: [],
 };
-
-export const PAYMENT_METHODS = [
-  'mpesa-simulated',
-  'card-simulated',
-  'cash-on-delivery',
-];
 
 const orderItemSchema = new mongoose.Schema(
   {
@@ -81,14 +82,65 @@ const orderSchema = new mongoose.Schema(
     discount: { type: Number, min: 0, default: 0 },
     total: { type: Number, required: true, min: 0 },
     currency: { type: String, default: 'KES', enum: ['KES'] },
-    paymentMethod: { type: String, required: true, enum: PAYMENT_METHODS },
-    paymentStatus: {
-      type: String,
-      enum: ['pending', 'paid', 'failed', 'refunded'],
-      default: 'pending',
+    payment: {
+      method: { type: String, required: true, enum: PAYMENT_METHODS },
+      status: {
+        type: String,
+        enum: PAYMENT_STATUSES,
+        default: 'pending',
+        index: true,
+      },
+      provider: { type: String, enum: PAYMENT_PROVIDERS },
+      transactionId: { type: String, trim: true },
+
+      stripe: {
+        paymentIntentId: String,
+        paymentMethodId: String,
+        cardBrand: String,
+        cardLast4: String,
+      },
+
+      mpesa: {
+        checkoutRequestId: String,
+        merchantRequestId: String,
+        receiptNumber: String,
+        phoneNumber: String,
+        transactionDate: Date,
+        resultCode: String,
+        resultDesc: String,
+        isSimulated: Boolean,
+      },
+
+      error: {
+        code: String,
+        message: String,
+        declineCode: String,
+      },
+
+      timestamps: {
+        initiatedAt: Date,
+        completedAt: Date,
+        failedAt: Date,
+      },
+
+      /**
+       * The human check. `state` is deliberately separate from `status` above:
+       * a customer sending a transaction code is making a claim, and one field
+       * for both would let the claim mark the order paid.
+       */
+      verification: {
+        state: { type: String, enum: VERIFICATION_STATES, default: 'none' },
+        reference: { type: String, trim: true },
+        channel: { type: String, enum: PAYMENT_CHANNELS },
+        amountReceived: { type: Number, min: 0 },
+        payerNote: { type: String, trim: true, maxlength: 500 },
+        submittedAt: Date,
+        submittedBy: { type: mongoose.Schema.ObjectId, ref: 'User' },
+        reviewedAt: Date,
+        reviewedBy: { type: mongoose.Schema.ObjectId, ref: 'User' },
+        reviewNote: { type: String, trim: true, maxlength: 500 },
+      },
     },
-    paymentReference: { type: String, trim: true },
-    paidAt: Date,
     status: {
       type: String,
       enum: ORDER_STATUSES,
@@ -117,6 +169,8 @@ const orderSchema = new mongoose.Schema(
 orderSchema.index({ user: 1, createdAt: -1 });
 orderSchema.index({ status: 1, createdAt: -1 });
 orderSchema.index({ 'items.product': 1 });
+orderSchema.index({ 'payment.verification.state': 1, createdAt: -1 });
+orderSchema.index({ 'payment.mpesa.checkoutRequestId': 1 });
 
 // Both virtuals tolerate a projection that left their source field out, since
 // list queries select only the columns they display.
@@ -127,6 +181,36 @@ orderSchema.virtual('itemCount').get(function () {
 orderSchema.virtual('isCancellable').get(function () {
   return ORDER_TRANSITIONS[this.status]?.includes('cancelled') ?? false;
 });
+
+/**
+ * Records a gateway outcome on the order. Nothing here touches
+ * `payment.verification` — that is the human decision, and a gateway reporting
+ * success is exactly the claim a person is meant to be checking.
+ */
+orderSchema.methods.recordPayment = async function (status, details = {}) {
+  this.payment.status = status;
+
+  if (details.provider) this.payment.provider = details.provider;
+  if (details.transactionId) this.payment.transactionId = details.transactionId;
+  if (details.stripe) Object.assign(this.payment.stripe, details.stripe);
+  if (details.mpesa) Object.assign(this.payment.mpesa, details.mpesa);
+
+  if (details.error) this.payment.error = details.error;
+  else if (status === 'paid') this.payment.error = undefined;
+
+  const now = new Date();
+  if (status === 'paid') this.payment.timestamps.completedAt = now;
+  if (status === 'failed') this.payment.timestamps.failedAt = now;
+  if (status === 'processing' && !this.payment.timestamps.initiatedAt)
+    this.payment.timestamps.initiatedAt = now;
+
+  // Money arriving is the signal to start picking. Anything further along stays
+  // put — a delivered order settled in cash must not walk back to processing.
+  if (status === 'paid' && this.status === 'pending') this.status = 'processing';
+
+  await this.save({ validateModifiedOnly: true });
+  return this;
+};
 
 orderSchema.statics.generateOrderNumber = async function () {
   const now = new Date();

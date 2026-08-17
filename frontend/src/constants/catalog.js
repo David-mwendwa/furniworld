@@ -49,24 +49,6 @@ export const SORT_OPTIONS = [
   { value: 'name', label: 'Name A–Z' },
 ];
 
-export const PAYMENT_METHODS = [
-  {
-    value: 'mpesa-simulated',
-    label: 'M-Pesa',
-    description: 'Pay on checkout. Simulated for this demo.',
-  },
-  {
-    value: 'card-simulated',
-    label: 'Card',
-    description: 'Visa or Mastercard. Simulated for this demo.',
-  },
-  {
-    value: 'cash-on-delivery',
-    label: 'Cash on delivery',
-    description: 'Pay the driver when your order arrives.',
-  },
-];
-
 export const ORDER_STATUS_LABELS = {
   pending: 'Pending',
   processing: 'Processing',

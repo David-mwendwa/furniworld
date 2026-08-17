@@ -9,6 +9,7 @@ import {
   StatusPill,
 } from '../../components/ui/Feedback.jsx';
 import Button from '../../components/ui/Button.jsx';
+import PaymentReferenceBox from '../../components/account/PaymentReferenceBox.jsx';
 import { ordersApi } from '../../api/index.js';
 import { errorMessage } from '../../api/apiClient.js';
 import { useFetch } from '../../hooks/useFetch.js';
@@ -16,6 +17,7 @@ import { useToast } from '../../context/ToastProvider.jsx';
 import { useConfirm } from '../../context/ConfirmProvider.jsx';
 import { assetUrl } from '../../lib/images.js';
 import { formatPrice, formatDate, formatDateTime } from '../../lib/format.js';
+import { paymentLabel } from '../../lib/payment.js';
 import { ORDER_STATUS_LABELS } from '../../constants/catalog.js';
 
 const OrderDetail = () => {
@@ -76,10 +78,15 @@ const OrderDetail = () => {
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <StatusPill status={order.paymentStatus} />
+          <StatusPill
+            status={order.payment.status}
+            label={paymentLabel(order.payment.status)}
+          />
           <StatusPill status={order.status} />
         </div>
       </div>
+
+      <PaymentReferenceBox order={order} onUpdated={refetch} />
 
       {order.isCancellable && (
         <Button

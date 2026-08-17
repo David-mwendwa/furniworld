@@ -36,6 +36,7 @@ const userSchema = new mongoose.Schema(
       },
     },
     avatarUrl: { type: String, trim: true },
+    newsletterOptIn: { type: Boolean, default: false },
     role: {
       type: String,
       enum: ['user', 'admin'],

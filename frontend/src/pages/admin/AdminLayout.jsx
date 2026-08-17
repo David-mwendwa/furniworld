@@ -5,15 +5,17 @@ import {
   ShoppingCart,
   Users,
   Star,
+  Banknote,
   ArrowLeft,
 } from 'lucide-react';
 import { Container } from '../../components/ui/Feedback.jsx';
 import { cn } from '../../lib/cn.js';
 
 const LINKS = [
-  { to: '/admin', label: 'Overview', icon: LayoutDashboard, end: true },
+  { to: '/admin', label: 'Dashboard', icon: LayoutDashboard, end: true },
   { to: '/admin/products', label: 'Products', icon: Package },
   { to: '/admin/orders', label: 'Orders', icon: ShoppingCart },
+  { to: '/admin/payments', label: 'Payments', icon: Banknote },
   { to: '/admin/users', label: 'Users', icon: Users },
   { to: '/admin/reviews', label: 'Reviews', icon: Star },
 ];

@@ -16,7 +16,7 @@ dotenv.config();
 
 const DEMO_USERS = [
   {
-    name: 'David Mwendwa',
+    name: 'Demo Shopper',
     email: 'demo@furniworld.ke',
     password: 'demo12345',
     phone: '0712345678',
@@ -60,10 +60,62 @@ const ADDRESSES = [
   { addressLine1: 'Section 58', city: 'Nakuru', county: 'Nakuru', postalCode: '20100' },
 ];
 
-const PAYMENT_METHODS = ['mpesa-simulated', 'card-simulated', 'cash-on-delivery'];
+const PAYMENT_METHODS = ['mpesa', 'card', 'cash_on_delivery', 'bank_transfer'];
 
 const round = (v) => Math.round(v * 100) / 100;
 const pick = (arr, i) => arr[i % arr.length];
+
+const referenceFor = (method, createdAt) => {
+  const stamp = createdAt.getTime().toString(36).toUpperCase();
+  if (method === 'mpesa') return `Q${stamp}`;
+  if (method === 'card') return `pi_${stamp.toLowerCase()}`;
+  if (method === 'bank_transfer') return `FT${stamp}`;
+  return `CASH${stamp}`;
+};
+
+/**
+ * Spreads the demo orders across every verification state so the admin payment
+ * queue has a realistic mix — one claim waiting, one rejected, some confirmed,
+ * and some gateway "successes" nobody has checked yet.
+ */
+const verificationFor = (index, plan, isPaid, reference, createdAt) => {
+  if (plan.status === 'cancelled') return { state: 'none' };
+
+  // An unpaid order with a claim sitting in the queue.
+  if (!isPaid && index === 4)
+    return {
+      state: 'submitted',
+      reference,
+      channel: 'bank_transfer',
+      payerNote: 'Transferred from my Equity account this morning',
+      submittedAt: new Date(createdAt.getTime() + 3600000),
+    };
+
+  // A rejected claim the customer still has to fix.
+  if (!isPaid)
+    return {
+      state: 'rejected',
+      reference,
+      channel: 'mpesa',
+      reviewedAt: new Date(createdAt.getTime() + 7200000),
+      reviewNote:
+        'That code belongs to a payment of Ksh 500, which does not match this order.',
+    };
+
+  // Older paid orders have been checked; the most recent has not, so the queue
+  // is never empty.
+  if (index < 3)
+    return {
+      state: 'confirmed',
+      reference,
+      channel: 'mpesa',
+      amountReceived: undefined,
+      reviewedAt: new Date(createdAt.getTime() + 86400000),
+      reviewNote: 'Matched against the statement.',
+    };
+
+  return { state: 'none' };
+};
 
 const findOrCreateUser = async ({ email, ...rest }) => {
   const existing = await User.findOne({ email }).select('+active');
@@ -140,9 +192,10 @@ const run = async () => {
 
       const createdAt = new Date(Date.now() - plan.daysAgo * 86400000);
       const paymentMethod = pick(PAYMENT_METHODS, index);
+      const reference = referenceFor(paymentMethod, createdAt);
       const isPaid =
         plan.status !== 'cancelled' &&
-        (paymentMethod !== 'cash-on-delivery' || plan.status === 'delivered');
+        (paymentMethod !== 'cash_on_delivery' || plan.status === 'delivered');
 
       const history = [
         { status: 'pending', note: 'Order placed', changedAt: createdAt },
@@ -176,10 +229,29 @@ const run = async () => {
         deliveryFee,
         tax,
         total: round(itemsTotal + deliveryFee + tax),
-        paymentMethod,
-        paymentStatus: isPaid ? 'paid' : 'pending',
-        paymentReference: isPaid ? `SIM-${createdAt.getTime().toString(36).toUpperCase()}` : undefined,
-        paidAt: isPaid ? createdAt : undefined,
+        payment: {
+          method: paymentMethod,
+          status: isPaid ? 'paid' : 'pending',
+          provider:
+            paymentMethod === 'card'
+              ? 'stripe'
+              : paymentMethod === 'mpesa'
+                ? 'mpesa'
+                : 'manual',
+          transactionId: isPaid ? reference : undefined,
+          mpesa:
+            paymentMethod === 'mpesa' && isPaid
+              ? {
+                  receiptNumber: reference,
+                  phoneNumber: '254712345678',
+                  transactionDate: createdAt,
+                }
+              : undefined,
+          timestamps: { completedAt: isPaid ? createdAt : undefined },
+          // A spread of verification states so the admin payment queue has a
+          // realistic mix rather than one row repeated.
+          verification: verificationFor(index, plan, isPaid, reference, createdAt),
+        },
         status: plan.status,
         statusHistory: history,
         deliveredAt: plan.status === 'delivered' ? new Date(createdAt.getTime() + 3 * 86400000) : undefined,

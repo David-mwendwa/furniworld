@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { protect, restrictTo } from '../middleware/auth.js';
+import { submitPaymentReference } from '../controllers/paymentReviewController.js';
 import {
   quoteOrder,
   createOrder,
@@ -21,6 +22,7 @@ router.post('/', createOrder);
 router.get('/my', getMyOrders);
 router.get('/my/:orderNumber', getMyOrder);
 router.patch('/my/:orderNumber/cancel', cancelMyOrder);
+router.post('/my/:orderNumber/payment/reference', submitPaymentReference);
 
 router.get('/transitions', restrictTo('admin'), getTransitions);
 router.get('/', restrictTo('admin'), listOrders);

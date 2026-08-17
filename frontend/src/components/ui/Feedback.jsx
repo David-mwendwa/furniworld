@@ -53,8 +53,10 @@ const STATUS_TONES = {
   delivered: 'bg-success-100 text-success-800',
   cancelled: 'bg-danger-100 text-danger-700',
   paid: 'bg-success-100 text-success-800',
+  authorized: 'bg-primary-100 text-primary-800',
   failed: 'bg-danger-100 text-danger-700',
   refunded: 'bg-dark-200 text-dark-700',
+  partially_refunded: 'bg-dark-200 text-dark-700',
   published: 'bg-success-100 text-success-800',
   hidden: 'bg-dark-200 text-dark-600',
   active: 'bg-success-100 text-success-800',
@@ -62,15 +64,21 @@ const STATUS_TONES = {
   archived: 'bg-dark-200 text-dark-600',
 };
 
-export const StatusPill = ({ status, className }) => (
+/**
+ * `label` overrides the displayed text while `status` still drives the tone
+ * colour — needed for payment status, whose words (`pending`, `processing`)
+ * collide with the order-status enum this pill was built for.
+ */
+export const StatusPill = ({ status, label, className }) => (
   <span
     className={cn(
-      'inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium capitalize',
+      'inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium',
+      label ? '' : 'capitalize',
       STATUS_TONES[status] ?? 'bg-dark-200 text-dark-700',
       className
     )}>
     <span className="h-1.5 w-1.5 rounded-full bg-current opacity-70" />
-    {status}
+    {label ?? status}
   </span>
 );
 

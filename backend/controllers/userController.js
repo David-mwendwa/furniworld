@@ -8,11 +8,11 @@ import {
 } from '../utils/queryFeatures.js';
 
 export const updateMe = async (req, res) => {
-  const { name, phone, avatarUrl } = req.body;
+  const { name, phone, avatarUrl, newsletterOptIn } = req.body;
 
   const user = await User.findByIdAndUpdate(
     req.user.id,
-    { name, phone, avatarUrl },
+    { name, phone, avatarUrl, newsletterOptIn },
     { new: true, runValidators: true }
   );
 

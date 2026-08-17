@@ -51,7 +51,7 @@ const Overview = () => {
   return (
     <div className="space-y-12">
       <div>
-        <h2 className="text-2xl">Overview</h2>
+        <h2 className="text-2xl">Dashboard</h2>
         <p className="mt-1.5 text-sm text-dark-500">
           Revenue counts orders that are processing, shipped or delivered.
         </p>

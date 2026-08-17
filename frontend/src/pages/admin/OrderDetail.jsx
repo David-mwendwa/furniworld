@@ -17,6 +17,11 @@ import { useToast } from '../../context/ToastProvider.jsx';
 import { assetUrl } from '../../lib/images.js';
 import { formatPrice, formatDate, formatDateTime } from '../../lib/format.js';
 import {
+  paymentLabel,
+  paymentMethodLabel,
+  verificationLabel,
+} from '../../lib/payment.js';
+import {
   ORDER_STATUS_LABELS,
   ORDER_TRANSITIONS,
 } from '../../constants/catalog.js';
@@ -77,7 +82,10 @@ const AdminOrderDetail = () => {
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <StatusPill status={order.paymentStatus} />
+          <StatusPill
+            status={order.payment.status}
+            label={paymentLabel(order.payment.status)}
+          />
           <StatusPill status={order.status} />
         </div>
       </div>
@@ -211,17 +219,33 @@ const AdminOrderDetail = () => {
           <dl className="space-y-1.5 text-sm text-dark-700">
             <div>
               <dt className="inline text-dark-500">Method: </dt>
-              <dd className="inline">{order.paymentMethod}</dd>
+              <dd className="inline">{paymentMethodLabel(order.payment.method)}</dd>
             </div>
             <div>
               <dt className="inline text-dark-500">Status: </dt>
-              <dd className="inline">{order.paymentStatus}</dd>
+              <dd className="inline">{paymentLabel(order.payment.status)}</dd>
             </div>
-            {order.paymentReference && (
+            {order.payment.transactionId && (
               <div>
                 <dt className="inline text-dark-500">Reference: </dt>
                 <dd className="inline font-mono text-xs">
-                  {order.paymentReference}
+                  {order.payment.transactionId}
+                </dd>
+              </div>
+            )}
+            {order.payment.verification?.state !== 'none' && (
+              <div>
+                <dt className="inline text-dark-500">Verification: </dt>
+                <dd className="inline">
+                  {verificationLabel(order.payment.verification.state)}
+                  {order.payment.verification.state === 'submitted' && (
+                    <>
+                      {' — '}
+                      <Link to="/admin/payments" className="text-primary-700 underline">
+                        review it
+                      </Link>
+                    </>
+                  )}
                 </dd>
               </div>
             )}

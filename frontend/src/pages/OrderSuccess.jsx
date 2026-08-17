@@ -8,6 +8,7 @@ import { ordersApi } from '../api/index.js';
 import { useFetch } from '../hooks/useFetch.js';
 import { assetUrl } from '../lib/images.js';
 import { formatPrice, formatDate } from '../lib/format.js';
+import { paymentLabel } from '../lib/payment.js';
 import { DELIVERY_NOTE } from '../constants/catalog.js';
 import { deliveryBandFor } from '../constants/counties.js';
 
@@ -69,7 +70,7 @@ const OrderSuccess = () => {
             <p className="mt-1 text-sm">{order.itemCount} item(s)</p>
           </div>
           <div className="flex items-center gap-3">
-            <StatusPill status={order.paymentStatus} />
+            <StatusPill status={order.payment.status} label={paymentLabel(order.payment.status)} />
             <StatusPill status={order.status} />
           </div>
         </div>

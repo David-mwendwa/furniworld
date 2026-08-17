@@ -22,6 +22,8 @@ import orderRoutes from './routes/orderRoutes.js';
 import reviewRoutes from './routes/reviewRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import statsRoutes from './routes/statsRoutes.js';
+import paymentRoutes from './routes/paymentRoutes.js';
+import subscriberRoutes from './routes/subscriberRoutes.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const isProduction = process.env.NODE_ENV === 'production';
@@ -111,6 +113,8 @@ app.use('/api/v1/orders', orderRoutes);
 app.use('/api/v1/reviews', reviewRoutes);
 app.use('/api/v1/uploads', uploadRoutes);
 app.use('/api/v1/stats', statsRoutes);
+app.use('/api/v1/payments', paymentRoutes);
+app.use('/api/v1/subscribers', subscriberRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
