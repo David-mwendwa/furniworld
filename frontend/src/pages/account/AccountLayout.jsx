@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 import { Package, User, KeyRound, Star, LogOut } from 'lucide-react';
 import { Container } from '../../components/ui/Feedback.jsx';
 import { useAuth } from '../../context/AuthProvider.jsx';
@@ -14,13 +14,13 @@ const LINKS = [
 
 const AccountLayout = () => {
   const { user, logout } = useAuth();
-  const navigate = useNavigate();
   const toast = useToast();
 
+  // logout() already navigates away — see the comment in AuthProvider for why
+  // that has to happen before the session actually clears.
   const signOut = async () => {
     await logout();
     toast.success('Signed out');
-    navigate('/');
   };
 
   return (

@@ -12,6 +12,7 @@ import { Container, EmptyState, Price, Skeleton } from '../components/ui/Feedbac
 import Button from '../components/ui/Button.jsx';
 import { Stepper } from '../components/ui/Controls.jsx';
 import { Input, Select, Textarea } from '../components/ui/Field.jsx';
+import BankDetails from '../components/checkout/BankDetails.jsx';
 import { ordersApi, paymentsApi } from '../api/index.js';
 import { errorMessage } from '../api/apiClient.js';
 import { useCart } from '../context/CartProvider.jsx';
@@ -317,6 +318,16 @@ const Checkout = ({ config }) => {
                     : "We'll send a prompt to this number."
                 }
               />
+            )}
+
+            {paymentMethod === 'bank_transfer' && (
+              <div>
+                <BankDetails />
+                <p className="mt-2 text-xs text-dark-500">
+                  Your order number appears once you place the order below —
+                  use that as the reference.
+                </p>
+              </div>
             )}
 
             <p className="flex items-center gap-2 text-xs text-dark-500">

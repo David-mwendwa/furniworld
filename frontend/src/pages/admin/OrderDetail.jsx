@@ -44,7 +44,15 @@ const AdminOrderDetail = () => {
 
   const { order } = data;
   // Legal moves come from the same transition map the API validates against.
-  const allowed = ORDER_TRANSITIONS[order.status] ?? [];
+  const allTransitions = ORDER_TRANSITIONS[order.status] ?? [];
+
+  // A claim awaiting review blocks every move except cancelling — the API
+  // enforces this too, this just keeps the dropdown from offering a move it
+  // would reject.
+  const hasUnreviewedClaim = order.payment.verification?.state === 'submitted';
+  const allowed = hasUnreviewedClaim
+    ? allTransitions.filter((status) => status === 'cancelled')
+    : allTransitions;
 
   const advance = async (event) => {
     event.preventDefault();
@@ -94,9 +102,24 @@ const AdminOrderDetail = () => {
         <h3 className="text-xs uppercase tracking-[0.14em] text-dark-500">
           Update status
         </h3>
-        {allowed.length === 0 ? (
+
+        {hasUnreviewedClaim && (
+          <p className="mt-3 border border-warning-200 bg-warning-50 px-4 py-3 text-sm text-warning-800">
+            This order has a payment claim awaiting review.{' '}
+            <Link to="/admin/payments" className="underline">
+              Confirm or reject it
+            </Link>{' '}
+            before moving the order forward — cancelling is still allowed.
+          </p>
+        )}
+
+        {allTransitions.length === 0 ? (
           <p className="mt-3 text-sm text-dark-600">
             An order that is {order.status} is final and cannot be changed further.
+          </p>
+        ) : allowed.length === 0 ? (
+          <p className="mt-3 text-sm text-dark-600">
+            No status change is available until the claim above is resolved.
           </p>
         ) : (
           <form onSubmit={advance} className="mt-4 space-y-4">

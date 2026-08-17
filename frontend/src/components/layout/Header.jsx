@@ -13,8 +13,8 @@ import { cn } from '../../lib/cn.js';
 
 const Header = () => {
   const scrolled = useScrolled();
-  const { itemCount, openCart } = useCart();
-  const { isAuthenticated, isAdmin, user, logout } = useAuth();
+  const { itemCount, loading: cartLoading, openCart } = useCart();
+  const { isAuthenticated, isAdmin, user, loading: authLoading, logout } = useAuth();
   const toast = useToast();
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -103,7 +103,7 @@ const Header = () => {
               </div>
             </form>
 
-            {isAdmin && (
+            {!authLoading && isAdmin && (
               <Link
                 to="/admin"
                 aria-label="Dashboard"
@@ -114,17 +114,21 @@ const Header = () => {
 
             <AccountMenu />
 
-            <button
-              onClick={openCart}
-              aria-label={`Cart, ${itemCount} item${itemCount === 1 ? '' : 's'}`}
-              className="relative flex h-10 w-10 items-center justify-center text-dark-600 transition-colors hover:text-primary-800">
-              <ShoppingBag className="h-[18px] w-[18px]" />
-              {itemCount > 0 && (
-                <span className="absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary-800 px-1 text-[0.6rem] font-medium text-cream">
-                  {itemCount}
-                </span>
-              )}
-            </button>
+            {/* Orders are a shopper action — an admin runs the store, not the
+                cart, so there is nothing here for that account to open. */}
+            {!isAdmin && (
+              <button
+                onClick={openCart}
+                aria-label={`Cart, ${itemCount} item${itemCount === 1 ? '' : 's'}`}
+                className="relative flex h-10 w-10 items-center justify-center text-dark-600 transition-colors hover:text-primary-800">
+                <ShoppingBag className="h-[18px] w-[18px]" />
+                {!cartLoading && itemCount > 0 && (
+                  <span className="absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary-800 px-1 text-[0.6rem] font-medium text-cream">
+                    {itemCount}
+                  </span>
+                )}
+              </button>
+            )}
 
             <button
               onClick={() => setMenuOpen((open) => !open)}
@@ -140,7 +144,7 @@ const Header = () => {
       {menuOpen && (
         <div className="animate-fade-in border-t border-dark-200 bg-cream lg:hidden">
           <Container className="space-y-1 py-5">
-            {isAuthenticated ? (
+            {authLoading ? null : isAuthenticated ? (
               <div className="mb-4 flex items-center justify-between gap-3 border border-dark-200 bg-white/60 px-4 py-3">
                 <div className="min-w-0">
                   <p className="truncate text-sm font-medium text-dark-900">
@@ -155,9 +159,9 @@ const Header = () => {
                 <button
                   type="button"
                   onClick={async () => {
+                    // logout() already navigates away — see AuthProvider.
                     await logout();
                     toast.success('Signed out');
-                    navigate('/');
                   }}
                   className="flex shrink-0 items-center gap-1.5 text-xs font-medium uppercase tracking-[0.1em] text-dark-500 hover:text-danger-600">
                   <LogOut className="h-3.5 w-3.5" />
@@ -217,7 +221,7 @@ const Header = () => {
                   {page}
                 </Link>
               ))}
-              {isAdmin && (
+              {!authLoading && isAdmin && (
                 <Link to="/admin" className="block py-3 text-sm text-dark-500">
                   Dashboard
                 </Link>

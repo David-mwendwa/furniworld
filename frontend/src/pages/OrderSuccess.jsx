@@ -4,6 +4,7 @@ import { CheckCircle2, Truck } from 'lucide-react';
 import { Container, Price, Skeleton, StatusPill, EmptyState } from '../components/ui/Feedback.jsx';
 import Button from '../components/ui/Button.jsx';
 import { Stepper } from '../components/ui/Controls.jsx';
+import BankDetails from '../components/checkout/BankDetails.jsx';
 import { ordersApi } from '../api/index.js';
 import { useFetch } from '../hooks/useFetch.js';
 import { assetUrl } from '../lib/images.js';
@@ -119,6 +120,15 @@ const OrderSuccess = () => {
           </div>
         </dl>
       </div>
+
+      {order.payment.method === 'bank_transfer' && order.payment.status !== 'paid' && (
+        <div className="mt-8">
+          <p className="mb-2 text-xs font-medium uppercase tracking-[0.12em] text-dark-600">
+            Complete your payment
+          </p>
+          <BankDetails orderNumber={order.orderNumber} />
+        </div>
+      )}
 
       <div className="mt-8 flex items-start gap-3 border border-secondary-200 bg-secondary-50 px-6 py-4 text-sm text-secondary-900">
         <Truck className="mt-0.5 h-4 w-4 shrink-0" />

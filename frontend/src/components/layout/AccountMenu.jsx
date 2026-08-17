@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   User,
   ChevronDown,
@@ -20,20 +20,24 @@ import { cn } from '../../lib/cn.js';
  * out only existed as one tab among several inside that page, easy to miss.
  */
 const AccountMenu = () => {
-  const { isAuthenticated, isAdmin, user, logout } = useAuth();
+  const { isAuthenticated, isAdmin, user, loading, logout } = useAuth();
   const toast = useToast();
-  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
 
   useClickOutside(ref, () => setOpen(false), open);
 
+  // logout() already navigates away — see the comment in AuthProvider.
   const signOut = async () => {
     setOpen(false);
     await logout();
     toast.success('Signed out');
-    navigate('/');
   };
+
+  // A refresh starts with `user` null while the session is still being
+  // verified — showing "Sign in" during that beat, then swapping to the real
+  // menu a moment later, reads as the app forgetting who's logged in.
+  if (loading) return <div className="h-10 w-10" />;
 
   if (!isAuthenticated)
     return (
@@ -74,13 +78,15 @@ const AccountMenu = () => {
           </div>
 
           <div className="py-1.5">
-            <Link
-              to="/account/orders"
-              onClick={() => setOpen(false)}
-              className="flex items-center gap-3 px-4 py-2.5 text-sm text-dark-700 hover:bg-primary-50 hover:text-primary-900">
-              <Package className="h-4 w-4" />
-              Orders
-            </Link>
+            {!isAdmin && (
+              <Link
+                to="/account/orders"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-3 px-4 py-2.5 text-sm text-dark-700 hover:bg-primary-50 hover:text-primary-900">
+                <Package className="h-4 w-4" />
+                Orders
+              </Link>
+            )}
             <Link
               to="/account/reviews"
               onClick={() => setOpen(false)}

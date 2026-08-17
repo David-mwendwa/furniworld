@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import RootLayout from './components/layout/RootLayout.jsx';
 import {
   ProtectedRoute,
+  ShopperRoute,
   AdminRoute,
   GuestRoute,
 } from './components/auth/guards.jsx';
@@ -54,14 +55,18 @@ const App = () => (
       <Route path="forgot-password" element={<ForgotPassword />} />
       <Route path="reset-password/:token" element={<ResetPassword />} />
 
-      <Route element={<ProtectedRoute />}>
+      <Route element={<ShopperRoute />}>
         <Route path="checkout" element={<Checkout />} />
         <Route path="checkout/success/:orderNumber" element={<OrderSuccess />} />
+      </Route>
 
+      <Route element={<ProtectedRoute />}>
         <Route path="account" element={<AccountLayout />}>
           <Route index element={<Navigate to="orders" replace />} />
-          <Route path="orders" element={<AccountOrders />} />
-          <Route path="orders/:orderNumber" element={<AccountOrderDetail />} />
+          <Route element={<ShopperRoute />}>
+            <Route path="orders" element={<AccountOrders />} />
+            <Route path="orders/:orderNumber" element={<AccountOrderDetail />} />
+          </Route>
           <Route path="reviews" element={<MyReviews />} />
           <Route path="profile" element={<Profile />} />
           <Route path="password" element={<Password />} />

@@ -239,6 +239,16 @@ export const updateOrderStatus = async (req, res) => {
         : `An order that is ${order.status} cannot change status`
     );
 
+  // A customer has claimed to have paid and nobody has checked it yet. Moving
+  // the order forward — especially to delivered — while that sits unreviewed
+  // would let staff hand over goods (or just lose track) on a claim nobody
+  // actually verified. Cancelling is exempt: it doesn't depend on payment
+  // having settled either way.
+  if (order.payment.verification?.state === 'submitted' && status !== 'cancelled')
+    throw new BadRequestError(
+      'This order has a payment claim awaiting review — confirm or reject it from the payments queue before changing status'
+    );
+
   if (status === 'cancelled') {
     await Promise.all(
       order.items.map((item) =>

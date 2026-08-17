@@ -11,7 +11,7 @@ import {
 import { Modal } from '../../components/ui/Overlay.jsx';
 import { Pagination } from '../../components/ui/Controls.jsx';
 import Button from '../../components/ui/Button.jsx';
-import { Textarea } from '../../components/ui/Field.jsx';
+import { Textarea, Input } from '../../components/ui/Field.jsx';
 import { paymentsApi } from '../../api/index.js';
 import { errorMessage } from '../../api/apiClient.js';
 import { useFetch } from '../../hooks/useFetch.js';
@@ -40,6 +40,7 @@ const AdminPayments = () => {
   const [page, setPage] = useState(1);
   const [decision, setDecision] = useState(null); // { order, action: 'confirm' | 'reject' }
   const [reviewNote, setReviewNote] = useState('');
+  const [reference, setReference] = useState('');
   const [saving, setSaving] = useState(false);
   const debounced = useDebounce(search);
 
@@ -59,17 +60,25 @@ const AdminPayments = () => {
   const openDecision = (order, action) => {
     setDecision({ order, action });
     setReviewNote('');
+    setReference(order.payment.verification?.reference ?? order.payment.transactionId ?? '');
   };
+
+  const needsReference =
+    decision?.action === 'confirm' &&
+    !decision.order.payment.verification?.reference &&
+    !decision.order.payment.transactionId;
 
   const submitDecision = async (event) => {
     event.preventDefault();
     if (decision.action === 'reject' && !reviewNote.trim()) return;
+    if (needsReference && !reference.trim()) return;
 
     setSaving(true);
     try {
       await paymentsApi.review(decision.order._id, {
         decision: decision.action,
         reviewNote: reviewNote.trim(),
+        reference: reference.trim(),
       });
       toast.success(
         decision.action === 'confirm'
@@ -172,9 +181,14 @@ const AdminPayments = () => {
             </thead>
             <tbody className="divide-y divide-dark-200">
               {data.orders.map((order) => {
-                const canDecide =
-                  order.payment.verification?.state === 'submitted' ||
-                  order.payment.status === 'paid';
+                // Anything not already refunded can be decided — not just
+                // orders with a submitted claim. Cash on delivery has no
+                // claim mechanism at all (the driver collects it, not the
+                // app), so an admin has to be able to confirm it directly
+                // once the driver reports back.
+                const canDecide = !['refunded', 'partially_refunded'].includes(
+                  order.payment.status
+                );
 
                 return (
                   <tr key={order._id} className="hover:bg-primary-50/60">
@@ -273,20 +287,33 @@ const AdminPayments = () => {
               type="submit"
               variant={decision?.action === 'reject' ? 'danger' : 'primary'}
               loading={saving}
-              disabled={decision?.action === 'reject' && !reviewNote.trim()}>
+              disabled={
+                (decision?.action === 'reject' && !reviewNote.trim()) ||
+                (needsReference && !reference.trim())
+              }>
               {decision?.action === 'confirm' ? 'Confirm payment' : 'Reject claim'}
             </Button>
           </>
         }>
         {decision && (
           <form id="payment-decision-form" onSubmit={submitDecision} className="space-y-4">
-            {decision.order.payment.verification?.reference && (
-              <p className="text-sm">
-                Reference:{' '}
-                <span className="font-mono">
-                  {decision.order.payment.verification.reference}
-                </span>
-              </p>
+            {decision.action === 'confirm' && (
+              <Input
+                label="Reference"
+                required={needsReference}
+                value={reference}
+                onChange={(event) => setReference(event.target.value)}
+                placeholder={
+                  decision.order.payment.method === 'cash_on_delivery'
+                    ? 'e.g. Collected on delivery, confirmed with driver'
+                    : 'The code or reference you checked against your records'
+                }
+                hint={
+                  needsReference
+                    ? 'No claim was submitted for this order — record what you checked against.'
+                    : undefined
+                }
+              />
             )}
             <Textarea
               label={decision.action === 'confirm' ? 'Note (optional)' : 'Reason'}

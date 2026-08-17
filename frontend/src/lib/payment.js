@@ -50,3 +50,17 @@ export const PAYMENT_METHOD_LABELS = {
 
 export const paymentMethodLabel = (method) =>
   PAYMENT_METHOD_LABELS[method] || (method ? method.replace(/_/g, ' ') : '');
+
+/**
+ * Where an actual bank transfer goes. Demo details for a portfolio project —
+ * a real deployment would pull this from an env var, not a committed
+ * constant. Shown wherever a customer needs to know how to pay, not just
+ * where they confirm they already have: the checkout step, the order
+ * confirmation, and the order's own page while it's still unpaid.
+ */
+export const BANK_TRANSFER_DETAILS = {
+  bankName: 'Equity Bank',
+  accountName: 'Furniworld Ltd',
+  accountNumber: '1234567890',
+  branch: 'Westlands',
+};

@@ -28,7 +28,7 @@ const ProductDetail = () => {
   const [showStickyBar, setShowStickyBar] = useState(false);
   const buyBoxRef = useRef(null);
 
-  const { data, loading, error, setData } = useFetch(
+  const { data, loading, error, setData, refetch: refetchProduct } = useFetch(
     useCallback(() => productsApi.bySlug(slug), [slug]),
     [slug]
   );
@@ -247,10 +247,19 @@ const ProductDetail = () => {
             />
             <ReviewForm
               productId={product._id}
-              onCreated={() => reviewsQuery.refetch()}
+              onCreated={() => {
+                reviewsQuery.refetch();
+                refetchProduct();
+              }}
             />
           </div>
-          <ReviewList reviews={reviewsQuery.data?.reviews} />
+          <ReviewList
+            reviews={reviewsQuery.data?.reviews}
+            onChange={() => {
+              reviewsQuery.refetch();
+              refetchProduct();
+            }}
+          />
         </div>
 
         {related?.length > 0 && (

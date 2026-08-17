@@ -5,35 +5,71 @@ import { errorMessage } from '../../api/apiClient.js';
 import { useToast } from '../../context/ToastProvider.jsx';
 
 /**
- * "I've paid — here's the code."
+ * "I've paid — here's how to check."
  *
  * An order can be settled outside the app: M-Pesa sent to the till, a bank
  * transfer, cash handed to a driver. None of that reaches the server on its
  * own, so without this box the only way to tell anyone is to email, and the
  * order sits looking unpaid. Submitting is a claim, not a payment — the copy
  * says so, and it writes `payment.verification`, never `payment.status`. An
- * admin checks it against the real statement from the payments queue.
+ * admin checks it against the real record from the payments queue.
  *
  * Hidden once the order is paid or cancelled: there is nothing left to claim.
+ *
+ * There isn't one universal "transaction code" — an M-Pesa code, a bank
+ * reference and cash handed to a driver are proven differently, so the field
+ * itself changes shape with the channel instead of asking for a "code" that
+ * cash never has.
  */
 
-const CHANNELS = [
-  { id: 'mpesa', label: 'M-Pesa' },
-  { id: 'bank_transfer', label: 'Bank transfer' },
-  { id: 'cash', label: 'Cash' },
-  { id: 'other', label: 'Something else' },
-];
+const CHANNELS = {
+  mpesa: {
+    label: 'M-Pesa',
+    fieldLabel: 'M-Pesa code',
+    placeholder: 'TIJ4KX9QAB',
+    hint: 'The confirmation code from the M-Pesa message.',
+    mono: true,
+  },
+  bank_transfer: {
+    label: 'Bank transfer',
+    fieldLabel: 'Transaction reference',
+    placeholder: 'FT23189XYZ12',
+    hint: "The reference number from your bank's confirmation or receipt.",
+    mono: true,
+  },
+  cash: {
+    label: 'Cash',
+    fieldLabel: 'When and who you paid',
+    placeholder: 'Paid to the driver on delivery, 17 Aug',
+    hint: "Cash has no code — tell us roughly when so we can check with the driver.",
+    mono: false,
+  },
+  other: {
+    label: 'Something else',
+    fieldLabel: 'Reference',
+    placeholder: 'Whatever you have to hand',
+    hint: '',
+    mono: false,
+  },
+};
+
+const defaultChannel = (method) => {
+  if (method === 'mpesa') return 'mpesa';
+  if (method === 'bank_transfer') return 'bank_transfer';
+  if (method === 'cash_on_delivery') return 'cash';
+  return 'other';
+};
 
 const PaymentReferenceBox = ({ order, onUpdated }) => {
   const toast = useToast();
   const claim = order.payment?.verification;
   const [open, setOpen] = useState(false);
   const [reference, setReference] = useState('');
-  const [channel, setChannel] = useState(
-    order.payment?.method === 'mpesa' ? 'mpesa' : 'bank_transfer'
-  );
+  const [channel, setChannel] = useState(defaultChannel(order.payment?.method));
   const [note, setNote] = useState('');
   const [saving, setSaving] = useState(false);
+
+  const field = CHANNELS[channel];
 
   const submit = async (event) => {
     event.preventDefault();
@@ -67,7 +103,7 @@ const PaymentReferenceBox = ({ order, onUpdated }) => {
         <div>
           <p className="font-medium text-dark-800">We're checking your payment</p>
           <p className="mt-0.5 text-xs text-dark-500">
-            You sent <span className="font-mono text-dark-700">{claim.reference}</span>.
+            You told us: <span className="text-dark-700">{claim.reference}</span>.
             We'll email you once it's matched against our records.
           </p>
         </div>
@@ -80,7 +116,7 @@ const PaymentReferenceBox = ({ order, onUpdated }) => {
         <div className="mb-3 flex items-start gap-2.5 bg-warning-50 p-2.5 text-sm">
           <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-warning-700" />
           <div>
-            <p className="font-medium text-warning-900">We couldn't match that code</p>
+            <p className="font-medium text-warning-900">We couldn't match that</p>
             <p className="mt-0.5 text-xs text-warning-800">{claim.reviewNote}</p>
           </div>
         </div>
@@ -89,15 +125,16 @@ const PaymentReferenceBox = ({ order, onUpdated }) => {
       {!open ? (
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="text-xs text-dark-500">
-            Paid by M-Pesa, transfer or cash? Send the transaction code and we'll
-            match it to this order.
+            {order.payment?.method === 'cash_on_delivery'
+              ? 'Already paid the driver? Tell us and we can confirm it.'
+              : 'Paid by M-Pesa, transfer or cash? Tell us how and we can match it to this order.'}
           </p>
           <button
             type="button"
             onClick={() => setOpen(true)}
             className="flex items-center gap-1.5 border border-primary-300 px-3 py-1.5 text-xs font-medium uppercase tracking-[0.1em] text-primary-800 transition-colors hover:bg-primary-50">
             <Send className="h-3.5 w-3.5" />
-            {claim?.state === 'rejected' ? 'Send another code' : "I've paid"}
+            {claim?.state === 'rejected' ? 'Try again' : "I've paid"}
           </button>
         </div>
       ) : (
@@ -105,38 +142,46 @@ const PaymentReferenceBox = ({ order, onUpdated }) => {
           <div className="grid gap-3 sm:grid-cols-2">
             <label className="block">
               <span className="mb-1 block text-xs font-medium text-dark-600">
-                Transaction code
-              </span>
-              <input
-                required
-                value={reference}
-                onChange={(event) => setReference(event.target.value.toUpperCase())}
-                placeholder="TIJ4KX9QAB"
-                maxLength={64}
-                className="h-9 w-full border border-dark-300 px-3 font-mono text-sm uppercase focus:border-primary-600 focus:outline-none"
-              />
-            </label>
-
-            <label className="block">
-              <span className="mb-1 block text-xs font-medium text-dark-600">
                 How you paid
               </span>
               <select
                 value={channel}
-                onChange={(event) => setChannel(event.target.value)}
+                onChange={(event) => {
+                  setChannel(event.target.value);
+                  setReference('');
+                }}
                 className="h-9 w-full border border-dark-300 px-3 text-sm focus:border-primary-600 focus:outline-none">
-                {CHANNELS.map((c) => (
-                  <option key={c.id} value={c.id}>
+                {Object.entries(CHANNELS).map(([id, c]) => (
+                  <option key={id} value={id}>
                     {c.label}
                   </option>
                 ))}
               </select>
             </label>
+
+            <label className="block">
+              <span className="mb-1 block text-xs font-medium text-dark-600">
+                {field.fieldLabel}
+              </span>
+              <input
+                required
+                value={reference}
+                onChange={(event) =>
+                  setReference(field.mono ? event.target.value.toUpperCase() : event.target.value)
+                }
+                placeholder={field.placeholder}
+                maxLength={64}
+                className={`h-9 w-full border border-dark-300 px-3 text-sm focus:border-primary-600 focus:outline-none ${
+                  field.mono ? 'font-mono uppercase' : ''
+                }`}
+              />
+            </label>
           </div>
+          {field.hint && <p className="text-xs text-dark-400">{field.hint}</p>}
 
           <label className="block">
             <span className="mb-1 block text-xs font-medium text-dark-600">
-              Anything we should know? (optional)
+              Anything else we should know? (optional)
             </span>
             <input
               value={note}
@@ -158,14 +203,14 @@ const PaymentReferenceBox = ({ order, onUpdated }) => {
               type="submit"
               disabled={saving || !reference.trim()}
               className="bg-primary-800 px-3.5 py-1.5 text-xs font-medium uppercase tracking-[0.1em] text-cream transition-colors hover:bg-primary-900 disabled:bg-dark-300">
-              {saving ? 'Sending…' : 'Send code'}
+              {saving ? 'Sending…' : 'Send'}
             </button>
           </div>
 
           <p className="flex items-start gap-1.5 text-xs text-dark-400">
             <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-            Sending a code doesn't mark the order paid — someone checks it against
-            our records first, and you'll get an email either way.
+            This doesn't mark the order paid — someone checks it against our
+            records first, and you'll get an email either way.
           </p>
         </form>
       )}

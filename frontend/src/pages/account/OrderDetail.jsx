@@ -10,6 +10,7 @@ import {
 } from '../../components/ui/Feedback.jsx';
 import Button from '../../components/ui/Button.jsx';
 import PaymentReferenceBox from '../../components/account/PaymentReferenceBox.jsx';
+import BankDetails from '../../components/checkout/BankDetails.jsx';
 import { ordersApi } from '../../api/index.js';
 import { errorMessage } from '../../api/apiClient.js';
 import { useFetch } from '../../hooks/useFetch.js';
@@ -85,6 +86,10 @@ const OrderDetail = () => {
           <StatusPill status={order.status} />
         </div>
       </div>
+
+      {order.payment.method === 'bank_transfer' && order.payment.status !== 'paid' && (
+        <BankDetails orderNumber={order.orderNumber} />
+      )}
 
       <PaymentReferenceBox order={order} onUpdated={refetch} />
 

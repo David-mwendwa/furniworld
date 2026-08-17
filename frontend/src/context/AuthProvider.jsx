@@ -6,15 +6,28 @@ import {
   useMemo,
   useState,
 } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { authApi } from '../api/index.js';
 import { AUTH_EXPIRED_EVENT } from '../api/apiClient.js';
-import { getToken, setToken, clearToken } from '../lib/storage.js';
+import {
+  getToken,
+  setToken,
+  clearToken,
+  getStoredUser,
+  setStoredUser,
+  clearStoredUser,
+} from '../lib/storage.js';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  // Seeded from the last-known user so the navbar paints signed-in state
+  // immediately on refresh instead of flashing "signed out" for the round
+  // trip to `/auth/me` below. `loading` still gates anything that needs the
+  // verified session (route guards, checkout) — this is display-only.
+  const [user, setUser] = useState(() => (getToken() ? getStoredUser() : null));
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!getToken()) {
@@ -24,15 +37,25 @@ export const AuthProvider = ({ children }) => {
 
     authApi
       .me()
-      .then(({ data }) => setUser(data.user))
-      .catch(() => clearToken())
+      .then(({ data }) => {
+        setUser(data.user);
+        setStoredUser(data.user);
+      })
+      .catch(() => {
+        clearToken();
+        clearStoredUser();
+        setUser(null);
+      })
       .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => {
     // Raised by the api client when a request comes back 401 on a route that
     // needed a live session.
-    const handleExpiry = () => setUser(null);
+    const handleExpiry = () => {
+      setUser(null);
+      clearStoredUser();
+    };
     window.addEventListener(AUTH_EXPIRED_EVENT, handleExpiry);
     return () => window.removeEventListener(AUTH_EXPIRED_EVENT, handleExpiry);
   }, []);
@@ -40,6 +63,7 @@ export const AuthProvider = ({ children }) => {
   const adopt = useCallback((data) => {
     setToken(data.token);
     setUser(data.user);
+    setStoredUser(data.user);
     return data.user;
   }, []);
 
@@ -54,13 +78,21 @@ export const AuthProvider = ({ children }) => {
   );
 
   const logout = useCallback(async () => {
+    // Leave the current route before clearing the session, not after — a
+    // protected route (e.g. an order detail page) re-renders the instant
+    // `isAuthenticated` flips to false and issues its own redirect to
+    // `/login` carrying `state: {from: <that route>}`. If that fires first,
+    // whoever logs in next — a different account entirely — gets bounced
+    // back into the page the previous session happened to be sitting on.
+    navigate('/', { replace: true });
     try {
       await authApi.logout();
     } finally {
       clearToken();
+      clearStoredUser();
       setUser(null);
     }
-  }, []);
+  }, [navigate]);
 
   const value = useMemo(
     () => ({

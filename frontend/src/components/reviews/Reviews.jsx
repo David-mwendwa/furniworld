@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import { MessageSquare, BadgeCheck } from 'lucide-react';
+import { MessageSquare, BadgeCheck, Trash2 } from 'lucide-react';
 import Button from '../ui/Button.jsx';
 import { Rating, EmptyState, Badge } from '../ui/Feedback.jsx';
 import { Textarea, Input } from '../ui/Field.jsx';
 import { formatRelative } from '../../lib/format.js';
-import { productsApi } from '../../api/index.js';
+import { productsApi, reviewsApi } from '../../api/index.js';
 import { errorMessage } from '../../api/apiClient.js';
 import { useAuth } from '../../context/AuthProvider.jsx';
 import { useToast } from '../../context/ToastProvider.jsx';
+import { useConfirm } from '../../context/ConfirmProvider.jsx';
 
 export const RatingBreakdown = ({ average, count, breakdown = {} }) => (
   <div className="space-y-4">
@@ -40,7 +41,12 @@ export const RatingBreakdown = ({ average, count, breakdown = {} }) => (
   </div>
 );
 
-export const ReviewList = ({ reviews }) => {
+export const ReviewList = ({ reviews, onChange }) => {
+  const { user } = useAuth();
+  const toast = useToast();
+  const confirm = useConfirm();
+  const [removing, setRemoving] = useState(null);
+
   if (!reviews?.length)
     return (
       <EmptyState
@@ -50,29 +56,67 @@ export const ReviewList = ({ reviews }) => {
       />
     );
 
+  const remove = async (review) => {
+    const ok = await confirm({
+      title: 'Delete this review?',
+      description: 'It will be removed from this page immediately.',
+      confirmLabel: 'Delete',
+      destructive: true,
+    });
+    if (!ok) return;
+
+    setRemoving(review._id);
+    try {
+      await reviewsApi.remove(review._id);
+      toast.success('Review deleted');
+      onChange?.();
+    } catch (error) {
+      toast.error(errorMessage(error));
+    } finally {
+      setRemoving(null);
+    }
+  };
+
   return (
     <ul className="divide-y divide-dark-200">
-      {reviews.map((review) => (
-        <li key={review._id} className="space-y-2.5 py-6 first:pt-0">
-          <div className="flex flex-wrap items-center gap-3">
-            <Rating value={review.rating} size={13} showEmpty={false} count={0} />
-            {review.verifiedPurchase && (
-              <Badge tone="sage" className="gap-1">
-                <BadgeCheck className="mr-1 h-3 w-3" />
-                Verified
-              </Badge>
+      {reviews.map((review) => {
+        const isOwner = user && String(review.user?._id) === String(user._id);
+
+        return (
+          <li key={review._id} className="space-y-2.5 py-6 first:pt-0">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="flex flex-wrap items-center gap-3">
+                <Rating value={review.rating} size={13} showEmpty={false} count={0} />
+                {review.verifiedPurchase && (
+                  <Badge tone="sage" className="gap-1">
+                    <BadgeCheck className="mr-1 h-3 w-3" />
+                    Verified
+                  </Badge>
+                )}
+                <span className="text-xs text-dark-400">
+                  {formatRelative(review.createdAt)}
+                </span>
+              </div>
+              {isOwner && (
+                <button
+                  onClick={() => remove(review)}
+                  disabled={removing === review._id}
+                  aria-label="Delete your review"
+                  className="shrink-0 p-1 text-dark-400 transition-colors hover:text-danger-600 disabled:opacity-50">
+                  <Trash2 className="h-4 w-4" />
+                </button>
+              )}
+            </div>
+            {review.title && (
+              <h4 className="text-sm font-medium">{review.title}</h4>
             )}
-            <span className="text-xs text-dark-400">
-              {formatRelative(review.createdAt)}
-            </span>
-          </div>
-          {review.title && (
-            <h4 className="text-sm font-medium">{review.title}</h4>
-          )}
-          <p className="text-sm leading-relaxed text-dark-600">{review.body}</p>
-          <p className="text-xs text-dark-400">{review.user?.name}</p>
-        </li>
-      ))}
+            <p className="text-sm leading-relaxed text-dark-600">{review.body}</p>
+            <p className="text-xs text-dark-400">
+              {isOwner ? 'You' : review.user?.name}
+            </p>
+          </li>
+        );
+      })}
     </ul>
   );
 };

@@ -25,6 +25,23 @@ export const ProtectedRoute = () => {
   );
 };
 
+/**
+ * Guards the shopping surfaces — checkout and order history. An admin account
+ * runs the store rather than buying from it (the API rejects it too, see
+ * `restrictTo('user')` on `orderRoutes.js`), so it's sent to the dashboard
+ * instead of hitting that 403 mid-checkout.
+ */
+export const ShopperRoute = () => {
+  const { isAuthenticated, isAdmin, loading } = useAuth();
+  const location = useLocation();
+
+  if (loading) return <Waiting />;
+  if (!isAuthenticated)
+    return <Navigate to="/login" replace state={{ from: fullPath(location) }} />;
+
+  return isAdmin ? <Navigate to="/admin" replace /> : <Outlet />;
+};
+
 export const AdminRoute = () => {
   const { isAuthenticated, isAdmin, loading } = useAuth();
   const location = useLocation();
