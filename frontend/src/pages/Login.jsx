@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Container } from '../components/ui/Feedback.jsx';
 import Button from '../components/ui/Button.jsx';
 import { Input } from '../components/ui/Field.jsx';
@@ -14,6 +14,7 @@ const DEMO_ACCOUNTS = [
 
 const Login = () => {
   const { login } = useAuth();
+  const location = useLocation();
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -75,7 +76,10 @@ const Login = () => {
         </Link>
         <p>
           New here?{' '}
-          <Link to="/register" className="underline hover:text-primary-800">
+          <Link
+            to="/register"
+            state={location.state}
+            className="underline hover:text-primary-800">
             Create an account
           </Link>
         </p>

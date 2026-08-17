@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Container } from '../components/ui/Feedback.jsx';
 import Button from '../components/ui/Button.jsx';
 import { Input } from '../components/ui/Field.jsx';
@@ -8,7 +8,7 @@ import { errorMessage } from '../api/apiClient.js';
 
 const Register = () => {
   const { register } = useAuth();
-  const navigate = useNavigate();
+  const location = useLocation();
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -108,7 +108,10 @@ const Register = () => {
 
       <p className="mt-6 text-sm text-dark-500">
         Already have an account?{' '}
-        <Link to="/login" className="underline hover:text-primary-800">
+        <Link
+          to="/login"
+          state={location.state}
+          className="underline hover:text-primary-800">
           Sign in
         </Link>
       </p>
