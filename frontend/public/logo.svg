@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="Furniworld">
   <rect x="2" y="2" width="60" height="60" rx="14" fill="currentColor" />
-  <!-- An F whose bars and descending stroke read as an armchair in side profile:
-       the upright is the chair back, the two bars the seat and the base rail. -->
+  <!-- A plain F: the upright reads as a chair back and the two bars as seat and
+       apron. An earlier version added a base rail, which closed the letter into
+       an E. -->
   <path d="M22 16h22v7H29v8h13v7H29v10h-7z" fill="#FAF7F2" />
-  <path d="M22 48h26v-6" stroke="#FAF7F2" stroke-width="5" stroke-linecap="round" />
 </svg>

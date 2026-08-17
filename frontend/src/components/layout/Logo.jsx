@@ -11,8 +11,9 @@ const Mark = ({ tone }) => {
   return (
     <svg viewBox="0 0 64 64" className="h-8 w-8 shrink-0" fill="none" aria-hidden>
       <rect x="2" y="2" width="60" height="60" rx="14" fill={square} />
+      {/* A plain F. An earlier version added a base rail below the stem, which
+          closed the letter into an E. */}
       <path d="M22 16h22v7H29v8h13v7H29v10h-7z" fill={glyph} />
-      <path d="M22 48h26v-6" stroke={glyph} strokeWidth="5" strokeLinecap="round" />
     </svg>
   );
 };
