@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+  <!--
+    Source for public/og.jpg, the image rendered when a Furniworld link is
+    shared into Slack, WhatsApp, LinkedIn or X. Regenerate after editing with:
+
+      npm run og
+
+    (XML forbids a double hyphen inside a comment, so command flags are
+    described rather than pasted.)
+
+    Why the canvas is 1200x1200 for a 1200x630 card: qlmanage always rasterises
+    into a SQUARE thumbnail and scales the artwork to fit, so a 1200x630 source
+    comes back magnified and cropped rather than at 1:1. A square source means
+    one SVG unit maps to one pixel exactly; the card sits in a 630-tall band
+    centred at y=285, and the sips crop takes that band back out. The outer
+    square is painted the same ground so the crop cannot reveal a seam.
+
+    Colour, type and mark are the shop's own, read off tailwind.config.js and
+    public/logo.svg rather than invented: walnut-900 as the ground, the cream
+    the shop uses in place of white, sage for the one accent, and the plain F
+    whose upright reads as a chair back. Type is Cormorant Garamond for the
+    headline (it is the display face and this is display size, which is the
+    only place it is comfortable) and Jost for everything else, embedded as
+    base64 woff2 by scripts/build-og.mjs into the empty style element below.
+
+    An unfurl renders around 400px wide, a third of this image, so nothing here
+    is smaller than 28px.
+  -->
+  <style id="fonts" />
+
+  <rect width="1200" height="1200" fill="#4A3224"/>
+
+  <defs>
+    <radialGradient id="lift" cx="0.16" cy="0.88" r="1.05">
+      <stop offset="0" stop-color="#6F4830" stop-opacity="0.75"/>
+      <stop offset="1" stop-color="#4A3224" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect x="0" y="285" width="1200" height="630" fill="#4A3224"/>
+  <rect x="0" y="285" width="1200" height="630" fill="url(#lift)"/>
+
+  <!-- The mark, from public/logo.svg. The rect is the plate and the F is
+       knocked out of it in cream, exactly as the component renders it. -->
+  <g transform="translate(96 372) scale(1.15)">
+    <rect x="2" y="2" width="60" height="60" rx="14" fill="#FAF7F2"/>
+    <path d="M22 16h22v7H29v8h13v7H29v10h-7z" fill="#4A3224"/>
+  </g>
+
+  <text x="196" y="430" font-family="Jost" font-size="40" font-weight="500" letter-spacing="6" fill="#FAF7F2">FURNIWORLD</text>
+
+  <text x="96" y="600" font-family="Cormorant Garamond" font-size="96" font-weight="600" fill="#FAF7F2">Pieces built to stay</text>
+  <text x="96" y="700" font-family="Cormorant Garamond" font-size="96" font-weight="600" fill="#A6BCA4">in the family.</text>
+
+  <text x="96" y="790" font-family="Jost" font-size="32" font-weight="300" fill="#E5D3C2">Sofas, dining, bedroom and office furniture. Delivered across Kenya.</text>
+
+  <rect x="96" y="836" width="140" height="4" fill="#A6BCA4"/>
+</svg>

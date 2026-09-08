@@ -11,8 +11,16 @@ import {
   ReviewForm,
   RatingBreakdown,
 } from '../components/reviews/Reviews.jsx';
+import { assetUrl } from '../lib/images.js';
 import { productsApi } from '../api/index.js';
 import { useFetch } from '../hooks/useFetch.js';
+import { useSeo } from '../hooks/useSeo.js';
+import {
+  DEFAULT_DESCRIPTION,
+  absoluteUrl,
+  breadcrumbJsonLd,
+  productJsonLd,
+} from '../lib/seo.js';
 import { useCart } from '../context/CartProvider.jsx';
 import {
   CATEGORY_LABELS,
@@ -53,6 +61,48 @@ const ProductDetail = () => {
     return () => observer.disconnect();
   }, [data]);
 
+  /*
+   * Set before the product has loaded and before the not-found branch.
+   *
+   * A product URL is served by the SPA fallback rather than a prerendered
+   * file, so whatever stands here during the fetch is what a crawler
+   * snapshotting early will read. The canonical needs no data — it is
+   * derivable from the slug — so there is no reason to make it wait, and a
+   * product that never resolves must not be offered to an index.
+   */
+  const product = data?.product;
+  useSeo({
+    title: product?.name,
+    description:
+      product?.shortDescription || product?.description || DEFAULT_DESCRIPTION,
+    canonical: absoluteUrl(`/product/${slug}`),
+    image: product?.images?.[0] ? assetUrl(product.images[0].url) : undefined,
+    type: 'product',
+    noindex: !loading && !product,
+    jsonLd: product
+      ? [
+          productJsonLd(
+            product,
+            // assetUrl, not absoluteUrl: photographs are served by the API on
+            // its own origin, so prefixing the site would name a URL that 404s
+            // — and a Product graph whose image cannot be fetched is dropped.
+            product.images?.[0] ? assetUrl(product.images[0].url) : null
+          ),
+          breadcrumbJsonLd(
+            [
+              { name: 'Home', path: '/' },
+              { name: 'Shop', path: '/shop' },
+              product.category && {
+                name: CATEGORY_LABELS[product.category] ?? product.category,
+                path: `/shop/${product.category}`,
+              },
+              { name: product.name, path: `/product/${product.slug}` },
+            ].filter(Boolean)
+          ),
+        ]
+      : null,
+  });
+
   if (loading)
     return (
       <Container className="py-10">
@@ -81,7 +131,9 @@ const ProductDetail = () => {
       </Container>
     );
 
-  const { product, related } = data;
+  // `product` is bound above, before the early returns, because the head tags
+  // need it while the page is still loading.
+  const { related } = data;
   const soldOut = product.stock === 0;
   const attributes = product.attributes ?? {};
   const dims = attributes.dimensions;

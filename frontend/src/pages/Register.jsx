@@ -5,8 +5,12 @@ import Button from '../components/ui/Button.jsx';
 import { Input } from '../components/ui/Field.jsx';
 import { useAuth } from '../context/AuthProvider.jsx';
 import { errorMessage } from '../api/apiClient.js';
+import { useSeo } from '../hooks/useSeo.js';
+import { metaForPath } from '../lib/seo.js';
 
 const Register = () => {
+  useSeo(metaForPath('/register'));
+
   const { register } = useAuth();
   const location = useLocation();
   const [form, setForm] = useState({

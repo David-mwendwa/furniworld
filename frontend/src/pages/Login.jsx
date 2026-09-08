@@ -5,6 +5,8 @@ import Button from '../components/ui/Button.jsx';
 import { Input } from '../components/ui/Field.jsx';
 import { useAuth } from '../context/AuthProvider.jsx';
 import { errorMessage } from '../api/apiClient.js';
+import { useSeo } from '../hooks/useSeo.js';
+import { metaForPath } from '../lib/seo.js';
 
 // Kept in step with backend/scripts/seedDemo.js.
 const DEMO_ACCOUNTS = [
@@ -13,6 +15,8 @@ const DEMO_ACCOUNTS = [
 ];
 
 const Login = () => {
+  useSeo(metaForPath('/login'));
+
   const { login } = useAuth();
   const location = useLocation();
   const [form, setForm] = useState({ email: '', password: '' });

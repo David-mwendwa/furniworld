@@ -4,49 +4,55 @@ import { Container } from '../components/ui/Feedback.jsx';
 import Button from '../components/ui/Button.jsx';
 import { Input, Textarea } from '../components/ui/Field.jsx';
 import { useToast } from '../context/ToastProvider.jsx';
+import { useSeo } from '../hooks/useSeo.js';
+import { metaForPath } from '../lib/seo.js';
 
-export const About = () => (
-  <Container className="max-w-3xl py-16 lg:py-24">
-    <p className="eyebrow">About us</p>
-    <h1 className="mt-3 text-display-md">Furniture worth keeping</h1>
+export const About = () => {
+  useSeo(metaForPath('/about'));
 
-    <div className="prose prose-stone mt-10 max-w-none prose-headings:font-sans prose-headings:text-lg prose-headings:tracking-tight prose-p:font-light prose-p:leading-relaxed">
-      <p className="text-lg">
-        Furniworld sells furniture for Kenyan homes and offices — sofas, dining
-        sets, centre tables, TV units and workspace pieces, priced in shillings
-        and delivered across all forty-seven counties.
-      </p>
+  return (
+    <Container className="max-w-3xl py-16 lg:py-24">
+      <p className="eyebrow">About us</p>
+      <h1 className="mt-3 text-display-md">Furniture worth keeping</h1>
 
-      <h2>What we care about</h2>
-      <p>
-        Most furniture is bought once and lived with for a decade. That shapes what
-        we stock: seasoned hardwood frames rather than softwood, sinuous springs
-        rather than webbing, sealed stone tops rather than raw marble that stains
-        the first time someone puts down a glass of wine.
-      </p>
-      <p>
-        Every listing shows the piece as it actually is. The photographs are of the
-        item you will receive, and the dimensions are measured rather than
-        estimated, because a sofa that does not fit through a doorway is nobody's
-        idea of a good purchase.
-      </p>
+      <div className="prose prose-stone mt-10 max-w-none prose-headings:font-sans prose-headings:text-lg prose-headings:tracking-tight prose-p:font-light prose-p:leading-relaxed">
+        <p className="text-lg">
+          Furniworld sells furniture for Kenyan homes and offices — sofas, dining
+          sets, centre tables, TV units and workspace pieces, priced in shillings
+          and delivered across all forty-seven counties.
+        </p>
 
-      <h2>Where we are</h2>
-      <p>
-        Our showroom sits on Mombasa Road in Nairobi, and it is worth the trip if
-        you are choosing between two pieces — a marble top reads very differently
-        in person than on a screen.
-      </p>
+        <h2>What we care about</h2>
+        <p>
+          Most furniture is bought once and lived with for a decade. That shapes what
+          we stock: seasoned hardwood frames rather than softwood, sinuous springs
+          rather than webbing, sealed stone tops rather than raw marble that stains
+          the first time someone puts down a glass of wine.
+        </p>
+        <p>
+          Every listing shows the piece as it actually is. The photographs are of the
+          item you will receive, and the dimensions are measured rather than
+          estimated, because a sofa that does not fit through a doorway is nobody's
+          idea of a good purchase.
+        </p>
 
-      <h2>A note on this site</h2>
-      <p>
-        Furniworld is a portfolio project. The catalogue reflects real furniture at
-        real Kenyan retail prices, but payments are simulated and no order placed
-        here is fulfilled.
-      </p>
-    </div>
-  </Container>
-);
+        <h2>Where we are</h2>
+        <p>
+          Our showroom sits on Mombasa Road in Nairobi, and it is worth the trip if
+          you are choosing between two pieces — a marble top reads very differently
+          in person than on a screen.
+        </p>
+
+        <h2>A note on this site</h2>
+        <p>
+          Furniworld is a portfolio project. The catalogue reflects real furniture at
+          real Kenyan retail prices, but payments are simulated and no order placed
+          here is fulfilled.
+        </p>
+      </div>
+    </Container>
+  );
+};
 
 const SERVICES = [
   {
@@ -71,29 +77,35 @@ const SERVICES = [
   },
 ];
 
-export const Services = () => (
-  <Container className="py-16 lg:py-24">
-    <p className="eyebrow">Services</p>
-    <h1 className="mt-3 text-display-md">What comes with the furniture</h1>
-    <p className="mt-4 max-w-xl leading-relaxed text-dark-600">
-      Delivery, assembly and after-sales are part of the price, not extras bolted
-      on at checkout.
-    </p>
-    <div className="mt-14 grid gap-10 md:grid-cols-2">
-      {SERVICES.map(({ icon: Icon, title, body }) => (
-        <div
-          key={title}
-          className="space-y-4 border border-dark-200 bg-white/40 p-8">
-          <Icon className="h-6 w-6 text-primary-700" />
-          <h3 className="text-lg">{title}</h3>
-          <p className="text-sm leading-relaxed text-dark-600">{body}</p>
-        </div>
-      ))}
-    </div>
-  </Container>
-);
+export const Services = () => {
+  useSeo(metaForPath('/services'));
+
+  return (
+    <Container className="py-16 lg:py-24">
+      <p className="eyebrow">Services</p>
+      <h1 className="mt-3 text-display-md">What comes with the furniture</h1>
+      <p className="mt-4 max-w-xl leading-relaxed text-dark-600">
+        Delivery, assembly and after-sales are part of the price, not extras bolted
+        on at checkout.
+      </p>
+      <div className="mt-14 grid gap-10 md:grid-cols-2">
+        {SERVICES.map(({ icon: Icon, title, body }) => (
+          <div
+            key={title}
+            className="space-y-4 border border-dark-200 bg-white/40 p-8">
+            <Icon className="h-6 w-6 text-primary-700" />
+            <h3 className="text-lg">{title}</h3>
+            <p className="text-sm leading-relaxed text-dark-600">{body}</p>
+          </div>
+        ))}
+      </div>
+    </Container>
+  );
+};
 
 export const Contact = () => {
+  useSeo(metaForPath('/contact'));
+
   const toast = useToast();
   const [form, setForm] = useState({ name: '', email: '', message: '' });
 

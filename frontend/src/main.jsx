@@ -1,25 +1,36 @@
 import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
+import { createRoot, hydrateRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App.jsx';
-import { ToastProvider } from './context/ToastProvider.jsx';
-import { ConfirmProvider } from './context/ConfirmProvider.jsx';
-import { AuthProvider } from './context/AuthProvider.jsx';
-import { CartProvider } from './context/CartProvider.jsx';
+import AppProviders from './AppProviders.jsx';
 import './index.css';
 
-createRoot(document.getElementById('root')).render(
+const container = document.getElementById('root');
+
+const tree = (
   <StrictMode>
     <BrowserRouter>
-      <ToastProvider>
-        <ConfirmProvider>
-          <AuthProvider>
-            <CartProvider>
-              <App />
-            </CartProvider>
-          </AuthProvider>
-        </ConfirmProvider>
-      </ToastProvider>
+      <AppProviders>
+        <App />
+      </AppProviders>
     </BrowserRouter>
   </StrictMode>
 );
+
+/*
+ * Hydrate what the build already rendered; mount fresh when there is nothing.
+ *
+ * `scripts/prerender.mjs` writes real markup into this element for the public
+ * routes, and `createRoot().render()` would throw all of it away and rebuild
+ * the DOM from scratch — turning the prerender from a faster first paint into
+ * a slower one, since those bytes were downloaded and parsed for nothing.
+ *
+ * The check is on actual content rather than a flag, because both cases are
+ * normal: a prerendered route arrives with markup, and anything served by
+ * Netlify's SPA fallback (a product page, the account area) arrives empty.
+ */
+if (container.hasChildNodes()) {
+  hydrateRoot(container, tree);
+} else {
+  createRoot(container).render(tree);
+}

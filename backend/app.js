@@ -105,6 +105,46 @@ app.use(
   })
 );
 
+/*
+ * Public catalogue reads may be cached; everything else may not.
+ *
+ * The API runs on Render's free plan and takes ~23s to answer the first request
+ * after it has been idle. Nothing here makes it boot faster, but this stops a
+ * returning shopper needing it to have booted at all: the product listings and
+ * the facets are the same bytes for everyone, so a browser and any CDN in front
+ * of it can serve a repeat view without a round trip. `stale-while-revalidate`
+ * is the part that matters most — past the fresh window the cached copy is
+ * still served immediately and refreshed behind the shopper, so nobody sits
+ * through the wake-up.
+ *
+ * The guards are load-bearing:
+ *
+ *   - **GET only.** Marking a mutation cacheable is how a stale response gets
+ *     served for an order.
+ *   - **No credentials.** `/products` is public but is also read while signed
+ *     in, and `Vary` alone is not enough — marking a response `public` when the
+ *     request carried a token is how one user's response ends up in a shared
+ *     cache and is handed to another.
+ */
+const CACHEABLE_PUBLIC_GET = /^\/api\/v1\/products(\/|$)/;
+
+app.use((req, res, next) => {
+  if (req.method !== 'GET' || !CACHEABLE_PUBLIC_GET.test(req.path)) return next();
+
+  if (req.headers.authorization || req.headers.cookie) {
+    res.set('Cache-Control', 'private, no-store');
+    return next();
+  }
+
+  res.set('Cache-Control', 'public, max-age=60, s-maxage=300, stale-while-revalidate=86400');
+  // Without these a cache keyed only on the URL could hand a compressed body to
+  // a client that cannot read one, or serve a CORS-approved response to an
+  // origin that was never checked.
+  res.vary('Accept-Encoding');
+  res.vary('Origin');
+  next();
+});
+
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/products', productRoutes);

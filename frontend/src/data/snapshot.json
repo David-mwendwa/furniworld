@@ -1,0 +1,1848 @@
+{
+  "generatedAt": "2026-09-08T21:09:14.751Z",
+  "home": {
+    "featured": {
+      "success": true,
+      "products": [
+        {
+          "_id": "6a8314e0a8fc9ab99a4b53bb",
+          "name": "Digby 6 Seater Marble Dining",
+          "category": "dining-room",
+          "subcategory": "dining-sets",
+          "price": 249995,
+          "compareAtPrice": 299995,
+          "images": [
+            {
+              "url": "/images/products/Digby-6-seater-dining.jpg",
+              "alt": "Digby six seater dining set with a marble top and upholstered chairs"
+            }
+          ],
+          "stock": 3,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": true,
+          "tags": [
+            "festive-sale",
+            "marble"
+          ],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "digby-6-seater-marble-dining",
+          "createdAt": "2026-08-17T14:04:16.779Z",
+          "inStock": true,
+          "isLowStock": true,
+          "onSale": true,
+          "discountPercent": 17,
+          "id": "6a8314e0a8fc9ab99a4b53bb"
+        },
+        {
+          "_id": "6a8314dea8fc9ab99a4b53ac",
+          "name": "Bugatti 7 Seater 3+3+1",
+          "category": "living-room",
+          "subcategory": "sofas",
+          "price": 324995,
+          "compareAtPrice": 379995,
+          "images": [
+            {
+              "url": "/images/products/IMG_0888.jpg",
+              "alt": "Bugatti seven seater sofa suite in cream upholstery with tufted backs"
+            }
+          ],
+          "stock": 3,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": true,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 4,
+          "ratingsCount": 3,
+          "salesCount": 0,
+          "slug": "bugatti-7-seater-3-3-1",
+          "createdAt": "2026-08-17T14:04:14.601Z",
+          "inStock": true,
+          "isLowStock": true,
+          "onSale": true,
+          "discountPercent": 14,
+          "id": "6a8314dea8fc9ab99a4b53ac"
+        },
+        {
+          "_id": "6a8314dda8fc9ab99a4b53a6",
+          "name": "Biden 6 Seater Recliner 3+2+1",
+          "category": "living-room",
+          "subcategory": "recliners",
+          "price": 169995,
+          "images": [
+            {
+              "url": "/images/products/BIDEN.jpg",
+              "alt": "Biden six seater recliner suite in grey fabric, three two and one"
+            }
+          ],
+          "stock": 4,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": true,
+          "tags": [],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "biden-6-seater-recliner-3-2-1",
+          "createdAt": "2026-08-17T14:04:13.711Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": false,
+          "discountPercent": 0,
+          "id": "6a8314dda8fc9ab99a4b53a6"
+        }
+      ]
+    },
+    "facets": {
+      "success": true,
+      "categories": [
+        {
+          "category": "office",
+          "subcategory": "reception-desks",
+          "count": 1
+        },
+        {
+          "category": "office",
+          "subcategory": "desks",
+          "count": 3
+        },
+        {
+          "category": "living-room",
+          "subcategory": "recliners",
+          "count": 2
+        },
+        {
+          "category": "bedroom",
+          "subcategory": "sofa-beds",
+          "count": 1
+        },
+        {
+          "category": "living-room",
+          "subcategory": "consoles",
+          "count": 2
+        },
+        {
+          "category": "living-room",
+          "subcategory": "tv-stands",
+          "count": 6
+        },
+        {
+          "category": "office",
+          "subcategory": "boardroom-tables",
+          "count": 1
+        },
+        {
+          "category": "office",
+          "subcategory": "office-chairs",
+          "count": 2
+        },
+        {
+          "category": "dining-room",
+          "subcategory": "dining-sets",
+          "count": 8
+        },
+        {
+          "category": "living-room",
+          "subcategory": "coffee-tables",
+          "count": 19
+        },
+        {
+          "category": "living-room",
+          "subcategory": "sofas",
+          "count": 5
+        }
+      ],
+      "priceRange": {
+        "min": 4995,
+        "max": 324995
+      }
+    },
+    "newest": {
+      "success": true,
+      "products": [
+        {
+          "_id": "6a8314f1a8fc9ab99a4b542d",
+          "name": "Yemen Office Desk 1.6m",
+          "category": "office",
+          "subcategory": "desks",
+          "price": 52995,
+          "compareAtPrice": 64995,
+          "images": [
+            {
+              "url": "/images/products/IMG_1599.jpg",
+              "alt": "Yemen 1.6 metre office desk with a side return"
+            }
+          ],
+          "stock": 9,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "yemen-office-desk-1-6m",
+          "createdAt": "2026-08-17T14:04:34.079Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": true,
+          "discountPercent": 18,
+          "id": "6a8314f1a8fc9ab99a4b542d"
+        },
+        {
+          "_id": "6a8314f1a8fc9ab99a4b542a",
+          "name": "Winnipeg Coffee Table",
+          "category": "living-room",
+          "subcategory": "coffee-tables",
+          "price": 64995,
+          "compareAtPrice": 78995,
+          "images": [
+            {
+              "url": "/images/products/winnipeg-coffee-table.jpg",
+              "alt": "Winnipeg coffee table with a stone-effect top and a black frame"
+            }
+          ],
+          "stock": 10,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 5,
+          "ratingsCount": 1,
+          "salesCount": 0,
+          "slug": "winnipeg-coffee-table",
+          "createdAt": "2026-08-17T14:04:33.577Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": true,
+          "discountPercent": 18,
+          "id": "6a8314f1a8fc9ab99a4b542a"
+        },
+        {
+          "_id": "6a8314f0a8fc9ab99a4b5427",
+          "name": "Welland Coffee Table",
+          "category": "living-room",
+          "subcategory": "coffee-tables",
+          "price": 64995,
+          "compareAtPrice": 78995,
+          "images": [
+            {
+              "url": "/images/products/welland.jpg",
+              "alt": "Welland oval coffee table in walnut"
+            }
+          ],
+          "stock": 9,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "welland-coffee-table",
+          "createdAt": "2026-08-17T14:04:33.156Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": true,
+          "discountPercent": 18,
+          "id": "6a8314f0a8fc9ab99a4b5427"
+        },
+        {
+          "_id": "6a8314f0a8fc9ab99a4b5424",
+          "name": "Victoria Coffee Table",
+          "category": "living-room",
+          "subcategory": "coffee-tables",
+          "price": 49995,
+          "compareAtPrice": 60995,
+          "images": [
+            {
+              "url": "/images/products/victoria.jpg",
+              "alt": "Victoria coffee table with a glass top and gold frame"
+            }
+          ],
+          "stock": 12,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "victoria-coffee-table",
+          "createdAt": "2026-08-17T14:04:32.723Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": true,
+          "discountPercent": 18,
+          "id": "6a8314f0a8fc9ab99a4b5424"
+        },
+        {
+          "_id": "6a8314f0a8fc9ab99a4b5421",
+          "name": "Surrey TV Stand",
+          "category": "living-room",
+          "subcategory": "tv-stands",
+          "price": 144995,
+          "compareAtPrice": 169995,
+          "images": [
+            {
+              "url": "/images/products/surrey-tv-stand-and-coffee-table.jpg",
+              "alt": "Surrey TV stand with a marble top, photographed with its matching coffee table"
+            }
+          ],
+          "stock": 3,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale",
+            "marble"
+          ],
+          "ratingsAverage": 5,
+          "ratingsCount": 1,
+          "salesCount": 0,
+          "slug": "surrey-tv-stand",
+          "createdAt": "2026-08-17T14:04:32.310Z",
+          "inStock": true,
+          "isLowStock": true,
+          "onSale": true,
+          "discountPercent": 15,
+          "id": "6a8314f0a8fc9ab99a4b5421"
+        },
+        {
+          "_id": "6a8314efa8fc9ab99a4b541e",
+          "name": "Surrey Coffee Table",
+          "category": "living-room",
+          "subcategory": "coffee-tables",
+          "price": 199995,
+          "compareAtPrice": 234995,
+          "images": [
+            {
+              "url": "/images/products/surrey-tv-stand-and-coffee-table.jpg",
+              "alt": "Surrey marble coffee table photographed with its matching TV stand"
+            }
+          ],
+          "stock": 2,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale",
+            "marble"
+          ],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "surrey-coffee-table",
+          "createdAt": "2026-08-17T14:04:31.869Z",
+          "inStock": true,
+          "isLowStock": true,
+          "onSale": true,
+          "discountPercent": 15,
+          "id": "6a8314efa8fc9ab99a4b541e"
+        },
+        {
+          "_id": "6a8314efa8fc9ab99a4b541b",
+          "name": "Sudbury Sofa Bed",
+          "category": "bedroom",
+          "subcategory": "sofa-beds",
+          "price": 99995,
+          "compareAtPrice": 119995,
+          "images": [
+            {
+              "url": "/images/products/sudbury2.jpg",
+              "alt": "Sudbury sofa bed in grey, shown as a sofa"
+            }
+          ],
+          "stock": 8,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "sudbury-sofa-bed",
+          "createdAt": "2026-08-17T14:04:31.426Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": true,
+          "discountPercent": 17,
+          "id": "6a8314efa8fc9ab99a4b541b"
+        },
+        {
+          "_id": "6a8314eea8fc9ab99a4b5418",
+          "name": "Student Chair",
+          "category": "office",
+          "subcategory": "office-chairs",
+          "price": 4995,
+          "images": [
+            {
+              "url": "/images/products/SC1.jpeg",
+              "alt": "Stackable student chair with a moulded polypropylene seat"
+            }
+          ],
+          "stock": 120,
+          "lowStockThreshold": 20,
+          "status": "active",
+          "featured": false,
+          "tags": [],
+          "ratingsAverage": 3,
+          "ratingsCount": 1,
+          "salesCount": 0,
+          "slug": "student-chair",
+          "createdAt": "2026-08-17T14:04:31.003Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": false,
+          "discountPercent": 0,
+          "id": "6a8314eea8fc9ab99a4b5418"
+        }
+      ],
+      "meta": {
+        "page": 1,
+        "limit": 8,
+        "total": 50,
+        "pages": 7
+      }
+    },
+    "onSale": {
+      "success": true,
+      "products": [
+        {
+          "_id": "6a8314e2a8fc9ab99a4b53ca",
+          "name": "Estiva 7 Seater 3+3+1",
+          "category": "living-room",
+          "subcategory": "sofas",
+          "price": 324995,
+          "compareAtPrice": 384995,
+          "images": [
+            {
+              "url": "/images/products/estavia.jpg",
+              "alt": "Estiva seven seater sofa suite in beige with wooden trim"
+            }
+          ],
+          "stock": 3,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "estiva-7-seater-3-3-1",
+          "createdAt": "2026-08-17T14:04:18.954Z",
+          "inStock": true,
+          "isLowStock": true,
+          "onSale": true,
+          "discountPercent": 16,
+          "id": "6a8314e2a8fc9ab99a4b53ca"
+        },
+        {
+          "_id": "6a8314dea8fc9ab99a4b53ac",
+          "name": "Bugatti 7 Seater 3+3+1",
+          "category": "living-room",
+          "subcategory": "sofas",
+          "price": 324995,
+          "compareAtPrice": 379995,
+          "images": [
+            {
+              "url": "/images/products/IMG_0888.jpg",
+              "alt": "Bugatti seven seater sofa suite in cream upholstery with tufted backs"
+            }
+          ],
+          "stock": 3,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": true,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 4,
+          "ratingsCount": 3,
+          "salesCount": 0,
+          "slug": "bugatti-7-seater-3-3-1",
+          "createdAt": "2026-08-17T14:04:14.601Z",
+          "inStock": true,
+          "isLowStock": true,
+          "onSale": true,
+          "discountPercent": 14,
+          "id": "6a8314dea8fc9ab99a4b53ac"
+        },
+        {
+          "_id": "6a8314eaa8fc9ab99a4b53fd",
+          "name": "Pella 7 Seater Sofa 3+3+1",
+          "category": "living-room",
+          "subcategory": "sofas",
+          "price": 324995,
+          "compareAtPrice": 374995,
+          "images": [
+            {
+              "url": "/images/products/p1.jpeg",
+              "alt": "Pella seven seater sofa suite in solid wood with cream cushions"
+            }
+          ],
+          "stock": 3,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 3,
+          "ratingsCount": 1,
+          "salesCount": 0,
+          "slug": "pella-7-seater-sofa-3-3-1",
+          "createdAt": "2026-08-17T14:04:27.117Z",
+          "inStock": true,
+          "isLowStock": true,
+          "onSale": true,
+          "discountPercent": 13,
+          "id": "6a8314eaa8fc9ab99a4b53fd"
+        },
+        {
+          "_id": "6a8314eea8fc9ab99a4b5415",
+          "name": "Solo 7 Seater 3+3+1",
+          "category": "living-room",
+          "subcategory": "sofas",
+          "price": 299995,
+          "compareAtPrice": 349995,
+          "images": [
+            {
+              "url": "/images/products/5545454545.jpg",
+              "alt": "Solo seven seater sofa suite in grey with channel-stitched backs"
+            }
+          ],
+          "stock": 4,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "solo-7-seater-3-3-1",
+          "createdAt": "2026-08-17T14:04:30.578Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": true,
+          "discountPercent": 14,
+          "id": "6a8314eea8fc9ab99a4b5415"
+        }
+      ],
+      "meta": {
+        "page": 1,
+        "limit": 4,
+        "total": 42,
+        "pages": 11
+      }
+    }
+  },
+  "listing": {
+    "params": {
+      "limit": 12,
+      "sort": "newest"
+    },
+    "success": true,
+    "products": [
+      {
+        "_id": "6a8314f1a8fc9ab99a4b542d",
+        "name": "Yemen Office Desk 1.6m",
+        "category": "office",
+        "subcategory": "desks",
+        "price": 52995,
+        "compareAtPrice": 64995,
+        "images": [
+          {
+            "url": "/images/products/IMG_1599.jpg",
+            "alt": "Yemen 1.6 metre office desk with a side return"
+          }
+        ],
+        "stock": 9,
+        "lowStockThreshold": 3,
+        "status": "active",
+        "featured": false,
+        "tags": [
+          "festive-sale"
+        ],
+        "ratingsAverage": 0,
+        "ratingsCount": 0,
+        "salesCount": 0,
+        "slug": "yemen-office-desk-1-6m",
+        "createdAt": "2026-08-17T14:04:34.079Z",
+        "inStock": true,
+        "isLowStock": false,
+        "onSale": true,
+        "discountPercent": 18,
+        "id": "6a8314f1a8fc9ab99a4b542d"
+      },
+      {
+        "_id": "6a8314f1a8fc9ab99a4b542a",
+        "name": "Winnipeg Coffee Table",
+        "category": "living-room",
+        "subcategory": "coffee-tables",
+        "price": 64995,
+        "compareAtPrice": 78995,
+        "images": [
+          {
+            "url": "/images/products/winnipeg-coffee-table.jpg",
+            "alt": "Winnipeg coffee table with a stone-effect top and a black frame"
+          }
+        ],
+        "stock": 10,
+        "lowStockThreshold": 3,
+        "status": "active",
+        "featured": false,
+        "tags": [
+          "festive-sale"
+        ],
+        "ratingsAverage": 5,
+        "ratingsCount": 1,
+        "salesCount": 0,
+        "slug": "winnipeg-coffee-table",
+        "createdAt": "2026-08-17T14:04:33.577Z",
+        "inStock": true,
+        "isLowStock": false,
+        "onSale": true,
+        "discountPercent": 18,
+        "id": "6a8314f1a8fc9ab99a4b542a"
+      },
+      {
+        "_id": "6a8314f0a8fc9ab99a4b5427",
+        "name": "Welland Coffee Table",
+        "category": "living-room",
+        "subcategory": "coffee-tables",
+        "price": 64995,
+        "compareAtPrice": 78995,
+        "images": [
+          {
+            "url": "/images/products/welland.jpg",
+            "alt": "Welland oval coffee table in walnut"
+          }
+        ],
+        "stock": 9,
+        "lowStockThreshold": 3,
+        "status": "active",
+        "featured": false,
+        "tags": [
+          "festive-sale"
+        ],
+        "ratingsAverage": 0,
+        "ratingsCount": 0,
+        "salesCount": 0,
+        "slug": "welland-coffee-table",
+        "createdAt": "2026-08-17T14:04:33.156Z",
+        "inStock": true,
+        "isLowStock": false,
+        "onSale": true,
+        "discountPercent": 18,
+        "id": "6a8314f0a8fc9ab99a4b5427"
+      },
+      {
+        "_id": "6a8314f0a8fc9ab99a4b5424",
+        "name": "Victoria Coffee Table",
+        "category": "living-room",
+        "subcategory": "coffee-tables",
+        "price": 49995,
+        "compareAtPrice": 60995,
+        "images": [
+          {
+            "url": "/images/products/victoria.jpg",
+            "alt": "Victoria coffee table with a glass top and gold frame"
+          }
+        ],
+        "stock": 12,
+        "lowStockThreshold": 3,
+        "status": "active",
+        "featured": false,
+        "tags": [
+          "festive-sale"
+        ],
+        "ratingsAverage": 0,
+        "ratingsCount": 0,
+        "salesCount": 0,
+        "slug": "victoria-coffee-table",
+        "createdAt": "2026-08-17T14:04:32.723Z",
+        "inStock": true,
+        "isLowStock": false,
+        "onSale": true,
+        "discountPercent": 18,
+        "id": "6a8314f0a8fc9ab99a4b5424"
+      },
+      {
+        "_id": "6a8314f0a8fc9ab99a4b5421",
+        "name": "Surrey TV Stand",
+        "category": "living-room",
+        "subcategory": "tv-stands",
+        "price": 144995,
+        "compareAtPrice": 169995,
+        "images": [
+          {
+            "url": "/images/products/surrey-tv-stand-and-coffee-table.jpg",
+            "alt": "Surrey TV stand with a marble top, photographed with its matching coffee table"
+          }
+        ],
+        "stock": 3,
+        "lowStockThreshold": 3,
+        "status": "active",
+        "featured": false,
+        "tags": [
+          "festive-sale",
+          "marble"
+        ],
+        "ratingsAverage": 5,
+        "ratingsCount": 1,
+        "salesCount": 0,
+        "slug": "surrey-tv-stand",
+        "createdAt": "2026-08-17T14:04:32.310Z",
+        "inStock": true,
+        "isLowStock": true,
+        "onSale": true,
+        "discountPercent": 15,
+        "id": "6a8314f0a8fc9ab99a4b5421"
+      },
+      {
+        "_id": "6a8314efa8fc9ab99a4b541e",
+        "name": "Surrey Coffee Table",
+        "category": "living-room",
+        "subcategory": "coffee-tables",
+        "price": 199995,
+        "compareAtPrice": 234995,
+        "images": [
+          {
+            "url": "/images/products/surrey-tv-stand-and-coffee-table.jpg",
+            "alt": "Surrey marble coffee table photographed with its matching TV stand"
+          }
+        ],
+        "stock": 2,
+        "lowStockThreshold": 3,
+        "status": "active",
+        "featured": false,
+        "tags": [
+          "festive-sale",
+          "marble"
+        ],
+        "ratingsAverage": 0,
+        "ratingsCount": 0,
+        "salesCount": 0,
+        "slug": "surrey-coffee-table",
+        "createdAt": "2026-08-17T14:04:31.869Z",
+        "inStock": true,
+        "isLowStock": true,
+        "onSale": true,
+        "discountPercent": 15,
+        "id": "6a8314efa8fc9ab99a4b541e"
+      },
+      {
+        "_id": "6a8314efa8fc9ab99a4b541b",
+        "name": "Sudbury Sofa Bed",
+        "category": "bedroom",
+        "subcategory": "sofa-beds",
+        "price": 99995,
+        "compareAtPrice": 119995,
+        "images": [
+          {
+            "url": "/images/products/sudbury2.jpg",
+            "alt": "Sudbury sofa bed in grey, shown as a sofa"
+          }
+        ],
+        "stock": 8,
+        "lowStockThreshold": 3,
+        "status": "active",
+        "featured": false,
+        "tags": [
+          "festive-sale"
+        ],
+        "ratingsAverage": 0,
+        "ratingsCount": 0,
+        "salesCount": 0,
+        "slug": "sudbury-sofa-bed",
+        "createdAt": "2026-08-17T14:04:31.426Z",
+        "inStock": true,
+        "isLowStock": false,
+        "onSale": true,
+        "discountPercent": 17,
+        "id": "6a8314efa8fc9ab99a4b541b"
+      },
+      {
+        "_id": "6a8314eea8fc9ab99a4b5418",
+        "name": "Student Chair",
+        "category": "office",
+        "subcategory": "office-chairs",
+        "price": 4995,
+        "images": [
+          {
+            "url": "/images/products/SC1.jpeg",
+            "alt": "Stackable student chair with a moulded polypropylene seat"
+          }
+        ],
+        "stock": 120,
+        "lowStockThreshold": 20,
+        "status": "active",
+        "featured": false,
+        "tags": [],
+        "ratingsAverage": 3,
+        "ratingsCount": 1,
+        "salesCount": 0,
+        "slug": "student-chair",
+        "createdAt": "2026-08-17T14:04:31.003Z",
+        "inStock": true,
+        "isLowStock": false,
+        "onSale": false,
+        "discountPercent": 0,
+        "id": "6a8314eea8fc9ab99a4b5418"
+      },
+      {
+        "_id": "6a8314eea8fc9ab99a4b5415",
+        "name": "Solo 7 Seater 3+3+1",
+        "category": "living-room",
+        "subcategory": "sofas",
+        "price": 299995,
+        "compareAtPrice": 349995,
+        "images": [
+          {
+            "url": "/images/products/5545454545.jpg",
+            "alt": "Solo seven seater sofa suite in grey with channel-stitched backs"
+          }
+        ],
+        "stock": 4,
+        "lowStockThreshold": 3,
+        "status": "active",
+        "featured": false,
+        "tags": [
+          "festive-sale"
+        ],
+        "ratingsAverage": 0,
+        "ratingsCount": 0,
+        "salesCount": 0,
+        "slug": "solo-7-seater-3-3-1",
+        "createdAt": "2026-08-17T14:04:30.578Z",
+        "inStock": true,
+        "isLowStock": false,
+        "onSale": true,
+        "discountPercent": 14,
+        "id": "6a8314eea8fc9ab99a4b5415"
+      },
+      {
+        "_id": "6a8314eda8fc9ab99a4b5412",
+        "name": "Saskatoon 4 Seater Dining Blue",
+        "category": "dining-room",
+        "subcategory": "dining-sets",
+        "price": 114995,
+        "compareAtPrice": 138995,
+        "images": [
+          {
+            "url": "/images/products/saskiatoon-4-seater-blue.jpg",
+            "alt": "Saskatoon four seater dining set with blue velvet chairs"
+          }
+        ],
+        "stock": 6,
+        "lowStockThreshold": 3,
+        "status": "active",
+        "featured": false,
+        "tags": [
+          "festive-sale"
+        ],
+        "ratingsAverage": 0,
+        "ratingsCount": 0,
+        "salesCount": 0,
+        "slug": "saskatoon-4-seater-dining-blue",
+        "createdAt": "2026-08-17T14:04:30.143Z",
+        "inStock": true,
+        "isLowStock": false,
+        "onSale": true,
+        "discountPercent": 17,
+        "id": "6a8314eda8fc9ab99a4b5412"
+      },
+      {
+        "_id": "6a8314eda8fc9ab99a4b540f",
+        "name": "Saskatoon 4 Seater Dining",
+        "category": "dining-room",
+        "subcategory": "dining-sets",
+        "price": 114995,
+        "compareAtPrice": 138995,
+        "images": [
+          {
+            "url": "/images/products/saskiatoon-4-seater.jpg",
+            "alt": "Saskatoon four seater dining set with a marble-effect top and cream chairs"
+          }
+        ],
+        "stock": 6,
+        "lowStockThreshold": 3,
+        "status": "active",
+        "featured": false,
+        "tags": [
+          "festive-sale"
+        ],
+        "ratingsAverage": 5,
+        "ratingsCount": 1,
+        "salesCount": 0,
+        "slug": "saskatoon-4-seater-dining",
+        "createdAt": "2026-08-17T14:04:29.717Z",
+        "inStock": true,
+        "isLowStock": false,
+        "onSale": true,
+        "discountPercent": 17,
+        "id": "6a8314eda8fc9ab99a4b540f"
+      },
+      {
+        "_id": "6a8314eda8fc9ab99a4b540c",
+        "name": "Sarnia Coffee Table",
+        "category": "living-room",
+        "subcategory": "coffee-tables",
+        "price": 49995,
+        "compareAtPrice": 60995,
+        "images": [
+          {
+            "url": "/images/products/sarnia.jpg",
+            "alt": "Sarnia coffee table with a curved wooden base and pale top"
+          }
+        ],
+        "stock": 11,
+        "lowStockThreshold": 3,
+        "status": "active",
+        "featured": false,
+        "tags": [
+          "festive-sale"
+        ],
+        "ratingsAverage": 0,
+        "ratingsCount": 0,
+        "salesCount": 0,
+        "slug": "sarnia-coffee-table",
+        "createdAt": "2026-08-17T14:04:29.300Z",
+        "inStock": true,
+        "isLowStock": false,
+        "onSale": true,
+        "discountPercent": 18,
+        "id": "6a8314eda8fc9ab99a4b540c"
+      }
+    ],
+    "meta": {
+      "page": 1,
+      "limit": 12,
+      "total": 50,
+      "pages": 5
+    }
+  },
+  "categories": {
+    "living-room": {
+      "success": true,
+      "products": [
+        {
+          "_id": "6a8314f1a8fc9ab99a4b542a",
+          "name": "Winnipeg Coffee Table",
+          "category": "living-room",
+          "subcategory": "coffee-tables",
+          "price": 64995,
+          "compareAtPrice": 78995,
+          "images": [
+            {
+              "url": "/images/products/winnipeg-coffee-table.jpg",
+              "alt": "Winnipeg coffee table with a stone-effect top and a black frame"
+            }
+          ],
+          "stock": 10,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 5,
+          "ratingsCount": 1,
+          "salesCount": 0,
+          "slug": "winnipeg-coffee-table",
+          "createdAt": "2026-08-17T14:04:33.577Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": true,
+          "discountPercent": 18,
+          "id": "6a8314f1a8fc9ab99a4b542a"
+        },
+        {
+          "_id": "6a8314f0a8fc9ab99a4b5427",
+          "name": "Welland Coffee Table",
+          "category": "living-room",
+          "subcategory": "coffee-tables",
+          "price": 64995,
+          "compareAtPrice": 78995,
+          "images": [
+            {
+              "url": "/images/products/welland.jpg",
+              "alt": "Welland oval coffee table in walnut"
+            }
+          ],
+          "stock": 9,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "welland-coffee-table",
+          "createdAt": "2026-08-17T14:04:33.156Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": true,
+          "discountPercent": 18,
+          "id": "6a8314f0a8fc9ab99a4b5427"
+        },
+        {
+          "_id": "6a8314f0a8fc9ab99a4b5424",
+          "name": "Victoria Coffee Table",
+          "category": "living-room",
+          "subcategory": "coffee-tables",
+          "price": 49995,
+          "compareAtPrice": 60995,
+          "images": [
+            {
+              "url": "/images/products/victoria.jpg",
+              "alt": "Victoria coffee table with a glass top and gold frame"
+            }
+          ],
+          "stock": 12,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "victoria-coffee-table",
+          "createdAt": "2026-08-17T14:04:32.723Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": true,
+          "discountPercent": 18,
+          "id": "6a8314f0a8fc9ab99a4b5424"
+        },
+        {
+          "_id": "6a8314f0a8fc9ab99a4b5421",
+          "name": "Surrey TV Stand",
+          "category": "living-room",
+          "subcategory": "tv-stands",
+          "price": 144995,
+          "compareAtPrice": 169995,
+          "images": [
+            {
+              "url": "/images/products/surrey-tv-stand-and-coffee-table.jpg",
+              "alt": "Surrey TV stand with a marble top, photographed with its matching coffee table"
+            }
+          ],
+          "stock": 3,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale",
+            "marble"
+          ],
+          "ratingsAverage": 5,
+          "ratingsCount": 1,
+          "salesCount": 0,
+          "slug": "surrey-tv-stand",
+          "createdAt": "2026-08-17T14:04:32.310Z",
+          "inStock": true,
+          "isLowStock": true,
+          "onSale": true,
+          "discountPercent": 15,
+          "id": "6a8314f0a8fc9ab99a4b5421"
+        },
+        {
+          "_id": "6a8314efa8fc9ab99a4b541e",
+          "name": "Surrey Coffee Table",
+          "category": "living-room",
+          "subcategory": "coffee-tables",
+          "price": 199995,
+          "compareAtPrice": 234995,
+          "images": [
+            {
+              "url": "/images/products/surrey-tv-stand-and-coffee-table.jpg",
+              "alt": "Surrey marble coffee table photographed with its matching TV stand"
+            }
+          ],
+          "stock": 2,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale",
+            "marble"
+          ],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "surrey-coffee-table",
+          "createdAt": "2026-08-17T14:04:31.869Z",
+          "inStock": true,
+          "isLowStock": true,
+          "onSale": true,
+          "discountPercent": 15,
+          "id": "6a8314efa8fc9ab99a4b541e"
+        },
+        {
+          "_id": "6a8314eea8fc9ab99a4b5415",
+          "name": "Solo 7 Seater 3+3+1",
+          "category": "living-room",
+          "subcategory": "sofas",
+          "price": 299995,
+          "compareAtPrice": 349995,
+          "images": [
+            {
+              "url": "/images/products/5545454545.jpg",
+              "alt": "Solo seven seater sofa suite in grey with channel-stitched backs"
+            }
+          ],
+          "stock": 4,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "solo-7-seater-3-3-1",
+          "createdAt": "2026-08-17T14:04:30.578Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": true,
+          "discountPercent": 14,
+          "id": "6a8314eea8fc9ab99a4b5415"
+        },
+        {
+          "_id": "6a8314eda8fc9ab99a4b540c",
+          "name": "Sarnia Coffee Table",
+          "category": "living-room",
+          "subcategory": "coffee-tables",
+          "price": 49995,
+          "compareAtPrice": 60995,
+          "images": [
+            {
+              "url": "/images/products/sarnia.jpg",
+              "alt": "Sarnia coffee table with a curved wooden base and pale top"
+            }
+          ],
+          "stock": 11,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "sarnia-coffee-table",
+          "createdAt": "2026-08-17T14:04:29.300Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": true,
+          "discountPercent": 18,
+          "id": "6a8314eda8fc9ab99a4b540c"
+        },
+        {
+          "_id": "6a8314eba8fc9ab99a4b5403",
+          "name": "Pella TV Unit",
+          "category": "living-room",
+          "subcategory": "tv-stands",
+          "price": 79995,
+          "compareAtPrice": 96995,
+          "images": [
+            {
+              "url": "/images/products/IMG_7867.jpg",
+              "alt": "Pella solid wood TV unit with drawers and open shelving"
+            }
+          ],
+          "stock": 6,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "pella-tv-unit",
+          "createdAt": "2026-08-17T14:04:27.985Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": true,
+          "discountPercent": 18,
+          "id": "6a8314eba8fc9ab99a4b5403"
+        },
+        {
+          "_id": "6a8314eba8fc9ab99a4b5400",
+          "name": "Pella Console",
+          "category": "living-room",
+          "subcategory": "consoles",
+          "price": 109995,
+          "images": [
+            {
+              "url": "/images/products/NPCS.jpeg",
+              "alt": "Pella solid wood console table with carved detailing and drawers"
+            }
+          ],
+          "stock": 5,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "pella-console",
+          "createdAt": "2026-08-17T14:04:27.552Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": false,
+          "discountPercent": 0,
+          "id": "6a8314eba8fc9ab99a4b5400"
+        },
+        {
+          "_id": "6a8314eaa8fc9ab99a4b53fd",
+          "name": "Pella 7 Seater Sofa 3+3+1",
+          "category": "living-room",
+          "subcategory": "sofas",
+          "price": 324995,
+          "compareAtPrice": 374995,
+          "images": [
+            {
+              "url": "/images/products/p1.jpeg",
+              "alt": "Pella seven seater sofa suite in solid wood with cream cushions"
+            }
+          ],
+          "stock": 3,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 3,
+          "ratingsCount": 1,
+          "salesCount": 0,
+          "slug": "pella-7-seater-sofa-3-3-1",
+          "createdAt": "2026-08-17T14:04:27.117Z",
+          "inStock": true,
+          "isLowStock": true,
+          "onSale": true,
+          "discountPercent": 13,
+          "id": "6a8314eaa8fc9ab99a4b53fd"
+        },
+        {
+          "_id": "6a8314eaa8fc9ab99a4b53f7",
+          "name": "Oshawa Coffee Table",
+          "category": "living-room",
+          "subcategory": "coffee-tables",
+          "price": 34995,
+          "compareAtPrice": 42995,
+          "images": [
+            {
+              "url": "/images/products/oshawa.jpg",
+              "alt": "Oshawa square coffee table in light wood"
+            }
+          ],
+          "stock": 16,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "oshawa-coffee-table",
+          "createdAt": "2026-08-17T14:04:26.252Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": true,
+          "discountPercent": 19,
+          "id": "6a8314eaa8fc9ab99a4b53f7"
+        },
+        {
+          "_id": "6a8314e9a8fc9ab99a4b53f4",
+          "name": "Niagara TV Stand",
+          "category": "living-room",
+          "subcategory": "tv-stands",
+          "price": 36995,
+          "compareAtPrice": 45995,
+          "images": [
+            {
+              "url": "/images/products/niagara-tv-stand.jpg",
+              "alt": "Niagara TV stand in white with three drawers"
+            }
+          ],
+          "stock": 13,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 5,
+          "ratingsCount": 1,
+          "salesCount": 0,
+          "slug": "niagara-tv-stand",
+          "createdAt": "2026-08-17T14:04:25.833Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": true,
+          "discountPercent": 20,
+          "id": "6a8314e9a8fc9ab99a4b53f4"
+        }
+      ],
+      "meta": {
+        "page": 1,
+        "limit": 12,
+        "total": 34,
+        "pages": 3
+      }
+    },
+    "dining-room": {
+      "success": true,
+      "products": [
+        {
+          "_id": "6a8314eda8fc9ab99a4b5412",
+          "name": "Saskatoon 4 Seater Dining Blue",
+          "category": "dining-room",
+          "subcategory": "dining-sets",
+          "price": 114995,
+          "compareAtPrice": 138995,
+          "images": [
+            {
+              "url": "/images/products/saskiatoon-4-seater-blue.jpg",
+              "alt": "Saskatoon four seater dining set with blue velvet chairs"
+            }
+          ],
+          "stock": 6,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "saskatoon-4-seater-dining-blue",
+          "createdAt": "2026-08-17T14:04:30.143Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": true,
+          "discountPercent": 17,
+          "id": "6a8314eda8fc9ab99a4b5412"
+        },
+        {
+          "_id": "6a8314eda8fc9ab99a4b540f",
+          "name": "Saskatoon 4 Seater Dining",
+          "category": "dining-room",
+          "subcategory": "dining-sets",
+          "price": 114995,
+          "compareAtPrice": 138995,
+          "images": [
+            {
+              "url": "/images/products/saskiatoon-4-seater.jpg",
+              "alt": "Saskatoon four seater dining set with a marble-effect top and cream chairs"
+            }
+          ],
+          "stock": 6,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 5,
+          "ratingsCount": 1,
+          "salesCount": 0,
+          "slug": "saskatoon-4-seater-dining",
+          "createdAt": "2026-08-17T14:04:29.717Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": true,
+          "discountPercent": 17,
+          "id": "6a8314eda8fc9ab99a4b540f"
+        },
+        {
+          "_id": "6a8314eca8fc9ab99a4b5409",
+          "name": "Rosland 4 Seater Dining C21",
+          "category": "dining-room",
+          "subcategory": "dining-sets",
+          "price": 94995,
+          "compareAtPrice": 114995,
+          "images": [
+            {
+              "url": "/images/products/IMG_1533.jpg",
+              "alt": "Rosland C21 four seater dining set with tan upholstered chairs"
+            }
+          ],
+          "stock": 7,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "rosland-4-seater-dining-c21",
+          "createdAt": "2026-08-17T14:04:28.848Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": true,
+          "discountPercent": 17,
+          "id": "6a8314eca8fc9ab99a4b5409"
+        },
+        {
+          "_id": "6a8314eca8fc9ab99a4b5406",
+          "name": "Rosland 4 Seater Dining",
+          "category": "dining-room",
+          "subcategory": "dining-sets",
+          "price": 94995,
+          "compareAtPrice": 114995,
+          "images": [
+            {
+              "url": "/images/products/rosland-4-seater-dining.jpg",
+              "alt": "Rosland four seater dining set with a round top and grey chairs"
+            }
+          ],
+          "stock": 7,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 5,
+          "ratingsCount": 1,
+          "salesCount": 0,
+          "slug": "rosland-4-seater-dining",
+          "createdAt": "2026-08-17T14:04:28.402Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": true,
+          "discountPercent": 17,
+          "id": "6a8314eca8fc9ab99a4b5406"
+        },
+        {
+          "_id": "6a8314eaa8fc9ab99a4b53fa",
+          "name": "Pella 6 Seater Dining Set",
+          "category": "dining-room",
+          "subcategory": "dining-sets",
+          "price": 199995,
+          "images": [
+            {
+              "url": "/images/products/NPDS.jpeg",
+              "alt": "Pella six seater dining set in solid wood with upholstered seats"
+            }
+          ],
+          "stock": 4,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "pella-6-seater-dining-set",
+          "createdAt": "2026-08-17T14:04:26.685Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": false,
+          "discountPercent": 0,
+          "id": "6a8314eaa8fc9ab99a4b53fa"
+        },
+        {
+          "_id": "6a8314e7a8fc9ab99a4b53e8",
+          "name": "Midland 6 Seater Marble Dining",
+          "category": "dining-room",
+          "subcategory": "dining-sets",
+          "price": 249995,
+          "compareAtPrice": 289995,
+          "images": [
+            {
+              "url": "/images/products/midland-6-seater-dining.jpg",
+              "alt": "Midland six seater marble dining set with high-backed chairs"
+            }
+          ],
+          "stock": 3,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale",
+            "marble"
+          ],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "midland-6-seater-marble-dining",
+          "createdAt": "2026-08-17T14:04:24.123Z",
+          "inStock": true,
+          "isLowStock": true,
+          "onSale": true,
+          "discountPercent": 14,
+          "id": "6a8314e7a8fc9ab99a4b53e8"
+        },
+        {
+          "_id": "6a8314e4a8fc9ab99a4b53d6",
+          "name": "Glace 6 Seater Marble Dining",
+          "category": "dining-room",
+          "subcategory": "dining-sets",
+          "price": 249995,
+          "compareAtPrice": 294995,
+          "images": [
+            {
+              "url": "/images/products/glace-6-seater-dining.jpg",
+              "alt": "Glace six seater marble dining set with cream chairs"
+            }
+          ],
+          "stock": 3,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale",
+            "marble"
+          ],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "glace-6-seater-marble-dining",
+          "createdAt": "2026-08-17T14:04:20.675Z",
+          "inStock": true,
+          "isLowStock": true,
+          "onSale": true,
+          "discountPercent": 15,
+          "id": "6a8314e4a8fc9ab99a4b53d6"
+        },
+        {
+          "_id": "6a8314e0a8fc9ab99a4b53bb",
+          "name": "Digby 6 Seater Marble Dining",
+          "category": "dining-room",
+          "subcategory": "dining-sets",
+          "price": 249995,
+          "compareAtPrice": 299995,
+          "images": [
+            {
+              "url": "/images/products/Digby-6-seater-dining.jpg",
+              "alt": "Digby six seater dining set with a marble top and upholstered chairs"
+            }
+          ],
+          "stock": 3,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": true,
+          "tags": [
+            "festive-sale",
+            "marble"
+          ],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "digby-6-seater-marble-dining",
+          "createdAt": "2026-08-17T14:04:16.779Z",
+          "inStock": true,
+          "isLowStock": true,
+          "onSale": true,
+          "discountPercent": 17,
+          "id": "6a8314e0a8fc9ab99a4b53bb"
+        }
+      ],
+      "meta": {
+        "page": 1,
+        "limit": 12,
+        "total": 8,
+        "pages": 1
+      }
+    },
+    "bedroom": {
+      "success": true,
+      "products": [
+        {
+          "_id": "6a8314efa8fc9ab99a4b541b",
+          "name": "Sudbury Sofa Bed",
+          "category": "bedroom",
+          "subcategory": "sofa-beds",
+          "price": 99995,
+          "compareAtPrice": 119995,
+          "images": [
+            {
+              "url": "/images/products/sudbury2.jpg",
+              "alt": "Sudbury sofa bed in grey, shown as a sofa"
+            }
+          ],
+          "stock": 8,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "sudbury-sofa-bed",
+          "createdAt": "2026-08-17T14:04:31.426Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": true,
+          "discountPercent": 17,
+          "id": "6a8314efa8fc9ab99a4b541b"
+        }
+      ],
+      "meta": {
+        "page": 1,
+        "limit": 12,
+        "total": 1,
+        "pages": 1
+      }
+    },
+    "office": {
+      "success": true,
+      "products": [
+        {
+          "_id": "6a8314f1a8fc9ab99a4b542d",
+          "name": "Yemen Office Desk 1.6m",
+          "category": "office",
+          "subcategory": "desks",
+          "price": 52995,
+          "compareAtPrice": 64995,
+          "images": [
+            {
+              "url": "/images/products/IMG_1599.jpg",
+              "alt": "Yemen 1.6 metre office desk with a side return"
+            }
+          ],
+          "stock": 9,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "yemen-office-desk-1-6m",
+          "createdAt": "2026-08-17T14:04:34.079Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": true,
+          "discountPercent": 18,
+          "id": "6a8314f1a8fc9ab99a4b542d"
+        },
+        {
+          "_id": "6a8314eea8fc9ab99a4b5418",
+          "name": "Student Chair",
+          "category": "office",
+          "subcategory": "office-chairs",
+          "price": 4995,
+          "images": [
+            {
+              "url": "/images/products/SC1.jpeg",
+              "alt": "Stackable student chair with a moulded polypropylene seat"
+            }
+          ],
+          "stock": 120,
+          "lowStockThreshold": 20,
+          "status": "active",
+          "featured": false,
+          "tags": [],
+          "ratingsAverage": 3,
+          "ratingsCount": 1,
+          "salesCount": 0,
+          "slug": "student-chair",
+          "createdAt": "2026-08-17T14:04:31.003Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": false,
+          "discountPercent": 0,
+          "id": "6a8314eea8fc9ab99a4b5418"
+        },
+        {
+          "_id": "6a8314e9a8fc9ab99a4b53f1",
+          "name": "Niagara Reception Desk 1.6m",
+          "category": "office",
+          "subcategory": "reception-desks",
+          "price": 44995,
+          "compareAtPrice": 54995,
+          "images": [
+            {
+              "url": "/images/products/tamakwa-reception-desk-starting-from-ksh.36500.jpg",
+              "alt": "Niagara 1.6 metre reception desk with a raised counter"
+            }
+          ],
+          "stock": 8,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "niagara-reception-desk-1-6m",
+          "createdAt": "2026-08-17T14:04:25.397Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": true,
+          "discountPercent": 18,
+          "id": "6a8314e9a8fc9ab99a4b53f1"
+        },
+        {
+          "_id": "6a8314e3a8fc9ab99a4b53cd",
+          "name": "Executive Desk 1.6m",
+          "category": "office",
+          "subcategory": "desks",
+          "price": 41995,
+          "compareAtPrice": 51995,
+          "images": [
+            {
+              "url": "/images/products/zs-1603.jpg",
+              "alt": "Executive 1.6 metre desk with a side return and drawer pedestal"
+            }
+          ],
+          "stock": 11,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 1,
+          "slug": "executive-desk-1-6m",
+          "createdAt": "2026-08-17T14:04:19.384Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": true,
+          "discountPercent": 19,
+          "id": "6a8314e3a8fc9ab99a4b53cd"
+        },
+        {
+          "_id": "6a8314dca8fc9ab99a4b53a0",
+          "name": "Belize Office Desk 1.4m",
+          "category": "office",
+          "subcategory": "desks",
+          "price": 29995,
+          "compareAtPrice": 36995,
+          "images": [
+            {
+              "url": "/images/products/Belize-coffee-table.jpg",
+              "alt": "Belize 1.4 metre office desk with a light oak top"
+            }
+          ],
+          "stock": 18,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [
+            "festive-sale"
+          ],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "belize-office-desk-1-4m",
+          "createdAt": "2026-08-17T14:04:12.836Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": true,
+          "discountPercent": 19,
+          "id": "6a8314dca8fc9ab99a4b53a0"
+        },
+        {
+          "_id": "6a8314dca8fc9ab99a4b539d",
+          "name": "Atkins Boardroom Table 3 Metres",
+          "category": "office",
+          "subcategory": "boardroom-tables",
+          "price": 74995,
+          "images": [
+            {
+              "url": "/images/products/iris-boardroom-table-from-40995.jpg",
+              "alt": "Three-metre Atkins boardroom table in dark walnut veneer"
+            }
+          ],
+          "stock": 6,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [],
+          "ratingsAverage": 0,
+          "ratingsCount": 0,
+          "salesCount": 0,
+          "slug": "atkins-boardroom-table-3-metres",
+          "createdAt": "2026-08-17T14:04:12.398Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": false,
+          "discountPercent": 0,
+          "id": "6a8314dca8fc9ab99a4b539d"
+        },
+        {
+          "_id": "6a8314dba8fc9ab99a4b539a",
+          "name": "Altona Link Chair",
+          "category": "office",
+          "subcategory": "office-chairs",
+          "price": 29995,
+          "images": [
+            {
+              "url": "/images/products/altona-link-chair-starting-from-29995.jpg",
+              "alt": "Altona link chair with a mesh back and chrome frame"
+            }
+          ],
+          "stock": 34,
+          "lowStockThreshold": 3,
+          "status": "active",
+          "featured": false,
+          "tags": [],
+          "ratingsAverage": 5,
+          "ratingsCount": 1,
+          "salesCount": 0,
+          "slug": "altona-link-chair",
+          "createdAt": "2026-08-17T14:04:11.958Z",
+          "inStock": true,
+          "isLowStock": false,
+          "onSale": false,
+          "discountPercent": 0,
+          "id": "6a8314dba8fc9ab99a4b539a"
+        }
+      ],
+      "meta": {
+        "page": 1,
+        "limit": 12,
+        "total": 7,
+        "pages": 1
+      }
+    }
+  }
+}

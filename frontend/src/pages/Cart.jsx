@@ -7,8 +7,12 @@ import { useCart } from '../context/CartProvider.jsx';
 import { assetUrl } from '../lib/images.js';
 import { formatPrice } from '../lib/format.js';
 import { FREE_DELIVERY_THRESHOLD } from '../constants/catalog.js';
+import { useSeo } from '../hooks/useSeo.js';
+import { metaForPath } from '../lib/seo.js';
 
 const Cart = () => {
+  useSeo(metaForPath('/cart'));
+
   const { items, itemsTotal, itemCount, loading, setQuantity, removeItem } =
     useCart();
 

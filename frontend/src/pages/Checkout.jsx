@@ -22,6 +22,8 @@ import { assetUrl } from '../lib/images.js';
 import { formatPrice } from '../lib/format.js';
 import { DELIVERY_NOTE } from '../constants/catalog.js';
 import { COUNTIES, deliveryBandFor } from '../constants/counties.js';
+import { useSeo } from '../hooks/useSeo.js';
+import { metaForPath } from '../lib/seo.js';
 
 const cardElementStyle = {
   style: {
@@ -429,6 +431,8 @@ const getStripe = (key) => {
  * `Checkout` itself.
  */
 const CheckoutWithStripe = () => {
+  useSeo(metaForPath('/checkout'));
+
   const toast = useToast();
   const [config, setConfig] = useState(null);
 

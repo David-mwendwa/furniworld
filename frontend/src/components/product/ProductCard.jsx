@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ShoppingBag } from 'lucide-react';
 import { Badge, Price, Rating } from '../ui/Feedback.jsx';
-import { productImage, productImageAlt } from '../../lib/images.js';
+import { productImage, productImageAlt, productSrcSet } from '../../lib/images.js';
 import { SUBCATEGORY_LABELS } from '../../constants/catalog.js';
 import { useCart } from '../../context/CartProvider.jsx';
 import { cn } from '../../lib/cn.js';
@@ -17,10 +17,19 @@ const ProductCard = ({ product, index = 0, className }) => {
       style={{ animationDelay: `${Math.min(index, 11) * 45}ms` }}>
       <Link to={`/product/${product.slug}`} className="block">
         <div className="relative aspect-product overflow-hidden bg-primary-50">
+          {/* `sizes` mirrors the grid in ProductGrid.jsx — two columns until
+              `lg`, four above it — so the browser picks the 400w derivative on
+              a phone and the 800w one on a laptop instead of always taking the
+              largest. Get this wrong and srcset silently over-downloads: the
+              browser trusts `sizes` and never measures the real box. */}
           <img
             src={productImage(product)}
+            srcSet={productSrcSet(product)}
+            sizes="(min-width: 1024px) 25vw, 50vw"
             alt={productImageAlt(product)}
             loading={index < 4 ? 'eager' : 'lazy'}
+            fetchPriority={index < 4 ? 'high' : 'auto'}
+            decoding="async"
             className={cn(
               'h-full w-full object-cover transition-all duration-700 ease-premium',
               hasSecondImage
@@ -29,11 +38,20 @@ const ProductCard = ({ product, index = 0, className }) => {
             )}
           />
           {hasSecondImage && (
+            /* The hover image is a second full photograph per card, which
+               doubled what a shop page downloaded to show one grid. It is
+               decorative and only ever seen on a device that has a pointer, so
+               it stays lazy and low priority — the visible image must not
+               queue behind it. */
             <img
               src={productImage(product, 1)}
+              srcSet={productSrcSet(product, 1)}
+              sizes="(min-width: 1024px) 25vw, 50vw"
               alt=""
               aria-hidden
               loading="lazy"
+              fetchPriority="low"
+              decoding="async"
               className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-700 ease-premium group-hover:opacity-100"
             />
           )}

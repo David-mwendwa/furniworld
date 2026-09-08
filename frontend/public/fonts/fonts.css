@@ -1,0 +1,43 @@
+/* Self-hosted, latin subset.
+ *
+ * Replaces an `@import url('https://fonts.googleapis.com/...')` that sat on
+ * the first line of index.css — the worst place to ask for a font. An @import
+ * inside a stylesheet cannot be discovered by the browser's preload scanner:
+ * it has to fetch index.css, parse it, *then* start on the Google stylesheet,
+ * *then* parse that to find the woff2 files on a third origin. Four serialised
+ * round trips across three origins before a character could be drawn in the
+ * right face, none of which the two preconnects in index.html could help with,
+ * because the browser did not yet know it wanted them.
+ *
+ * Served from our own origin the connection is already open, and index.html
+ * links this directly so the scanner sees it in the first bytes of the page.
+ *
+ * One file per family, with a weight RANGE rather than one rule per weight:
+ * both are variable fonts, so Google's 500/600/700 URLs resolve to the same
+ * bytes and declaring them separately ships each family three times.
+ *
+ * The ranges match what the app computes to — Cormorant Garamond is headings
+ * only (500-700), Jost carries everything else (300-600). `font-stretch: 100%`
+ * is required: without it a variable font with a `wdth` axis is not matched at
+ * all by some engines and the page silently falls back to the system sans.
+ */
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 500 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(/fonts/CormorantGaramond.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Jost';
+  font-style: normal;
+  font-weight: 300 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(/fonts/Jost.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}

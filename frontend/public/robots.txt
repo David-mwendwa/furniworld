@@ -1,0 +1,31 @@
+# Furniworld — https://furniworld.netlify.app
+#
+# The private areas are listed here as well as being marked `noindex` in the
+# page head. The two do different jobs and neither replaces the other: a
+# `Disallow` stops a crawler fetching the URL at all, while `noindex` needs the
+# page to be fetched and read before it can be obeyed. Both is right for these,
+# because none of them render anything without a session — a crawler reaching
+# them gets a sign-in redirect, and the shop gains a set of dead entries under
+# its own name.
+
+User-agent: *
+Allow: /
+
+Disallow: /checkout
+Disallow: /account
+Disallow: /admin
+Disallow: /cart
+Disallow: /reset-password
+Disallow: /forgot-password
+
+# Faceted listings multiply into thousands of near-identical URLs. The
+# canonical tag consolidates them, but keeping crawlers off the permutations
+# spends the crawl budget on furniture instead. The four /shop/<room> paths are
+# deliberately not blocked — those are the real category pages.
+Disallow: /shop?*subcategory=
+Disallow: /shop?*price=
+Disallow: /shop?*inStock=
+Disallow: /shop?*onSale=
+Disallow: /shop?*search=
+
+Sitemap: https://furniworld.netlify.app/sitemap.xml

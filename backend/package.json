@@ -1,14 +1,15 @@
 {
   "name": "furniworld-backend",
   "version": "1.0.0",
-  "description": "Furniworld API — furniture marketplace",
+  "description": "Furniworld API \u2014 furniture marketplace",
   "main": "server.js",
   "type": "module",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
     "seed": "node scripts/seedProducts.js",
-    "seed:demo": "node scripts/seedDemo.js"
+    "seed:demo": "node scripts/seedDemo.js",
+    "images:optimize": "node scripts/optimize-images.mjs"
   },
   "license": "MIT",
   "dependencies": {
@@ -29,6 +30,7 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.14",
+    "sharp": "^0.35.4",
     "stripe": "^22.5.0",
     "validator": "^13.12.0",
     "xss": "^1.0.15"

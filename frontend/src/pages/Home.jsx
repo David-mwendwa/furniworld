@@ -11,20 +11,45 @@ import {
 import ProductGrid from '../components/product/ProductGrid.jsx';
 import { productsApi } from '../api/index.js';
 import { useFetch } from '../hooks/useFetch.js';
+import snapshot from '../data/snapshot.json';
+import { useSeo } from '../hooks/useSeo.js';
+import {
+  DEFAULT_DESCRIPTION,
+  SITE_NAME,
+  absoluteUrl,
+  organizationJsonLd,
+  websiteJsonLd,
+} from '../lib/seo.js';
 
 const Home = () => {
-  const featured = useFetch(useCallback(() => productsApi.featured(), []), []);
-  const facets = useFetch(useCallback(() => productsApi.facets(), []), []);
+  // Both graphs live on the home page and nowhere else: they describe the shop
+  // as a whole, and repeating them per route would have every product page
+  // re-declaring the business that owns it.
+  useSeo({
+    title: SITE_NAME,
+    description: DEFAULT_DESCRIPTION,
+    canonical: absoluteUrl('/'),
+    jsonLd: [organizationJsonLd(), websiteJsonLd()],
+  });
+
+  const featured = useFetch(useCallback(() => productsApi.featured(), []), [], {
+    initialData: snapshot.home.featured,
+  });
+  const facets = useFetch(useCallback(() => productsApi.facets(), []), [], {
+    initialData: snapshot.home.facets,
+  });
   const newest = useFetch(
     useCallback(() => productsApi.list({ limit: 8, sort: 'newest' }), []),
-    []
+    [],
+    { initialData: snapshot.home.newest }
   );
   const onSale = useFetch(
     useCallback(
       () => productsApi.list({ limit: 4, onSale: 'true', sort: 'price-desc' }),
       []
     ),
-    []
+    [],
+    { initialData: snapshot.home.onSale }
   );
 
   const featuredProducts = featured.data?.products ?? [];

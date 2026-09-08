@@ -8,34 +8,72 @@ import {
 } from './components/auth/guards.jsx';
 
 import Home from './pages/Home.jsx';
-import Shop from './pages/Shop.jsx';
-import ProductDetail from './pages/ProductDetail.jsx';
-import Cart from './pages/Cart.jsx';
-import Checkout from './pages/Checkout.jsx';
-import OrderSuccess from './pages/OrderSuccess.jsx';
-import Login from './pages/Login.jsx';
-import Register from './pages/Register.jsx';
-import { ForgotPassword, ResetPassword } from './pages/PasswordReset.jsx';
-import { About, Services, Contact } from './pages/StaticPages.jsx';
-import NotFound from './pages/NotFound.jsx';
 
-import AccountLayout from './pages/account/AccountLayout.jsx';
-import AccountOrders from './pages/account/Orders.jsx';
-import AccountOrderDetail from './pages/account/OrderDetail.jsx';
-import MyReviews from './pages/account/MyReviews.jsx';
-import { Profile, Password } from './pages/account/Profile.jsx';
+import { lazy, Suspense } from 'react';
 
-import AdminLayout from './pages/admin/AdminLayout.jsx';
-import AdminOverview from './pages/admin/Overview.jsx';
-import AdminProducts from './pages/admin/Products.jsx';
-import AdminProductForm from './pages/admin/ProductForm.jsx';
-import AdminOrders from './pages/admin/Orders.jsx';
-import AdminOrderDetail from './pages/admin/OrderDetail.jsx';
-import AdminPayments from './pages/admin/Payments.jsx';
-import AdminUsers from './pages/admin/Users.jsx';
-import AdminReviews from './pages/admin/Reviews.jsx';
+/*
+ * Only Home is imported eagerly.
+ *
+ * Static-importing the rest would put the entire shop in the single chunk a
+ * first-time visitor downloads to look at the home page: the checkout and its
+ * Stripe SDK, the account area, and all nine admin screens, which no shopper
+ * can even reach. That build is one 473KB file against 293KB split.
+ *
+ * Home stays eager because it is the landing route, and making it a chunk
+ * would only add a round trip before the first paint it exists to produce.
+ */
+const Shop = lazy(() => import('./pages/Shop.jsx'));
+const ProductDetail = lazy(() => import('./pages/ProductDetail.jsx'));
+const Cart = lazy(() => import('./pages/Cart.jsx'));
+const Checkout = lazy(() => import('./pages/Checkout.jsx'));
+const OrderSuccess = lazy(() => import('./pages/OrderSuccess.jsx'));
+const Login = lazy(() => import('./pages/Login.jsx'));
+const Register = lazy(() => import('./pages/Register.jsx'));
+const NotFound = lazy(() => import('./pages/NotFound.jsx'));
+const AccountLayout = lazy(() => import('./pages/account/AccountLayout.jsx'));
+const AccountOrders = lazy(() => import('./pages/account/Orders.jsx'));
+const AccountOrderDetail = lazy(() => import('./pages/account/OrderDetail.jsx'));
+const MyReviews = lazy(() => import('./pages/account/MyReviews.jsx'));
+const AdminLayout = lazy(() => import('./pages/admin/AdminLayout.jsx'));
+const AdminOverview = lazy(() => import('./pages/admin/Overview.jsx'));
+const AdminProducts = lazy(() => import('./pages/admin/Products.jsx'));
+const AdminProductForm = lazy(() => import('./pages/admin/ProductForm.jsx'));
+const AdminOrders = lazy(() => import('./pages/admin/Orders.jsx'));
+const AdminOrderDetail = lazy(() => import('./pages/admin/OrderDetail.jsx'));
+const AdminPayments = lazy(() => import('./pages/admin/Payments.jsx'));
+const AdminUsers = lazy(() => import('./pages/admin/Users.jsx'));
+const AdminReviews = lazy(() => import('./pages/admin/Reviews.jsx'));
+
+// Pages that export several components share one chunk each — they are small,
+// and splitting a two-component file three ways costs more in requests than
+// it saves in bytes.
+const ForgotPassword = lazy(() => import('./pages/PasswordReset.jsx').then((m) => ({ default: m.ForgotPassword })));
+const ResetPassword = lazy(() => import('./pages/PasswordReset.jsx').then((m) => ({ default: m.ResetPassword })));
+const About = lazy(() => import('./pages/StaticPages.jsx').then((m) => ({ default: m.About })));
+const Services = lazy(() => import('./pages/StaticPages.jsx').then((m) => ({ default: m.Services })));
+const Contact = lazy(() => import('./pages/StaticPages.jsx').then((m) => ({ default: m.Contact })));
+const Profile = lazy(() => import('./pages/account/Profile.jsx').then((m) => ({ default: m.Profile })));
+const Password = lazy(() => import('./pages/account/Profile.jsx').then((m) => ({ default: m.Password })));
+
+/**
+ * Shown while a route's chunk loads.
+ *
+ * Deliberately not a spinner: these land in tens of milliseconds on a warm
+ * connection, and a spinner that flashes for two frames reads as a stall. The
+ * reserved height is the part that matters — without it the footer jumps up to
+ * meet the header for as long as the chunk is in flight.
+ */
+const RouteFallback = () => (
+  <div className="min-h-[60vh]" role="status" aria-live="polite">
+    <span className="sr-only">Loading…</span>
+  </div>
+);
+
+
+
 
 const App = () => (
+  <Suspense fallback={<RouteFallback />}>
   <Routes>
     <Route element={<RootLayout />}>
       <Route index element={<Home />} />
@@ -90,6 +128,7 @@ const App = () => (
       <Route path="*" element={<NotFound />} />
     </Route>
   </Routes>
+  </Suspense>
 );
 
 export default App;

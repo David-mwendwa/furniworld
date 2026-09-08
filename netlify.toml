@@ -12,11 +12,20 @@
 [build.environment]
   NODE_VERSION = "20"
 
-# Client-side routing: every unmatched path is served by the SPA shell. Must
-# stay last so real files (and /assets/*) win first.
+# Client-side routing: every unmatched path is served by the SPA shell.
+#
+# `/app.html`, NOT `/index.html`. The build prerenders each public route to its
+# own file, so `index.html` is the home page — pointing the fallback at it
+# served the home page's markup and its `rel=canonical` for every product URL,
+# telling a crawler those 50 pages are duplicates of the home page, and handed
+# `hydrateRoot` a tree for the wrong route. `app.html` is the empty shell with
+# default meta; the route writes its own tags once it mounts.
+#
+# Must stay last so real files (the prerendered routes, and /assets/*) win
+# first — the rule is deliberately not `force = true`.
 [[redirects]]
   from = "/*"
-  to = "/index.html"
+  to = "/app.html"
   status = 200
 
 [[headers]]
@@ -33,7 +42,17 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Every route is prerendered to its own HTML file and the contents change with
+# the catalogue, so none of them may be held by a browser cache. /assets/* is
+# fingerprinted and carries the immutable caching instead.
 [[headers]]
-  for = "/index.html"
+  for = "/*.html"
   [headers.values]
     Cache-Control = "no-store, must-revalidate"
+
+# The self-hosted faces change only when the font files are deliberately
+# replaced, and every page blocks its first text on Jost.
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

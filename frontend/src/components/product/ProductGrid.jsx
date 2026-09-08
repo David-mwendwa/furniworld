@@ -25,7 +25,13 @@ const ProductGrid = ({
       </div>
     );
 
-  if (error) return <ErrorState message={error} onRetry={onRetry} />;
+  // An error only takes over the grid when there is nothing to show. Pages seed
+  // their first render from the build-time snapshot, so a request that fails —
+  // which, against an API that sleeps and takes ~23s to wake, is common rather
+  // than exceptional — would otherwise replace a full shelf of furniture with a
+  // retry button.
+  if (error && !products?.length)
+    return <ErrorState message={error} onRetry={onRetry} />;
 
   if (!products?.length)
     return (

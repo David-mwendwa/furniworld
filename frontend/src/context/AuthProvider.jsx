@@ -7,6 +7,7 @@ import {
   useState,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useIsomorphicLayoutEffect from '../hooks/useIsomorphicLayoutEffect.js';
 import { authApi } from '../api/index.js';
 import { AUTH_EXPIRED_EVENT } from '../api/apiClient.js';
 import {
@@ -21,11 +22,24 @@ import {
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  // Seeded from the last-known user so the navbar paints signed-in state
-  // immediately on refresh instead of flashing "signed out" for the round
-  // trip to `/auth/me` below. `loading` still gates anything that needs the
-  // verified session (route guards, checkout) — this is display-only.
-  const [user, setUser] = useState(() => (getToken() ? getStoredUser() : null));
+  /*
+   * Restored from the last-known user so the navbar paints signed-in state
+   * immediately on refresh instead of flashing "signed out" for the round trip
+   * to `/auth/me` below. `loading` still gates anything that needs the verified
+   * session (route guards, checkout) — this is display-only.
+   *
+   * Read in a layout effect rather than in the initialiser. Reading it during
+   * render makes the first client render disagree with the prerendered HTML for
+   * anyone with a session — the build renders signed-out, the browser renders
+   * their name, and React throws away the server's markup for that subtree. A
+   * layout effect runs before paint, so the flash the seeding exists to prevent
+   * is still prevented.
+   */
+  const [user, setUser] = useState(null);
+
+  useIsomorphicLayoutEffect(() => {
+    if (getToken()) setUser(getStoredUser());
+  }, []);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 

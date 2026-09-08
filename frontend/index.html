@@ -5,11 +5,22 @@
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#FAF7F2" />
+    <!-- `data-seo` marks this as managed: the prerender replaces it per route
+         and `useSeo` clears it on mount before writing the live one. Without
+         the attribute the shop's default description survives alongside every
+         page's own, leaving two in the head. -->
     <meta
+      data-seo
       name="description"
       content="Furniworld — sofas, dining sets, coffee tables and office furniture, delivered across Kenya." />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- One preload, and it is Jost: it is the body font, so it is what the
+         first line of text on every route needs. Cormorant is headings only —
+         preloading it as well would have the two compete for the same early
+         bandwidth and delay the font more of the page is set in. -->
+    <link rel="preload" href="/fonts/Jost.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/fonts/fonts.css" />
+    <!-- Product photographs are served by the API, on its own origin. -->
+    <link rel="preconnect" href="https://furniworld-api.onrender.com" crossorigin />
     <title>Furniworld — Furniture for Kenyan homes</title>
   </head>
   <body>

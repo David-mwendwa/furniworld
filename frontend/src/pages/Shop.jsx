@@ -10,6 +10,14 @@ import FilterPanel from '../components/product/FilterPanel.jsx';
 import { productsApi } from '../api/index.js';
 import { useFetch } from '../hooks/useFetch.js';
 import { useShopFilters } from '../hooks/useShopFilters.js';
+import snapshot from '../data/snapshot.json';
+import { useSeo } from '../hooks/useSeo.js';
+import {
+  absoluteUrl,
+  breadcrumbJsonLd,
+  itemListJsonLd,
+  metaForPath,
+} from '../lib/seo.js';
 import { useDebounce } from '../hooks/useDebounce.js';
 import {
   CATEGORY_LABELS,
@@ -35,14 +43,97 @@ const Shop = () => {
   const params = category ? { ...queryParams, category } : queryParams;
   const key = JSON.stringify(params);
 
+  /*
+   * The unfiltered first page comes from the build-time snapshot; every other
+   * view waits for the API.
+   *
+   * `/shop` with no query string is what the nav, the home page and any search
+   * result link to, and it is the view the snapshot holds (see LISTING in
+   * scripts/build-snapshot.mjs). A filtered or paged view deliberately gets
+   * nothing: the snapshot contains one page of one query, and showing page 1
+   * of everything to someone who asked for page 3 of dining under Ksh 40,000
+   * would be wrong rather than merely early.
+   */
+  const isDefaultView =
+    params.sort === snapshot.listing.params.sort &&
+    params.limit === snapshot.listing.params.limit &&
+    Number(params.page) === 1 &&
+    // `queryParams` only carries sort/page/limit until a filter is set, so the
+    // key count is what proves nothing else is applied — plus `category` when
+    // the route supplies one, which is a listing the snapshot also holds.
+    // Comparing the serialised object instead would depend on key order and on
+    // `page` being a number here and a string in the URL, and would quietly
+    // never match.
+    Object.keys(params).length === (category ? 4 : 3);
+
+  // The category listings are snapshotted too, so /shop/dining-room opens with
+  // furniture in it rather than skeletons while the API wakes.
+  const seed = !isDefaultView
+    ? null
+    : category
+      ? (snapshot.categories?.[category] ?? null)
+      : snapshot.listing;
+
   const { data, loading, error, refetch } = useFetch(
     useCallback(() => productsApi.list(params), [key]),
-    [key]
+    [key],
+    { initialData: seed }
   );
-  const facets = useFetch(useCallback(() => productsApi.facets(), []), []);
+  const facets = useFetch(useCallback(() => productsApi.facets(), []), [], {
+    initialData: snapshot.home.facets,
+  });
 
   const title = category ? CATEGORY_LABELS[category] : 'All furniture';
   const meta = data?.meta;
+
+  /*
+   * What a listing URL claims to be, given its filters.
+   *
+   * A faceted listing generates effectively unlimited URLs — four categories
+   * times a subcategory times a price range times a sort order. Left alone a
+   * crawler treats each as its own page, spends the crawl budget on them, and
+   * has to guess which near-identical one to rank. So: a search is `noindex`
+   * (it is a query someone typed, not a page the shop offers), a filtered
+   * listing consolidates onto the category it filters, and pagination stays
+   * self-referential — pointing page 2 at page 1 tells a crawler page 2 is a
+   * duplicate and the pieces only reachable from it stop being found.
+   */
+  const basePath = category ? `/shop/${category}` : '/shop';
+  // Search is handled separately (it is `noindex` rather than consolidated),
+  // so it is deliberately not one of these.
+  const hasFilters = Boolean(
+    filters.subcategory ||
+      filters.inStock ||
+      filters.onSale ||
+      filters.minPrice ||
+      filters.maxPrice
+  );
+  const canonicalPath =
+    hasFilters || Number(filters.page) === 1
+      ? basePath
+      : `${basePath}?page=${filters.page}`;
+
+  const routeMeta = metaForPath(basePath);
+  const products = data?.products ?? [];
+
+  useSeo({
+    ...routeMeta,
+    title: Number(filters.page) > 1 ? `${title} — page ${filters.page}` : routeMeta.title,
+    canonical: filters.search ? null : absoluteUrl(canonicalPath),
+    noindex: Boolean(filters.search),
+    jsonLd: products.length
+      ? [
+          itemListJsonLd(products, canonicalPath),
+          breadcrumbJsonLd(
+            [
+              { name: 'Home', path: '/' },
+              { name: 'Shop', path: '/shop' },
+              category && { name: CATEGORY_LABELS[category], path: `/shop/${category}` },
+            ].filter(Boolean),
+          ),
+        ]
+      : null,
+  });
 
   const panel = (
     <FilterPanel
