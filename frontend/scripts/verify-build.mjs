@@ -182,6 +182,34 @@ if (has('robots.txt') && !read('robots.txt').includes('Sitemap:')) {
   fail('robots.txt does not point at the sitemap');
 }
 
+/*
+ * A deploy build must not have fallen back to the development origins.
+ *
+ * `VITE_API_URL` and `VITE_ASSET_URL` are set in the Netlify UI, not in the
+ * repo, and Vite inlines whatever they hold at build time. Unset, the defaults
+ * in api/apiClient.js and lib/images.js are localhost — which builds, passes
+ * every other check here, deploys, and produces a site that renders its whole
+ * shell and then loads no products and no photographs, because the browser is
+ * calling a machine that is not there.
+ *
+ * Only enforced where the answer is knowable: NETLIFY is set in their build
+ * image, and a local build with no env file is ordinary and must stay quiet.
+ */
+{
+  const bundles = readdirSync(join(dist, 'assets')).filter((f) => f.endsWith('.js'));
+  const offenders = bundles.filter((f) =>
+    // The port is what distinguishes the app's own dev origin from the bare
+    // `http://localhost` that react-router and axios each carry as an internal
+    // fallback for URL parsing. Matching without it fails every correct deploy.
+    /https?:\/\/(localhost|127\.0\.0\.1):\d+/.test(readFileSync(join(dist, 'assets', f), 'utf8')),
+  );
+  if (offenders.length) {
+    const msg = `${offenders.length} bundle(s) name a localhost origin — VITE_API_URL and VITE_ASSET_URL were not set for this build`;
+    if (process.env.NETLIFY) fail(msg);
+    else notes.push(`${msg} (local build, not enforced)`);
+  }
+}
+
 // --- Critical path ----------------------------------------------------------
 const shellHtml = has('index.html') ? read('index.html') : '';
 const assets = [...shellHtml.matchAll(/(?:src|href)="(\/assets\/[^"]+)"/g)].map((m) => m[1]);
