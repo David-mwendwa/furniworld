@@ -73,6 +73,15 @@ for (const file of PRERENDERED) {
     continue;
   }
   const html = read(file);
+  // Authored comments must not reach production. The shell's notes about fonts,
+  // preconnects and managed meta tags are for the repo; view-source is not the
+  // place to publish them. React's own hydration markers — <!--$-->, <!--/$-->
+  // and the <!-- --> text separator — are required and are exempt.
+  const authored = [...html.matchAll(/<!--([\s\S]*?)-->/g)]
+    .map((m) => m[1])
+    .filter((c) => !/^\/?\$|^\s*-?\s*$/.test(c));
+  if (authored.length) fail(`${file}: ${authored.length} authored comment(s) reached the built HTML`);
+
 
   /*
    * Everything from the opening root div to `</body>`. Anchoring the end on
@@ -257,6 +266,33 @@ if (!existsSync(IMAGE_DIR)) {
 }
 
 notes.forEach((n) => console.log(`verify: ${n}`));
+
+// public/ is copied into dist untouched, so the notes in fonts.css, robots.txt
+// and the logo SVGs are served to anyone who opens them — a favicon is fetched
+// by every browser tab. fonts.css is also render-blocking, which puts its
+// comment bytes on the critical path. dist/assets is skipped: Vite minifies
+// what it emits there, and its `/*!` licence headers are meant to survive.
+const checkAssetComments = (dir) => {
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    if (entry.name === 'assets') continue;
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) {
+      checkAssetComments(full);
+      continue;
+    }
+    const marker = entry.name.endsWith('.svg')
+      ? /<!--/
+      : entry.name.endsWith('.css')
+        ? /\/\*/
+        : entry.name.endsWith('.txt')
+          ? /^[ \t]*#/m
+          : null;
+    if (marker && marker.test(readFileSync(full, 'utf8'))) {
+      fail(`${full.slice(full.indexOf('dist'))}: authored comments reached the build`);
+    }
+  }
+};
+checkAssetComments(dist);
 
 if (failures.length) {
   console.error(`\nverify-build: ${failures.length} problem(s)\n`);

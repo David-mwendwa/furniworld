@@ -32,7 +32,7 @@
 import { createElement } from 'react';
 import { renderToPipeableStream } from 'react-dom/server';
 import { MemoryRouter } from 'react-router-dom';
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Writable } from 'node:stream';
@@ -184,3 +184,36 @@ for (const route of ROUTES) {
 results.push(await write(NOT_FOUND.route, NOT_FOUND.file));
 
 results.forEach((r) => console.log(`prerender: ${r.file.padEnd(30)} ${(r.bytes / 1024).toFixed(1)}KB`));
+
+/*
+ * public/ is copied into dist untouched, so the notes in fonts.css, robots.txt
+ * and the logo SVGs are served to anyone who opens them — a favicon is fetched
+ * by every browser tab — for the same reason the shell's are stripped. fonts.css
+ * is render-blocking as well, which puts those bytes on the critical path.
+ *
+ * dist/assets is skipped deliberately: Vite has already minified what it emits
+ * there, and a blanket strip would take the `/*!` licence headers with it.
+ */
+const stripAssetComments = (dir) => {
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    if (entry.name === 'assets') continue;
+    const full = resolve(dir, entry.name);
+    if (entry.isDirectory()) {
+      stripAssetComments(full);
+      continue;
+    }
+    const comments = entry.name.endsWith('.svg')
+      ? /\n?\s*<!--[\s\S]*?-->/g
+      : entry.name.endsWith('.css')
+        ? /\n?\s*\/\*[\s\S]*?\*\//g
+        : entry.name.endsWith('.txt')
+          ? /^[ \t]*#.*$\n?/gm
+          : null;
+    if (!comments) continue;
+    const text = readFileSync(full, 'utf8');
+    const cleaned = text.replace(comments, '').replace(/^\n+/, '').replace(/\n{3,}/g, '\n\n');
+    if (cleaned !== text) writeFileSync(full, cleaned);
+  }
+};
+
+stripAssetComments(dist);

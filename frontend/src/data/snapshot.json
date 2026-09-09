@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T09:36:33.525Z",
+  "generatedAt": "2026-09-09T18:46:35.987Z",
   "home": {
     "featured": {
       "success": true,
@@ -102,8 +102,8 @@
       "categories": [
         {
           "category": "living-room",
-          "subcategory": "sofas",
-          "count": 5
+          "subcategory": "coffee-tables",
+          "count": 19
         },
         {
           "category": "dining-room",
@@ -112,28 +112,18 @@
         },
         {
           "category": "living-room",
-          "subcategory": "coffee-tables",
-          "count": 19
-        },
-        {
-          "category": "office",
-          "subcategory": "boardroom-tables",
-          "count": 1
-        },
-        {
-          "category": "office",
-          "subcategory": "office-chairs",
-          "count": 2
-        },
-        {
-          "category": "living-room",
           "subcategory": "tv-stands",
           "count": 6
         },
         {
-          "category": "bedroom",
-          "subcategory": "sofa-beds",
-          "count": 1
+          "category": "living-room",
+          "subcategory": "sofas",
+          "count": 5
+        },
+        {
+          "category": "office",
+          "subcategory": "desks",
+          "count": 3
         },
         {
           "category": "living-room",
@@ -147,8 +137,18 @@
         },
         {
           "category": "office",
-          "subcategory": "desks",
-          "count": 3
+          "subcategory": "office-chairs",
+          "count": 2
+        },
+        {
+          "category": "bedroom",
+          "subcategory": "sofa-beds",
+          "count": 1
+        },
+        {
+          "category": "office",
+          "subcategory": "boardroom-tables",
+          "count": 1
         },
         {
           "category": "office",
