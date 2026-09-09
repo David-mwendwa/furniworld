@@ -8,6 +8,10 @@
   base = "frontend"
   command = "npm ci && npm run build"
   publish = "dist"
+  # Stated rather than left to the default: `base` moves the root Netlify
+  # resolves paths against, so the conventional repo-root netlify/ directory is
+  # not where this build looks.
+  edge_functions = "netlify/edge-functions"
 
 [build.environment]
   NODE_VERSION = "22"
