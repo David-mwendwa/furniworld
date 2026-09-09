@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import express from 'express';
 import cors from 'cors';
+import compression from 'compression';
 import helmet from 'helmet';
 import hpp from 'hpp';
 import morgan from 'morgan';
@@ -30,6 +31,11 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 const app = express();
 app.set('trust proxy', 1);
+
+// Ahead of everything that produces a body. The catalogue and cart endpoints
+// return JSON that is mostly repeated keys and product prose — close to gzip's
+// best case — and no listing renders until it lands.
+app.use(compression());
 
 app.use(helmet());
 
