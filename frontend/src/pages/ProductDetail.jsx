@@ -17,8 +17,8 @@ import { useFetch } from '../hooks/useFetch.js';
 import { useSeo } from '../hooks/useSeo.js';
 import {
   DEFAULT_DESCRIPTION,
-  absoluteUrl,
   breadcrumbJsonLd,
+  canonicalUrl,
   productJsonLd,
 } from '../lib/seo.js';
 import { useCart } from '../context/CartProvider.jsx';
@@ -36,7 +36,7 @@ const ProductDetail = () => {
   const [showStickyBar, setShowStickyBar] = useState(false);
   const buyBoxRef = useRef(null);
 
-  const { data, loading, error, setData, refetch: refetchProduct } = useFetch(
+  const { data, loading, error, refetch: refetchProduct } = useFetch(
     useCallback(() => productsApi.bySlug(slug), [slug]),
     [slug]
   );
@@ -75,7 +75,7 @@ const ProductDetail = () => {
     title: product?.name,
     description:
       product?.shortDescription || product?.description || DEFAULT_DESCRIPTION,
-    canonical: absoluteUrl(`/product/${slug}`),
+    canonical: canonicalUrl(`/product/${slug}`),
     image: product?.images?.[0] ? assetUrl(product.images[0].url) : undefined,
     type: 'product',
     noindex: !loading && !product,

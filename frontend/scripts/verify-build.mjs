@@ -99,6 +99,28 @@ for (const file of PRERENDERED) {
 
   if (!/<title>[\s\S]*?\S[\s\S]*?<\/title>/.test(html)) fail(`${file} has no <title>`);
 
+  /*
+   * The canonical names the URL this very file is served at.
+   *
+   * Netlify serves `about/index.html` at `/about/` and redirects `/about` to
+   * it, so a canonical spelled without the slash points at a 301 rather than at
+   * the page — and every sitemap entry beside it points at the same redirect.
+   * Nothing about the rendered page looks wrong, and a direct hit cannot show
+   * it, because the redirect resolves before anything reads the tag.
+   *
+   * `404.html` is exempt: Netlify serves it by name, not at a route of its own.
+   */
+  if (file !== '404.html') {
+    const served = file === 'index.html' ? '/' : `/${file.replace(/index\.html$/, '')}`;
+    const href = (html.match(/rel="canonical" href="([^"]*)"/) || [])[1];
+    if (href) {
+      const actual = new URL(href).pathname;
+      if (actual !== served) {
+        fail(`${file} is served at ${served} but its canonical claims ${actual}`);
+      }
+    }
+  }
+
   // Vite rewrites /src/* to hashed /assets/*. A surviving reference is a URL
   // that only resolves while the dev server is running.
   if (/["'(]\/src\//.test(html)) fail(`${file} references a dev-only /src/ path`);
@@ -135,6 +157,24 @@ if (has('sitemap.xml')) {
     if (process.env.ALLOW_PARTIAL_SITEMAP === '1') notes.push(`${msg} (allowed by ALLOW_PARTIAL_SITEMAP)`);
     else fail(`${msg}. Set ALLOW_PARTIAL_SITEMAP=1 to deploy anyway.`);
   }
+  /*
+   * Every listed URL is the one Netlify actually answers, not one it redirects.
+   *
+   * A prerendered route is a directory and is served with a trailing slash; a
+   * route that falls through to app.html is not and must not carry one. A
+   * sitemap full of 301s spends the crawl budget twice over to reach the same
+   * pages, and the two forms are indistinguishable by eye.
+   */
+  for (const loc of [...sm.matchAll(/<loc>([^<]*)<\/loc>/g)].map((m) => m[1])) {
+    const path = new URL(loc.replace(/&amp;/g, '&')).pathname;
+    if (path === '/') continue;
+    const isDirectory = has(`${path.replace(/^\/|\/$/g, '')}/index.html`);
+    if (isDirectory && !path.endsWith('/'))
+      fail(`sitemap.xml lists ${path}, which redirects to ${path}/`);
+    if (!isDirectory && path.endsWith('/'))
+      fail(`sitemap.xml lists ${path}, but nothing is served at that URL`);
+  }
+
   notes.push(`sitemap.xml: ${urls} URLs`);
 }
 

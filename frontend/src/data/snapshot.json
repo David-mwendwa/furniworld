@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T21:09:14.751Z",
+  "generatedAt": "2026-09-09T09:31:24.599Z",
   "home": {
     "featured": {
       "success": true,
@@ -101,19 +101,34 @@
       "success": true,
       "categories": [
         {
+          "category": "living-room",
+          "subcategory": "sofas",
+          "count": 5
+        },
+        {
+          "category": "living-room",
+          "subcategory": "coffee-tables",
+          "count": 19
+        },
+        {
+          "category": "dining-room",
+          "subcategory": "dining-sets",
+          "count": 8
+        },
+        {
           "category": "office",
-          "subcategory": "reception-desks",
+          "subcategory": "boardroom-tables",
           "count": 1
         },
         {
           "category": "office",
-          "subcategory": "desks",
-          "count": 3
+          "subcategory": "office-chairs",
+          "count": 2
         },
         {
           "category": "living-room",
-          "subcategory": "recliners",
-          "count": 2
+          "subcategory": "tv-stands",
+          "count": 6
         },
         {
           "category": "bedroom",
@@ -127,33 +142,18 @@
         },
         {
           "category": "living-room",
-          "subcategory": "tv-stands",
-          "count": 6
-        },
-        {
-          "category": "office",
-          "subcategory": "boardroom-tables",
-          "count": 1
-        },
-        {
-          "category": "office",
-          "subcategory": "office-chairs",
+          "subcategory": "recliners",
           "count": 2
         },
         {
-          "category": "dining-room",
-          "subcategory": "dining-sets",
-          "count": 8
+          "category": "office",
+          "subcategory": "desks",
+          "count": 3
         },
         {
-          "category": "living-room",
-          "subcategory": "coffee-tables",
-          "count": 19
-        },
-        {
-          "category": "living-room",
-          "subcategory": "sofas",
-          "count": 5
+          "category": "office",
+          "subcategory": "reception-desks",
+          "count": 1
         }
       ],
       "priceRange": {

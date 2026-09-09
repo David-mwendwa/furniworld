@@ -25,8 +25,14 @@ const OUT = resolve(here, '../dist/sitemap.xml');
 const SITE_URL = (process.env.VITE_SITE_URL || 'https://furniworld.netlify.app').replace(/\/$/, '');
 const API = (process.env.VITE_API_URL || 'https://furniworld-api.onrender.com/api/v1').replace(/\/$/, '');
 
+// Imported, not retyped: a sitemap that disagrees with the canonical tags is
+// worse than no sitemap, and `canonicalPath` is what decides which URLs carry
+// the trailing slash Netlify serves a prerendered route at.
+const { canonicalPath, CATEGORY_PATHS } = await import(
+  new URL('../src/lib/seo.js', import.meta.url).href
+);
+
 const STATIC_PATHS = ['/', '/shop', '/about', '/services', '/contact'];
-const CATEGORIES = ['living-room', 'dining-room', 'bedroom', 'office'];
 
 // XML has five characters that cannot appear literally in text. Product names
 // here contain `&` and `"` regularly, and one unescaped instance makes the
@@ -35,12 +41,12 @@ const xml = (s) =>
   String(s).replace(/[<>&'"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' }[c]));
 
 const url = (loc, lastmod) =>
-  `  <url>\n    <loc>${xml(SITE_URL + loc)}</loc>${lastmod ? `\n    <lastmod>${lastmod.slice(0, 10)}</lastmod>` : ''}\n  </url>`;
+  `  <url>\n    <loc>${xml(SITE_URL + canonicalPath(loc))}</loc>${lastmod ? `\n    <lastmod>${lastmod.slice(0, 10)}</lastmod>` : ''}\n  </url>`;
 
 const main = async () => {
   const entries = [
     ...STATIC_PATHS.map((p) => url(p)),
-    ...CATEGORIES.map((c) => url(`/shop/${c}`)),
+    ...CATEGORY_PATHS.map((p) => url(p)),
   ];
 
   let count = 0;
@@ -66,7 +72,7 @@ const main = async () => {
     `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries.join('\n')}\n</urlset>\n`,
   );
   console.log(
-    `sitemap: ${entries.length} URLs (${STATIC_PATHS.length} static, ${CATEGORIES.length} categories, ${count} products)`,
+    `sitemap: ${entries.length} URLs (${STATIC_PATHS.length} static, ${CATEGORY_PATHS.length} categories, ${count} products)`,
   );
 };
 

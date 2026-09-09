@@ -86,6 +86,63 @@ const STATIC = {
 /** The four category listings, built from the catalogue rather than retyped. */
 export const CATEGORY_PATHS = CATEGORIES.map((c) => `/shop/${c.slug}`);
 
+/**
+ * The routes the build writes to a file of their own.
+ *
+ * scripts/prerender.mjs renders exactly this list, and scripts/build-sitemap.mjs
+ * reads it, so the three cannot drift into disagreeing about which URLs exist.
+ * Adding a path here therefore changes what is rendered, what the sitemap
+ * advertises, and which canonicals gain a trailing slash — check all three.
+ *
+ * Public pages only. Checkout, the account area and the admin tree sit behind
+ * guards that render a spinner until the session is verified, so prerendering
+ * them would write that spinner to disk and gain nothing over the SPA fallback
+ * that already serves them. `/login` and `/register` are absent for the same
+ * reason: `GuestRoute` never resolves during a prerender, so the file would
+ * hold a spinner where the form should be — strictly worse than the neutral
+ * shell, since it bakes a visible loading state into the HTML.
+ *
+ * `/cart` is included despite being `noindex`: shoppers open it constantly, its
+ * shell is identical for everyone, and its contents come from their own browser
+ * a moment later.
+ */
+export const PRERENDERED_PATHS = [
+  '/',
+  '/shop',
+  ...CATEGORY_PATHS,
+  '/about',
+  '/services',
+  '/contact',
+  '/cart',
+];
+
+/**
+ * The path a route is actually served at, trailing slash included where one is
+ * required.
+ *
+ * A prerendered route is a directory — `/shop` is `shop/index.html` — which
+ * Netlify answers at `/shop/`, redirecting `/shop` to it. So naming the
+ * un-slashed form in a canonical or a sitemap points at a 301 instead of at the
+ * page. A direct hit hides this completely, because the redirect resolves
+ * before anything reads the tag; only a crawler comparing the URL it asked for
+ * against the one the page claims ever sees it.
+ *
+ * The inverse is just as wrong: nothing redirects a route served by the SPA
+ * fallback, so a slash on `/product/x` names a URL that does not exist. Hence a
+ * list rather than a blanket rule. A query string is preserved and never
+ * considered — `/shop?page=2` is still the `/shop` file.
+ */
+export const canonicalPath = (path = '/') => {
+  const [rawPath, query] = String(path).split('?');
+  const clean = rawPath.length > 1 ? rawPath.replace(/\/$/, '') : rawPath;
+  const slashed =
+    clean !== '/' && PRERENDERED_PATHS.includes(clean) ? `${clean}/` : clean;
+  return query ? `${slashed}?${query}` : slashed;
+};
+
+/** Absolute canonical URL for a path. The only thing that should build one. */
+export const canonicalUrl = (path = '/') => absoluteUrl(canonicalPath(path));
+
 export const metaForPath = (pathname) => {
   const path = pathname.length > 1 ? pathname.replace(/\/$/, '') : pathname;
 
@@ -105,13 +162,13 @@ export const metaForPath = (pathname) => {
     return {
       title: CATEGORY_LABELS[category],
       description: `${CATEGORY_LABELS[category]} furniture from Furniworld — ${blurb.toLowerCase()} Delivered across Kenya.`,
-      canonical: absoluteUrl(path),
+      canonical: canonicalUrl(path),
     };
   }
 
   const meta = STATIC[path];
   if (!meta) return { ...STATIC['/404'], canonical: null };
-  return { ...meta, canonical: meta.noindex ? null : absoluteUrl(path) };
+  return { ...meta, canonical: meta.noindex ? null : canonicalUrl(path) };
 };
 
 /* ---------------------------------------------------------------------------
@@ -153,7 +210,7 @@ export const breadcrumbJsonLd = (crumbs) => ({
     '@type': 'ListItem',
     position: i + 1,
     name: c.name,
-    item: absoluteUrl(c.path),
+    item: canonicalUrl(c.path),
   })),
 });
 
@@ -203,7 +260,7 @@ export const productJsonLd = (product, imageUrl) => {
 export const itemListJsonLd = (products, path) => ({
   '@context': 'https://schema.org',
   '@type': 'ItemList',
-  url: absoluteUrl(path),
+  url: canonicalUrl(path),
   numberOfItems: products.length,
   itemListElement: products.map((p, i) => ({
     '@type': 'ListItem',

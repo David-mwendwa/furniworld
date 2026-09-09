@@ -44,36 +44,9 @@ const { default: App } = await import(new URL('../src/App.jsx', import.meta.url)
 const { default: AppProviders } = await import(new URL('../src/AppProviders.jsx', import.meta.url).href);
 const seo = await import(new URL('../src/lib/seo.js', import.meta.url).href);
 
-/*
- * Public pages only. Checkout, the account area and the admin tree sit behind
- * guards that render a spinner until the session is verified, so prerendering
- * them would write that spinner to disk and gain nothing over the SPA fallback
- * that already serves them.
- *
- * `/cart` is included despite being `noindex`: shoppers open it constantly, its
- * shell is identical for everyone, and its contents come from their own browser
- * a moment later.
- */
-const ROUTES = [
-  '/',
-  '/shop',
-  ...seo.CATEGORY_PATHS,
-  '/about',
-  '/services',
-  '/contact',
-  '/cart',
-];
-
-/*
- * `/login` and `/register` are deliberately absent.
- *
- * Both sit behind `GuestRoute`, which renders a spinner until the session has
- * been checked — and during a prerender that check never resolves, so the file
- * on disk would contain a spinner where the form should be. That is strictly
- * worse than the neutral shell: same bytes, but a visible loading state baked
- * into the HTML. They fall through to `app.html` and set their own head tags
- * on mount, which is all they needed from this.
- */
+// Declared in lib/seo.js, beside the canonical rule that has to agree with it.
+// What belongs on the list and what deliberately does not is argued there.
+const ROUTES = seo.PRERENDERED_PATHS;
 
 const NOT_FOUND = { route: '/this-path-does-not-exist', file: '404.html' };
 

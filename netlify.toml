@@ -10,7 +10,7 @@
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "20"
+  NODE_VERSION = "22"
 
 # Client-side routing: every unmatched path is served by the SPA shell.
 #

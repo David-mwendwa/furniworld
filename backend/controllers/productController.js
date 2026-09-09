@@ -92,6 +92,11 @@ export const getFacets = async (req, res) => {
           count: { $sum: 1 },
         },
       },
+      // $group emits its buckets in no defined order, so the same catalogue
+      // serialises differently on every call: the committed build snapshot
+      // churns for no reason, and equal-sized facets swap places between loads
+      // of the filter rail. Count descending is the order that rail renders in.
+      { $sort: { count: -1, '_id.category': 1, '_id.subcategory': 1 } },
     ]),
     Product.aggregate([
       { $match: { status: 'active' } },

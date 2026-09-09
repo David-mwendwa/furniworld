@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { SlidersHorizontal, Search, X } from 'lucide-react';
-import { Container, Badge } from '../components/ui/Feedback.jsx';
+import { Container } from '../components/ui/Feedback.jsx';
 import Button from '../components/ui/Button.jsx';
 import { Breadcrumbs, Pagination } from '../components/ui/Controls.jsx';
 import { Sheet } from '../components/ui/Overlay.jsx';
@@ -13,8 +13,8 @@ import { useShopFilters } from '../hooks/useShopFilters.js';
 import snapshot from '../data/snapshot.json';
 import { useSeo } from '../hooks/useSeo.js';
 import {
-  absoluteUrl,
   breadcrumbJsonLd,
+  canonicalUrl,
   itemListJsonLd,
   metaForPath,
 } from '../lib/seo.js';
@@ -119,7 +119,7 @@ const Shop = () => {
   useSeo({
     ...routeMeta,
     title: Number(filters.page) > 1 ? `${title} — page ${filters.page}` : routeMeta.title,
-    canonical: filters.search ? null : absoluteUrl(canonicalPath),
+    canonical: filters.search ? null : canonicalUrl(canonicalPath),
     noindex: Boolean(filters.search),
     jsonLd: products.length
       ? [

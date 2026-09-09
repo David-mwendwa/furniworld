@@ -16,7 +16,7 @@ import { useSeo } from '../hooks/useSeo.js';
 import {
   DEFAULT_DESCRIPTION,
   SITE_NAME,
-  absoluteUrl,
+  canonicalUrl,
   organizationJsonLd,
   websiteJsonLd,
 } from '../lib/seo.js';
@@ -28,7 +28,7 @@ const Home = () => {
   useSeo({
     title: SITE_NAME,
     description: DEFAULT_DESCRIPTION,
-    canonical: absoluteUrl('/'),
+    canonical: canonicalUrl('/'),
     jsonLd: [organizationJsonLd(), websiteJsonLd()],
   });
 
