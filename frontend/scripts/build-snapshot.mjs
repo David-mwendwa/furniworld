@@ -4,7 +4,10 @@
  * Why this exists
  * ---------------
  * The API runs on Render's free plan, which spins the service down after ~15
- * minutes of inactivity. Measured cold start: **22.6 seconds to first byte**.
+ * minutes of inactivity. Measured cold start: **22.6 seconds to first byte**
+ * when this was written, **32.8s** when measured again on 2026-09-10 — it
+ * drifts upward, so treat the 90s allowances below as headroom that is
+ * shrinking rather than as comfortable.
  * The Netlify shell arrives in ~1.3s, so for the next twenty seconds a
  * first-time visitor sat looking at skeletons — the site was not slow to load,
  * it was slow to have anything in it, which reads the same from the outside.

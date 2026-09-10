@@ -159,8 +159,12 @@ if (has('sitemap.xml')) {
   if (/&(?!amp;|lt;|gt;|apos;|quot;|#)/.test(sm)) fail('sitemap.xml contains an unescaped &');
   if (urls < 20) {
     const msg = `sitemap.xml has only ${urls} URLs — the product listing failed`;
-    // Both build scripts allow 90s per request, well past the ~23s cold start,
-    // so this means the API was genuinely unreachable rather than merely asleep.
+    // Both build scripts allow 90s per request. That was "well past" a 22.6s
+    // cold start when written; the same measurement was 32.8s on 2026-09-10,
+    // and a deploy did fail here on 2026-09-09 — so read this as "the API did
+    // not answer in 90s", which is usually unreachable but no longer certainly
+    // so. The snapshot step runs first and warms the service, so a failure
+    // here after a successful snapshot really is the API going away.
     // The override is an explicit decision in the deploy log; the pages are
     // unaffected either way, since the snapshot falls back to its committed copy.
     if (process.env.ALLOW_PARTIAL_SITEMAP === '1') notes.push(`${msg} (allowed by ALLOW_PARTIAL_SITEMAP)`);
